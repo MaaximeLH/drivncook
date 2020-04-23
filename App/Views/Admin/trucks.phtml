@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Administration</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
+                            <li class="breadcrumb-item active">Camions</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Les camions Driv'n'Cook</h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="trucks" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Véhicule</th>
+                                    <th>Longitude</th>
+                                    <th>Latitude</th>
+                                    <th>Crée le</th>
+                                    <th>Statut</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($trucks)) {
+                                        foreach ($trucks as $truck): ?>
+                                            <tr>
+                                                <td><?= $truck->getId(); ?></td>
+                                                <td>
+                                                    <?= $truck->getMatriculation(); ?>
+                                                    <?php if(isset($truck->user)) {?>
+                                                        <br>
+                                                        <small>
+                                                            <a href="/administration/franchises/<?= $truck->user->getId(); ?>/edit">
+                                                                <b><?= $truck->user->getSocietyName() . '</b> ( ' . $truck->user->getFirstname() . ' ' . $truck->user->getLastname() . ' )'; ?>
+                                                            </a>
+                                                        </small>
+                                                    <?php } ?>
+                                                </td>
+                                                <td><?= $truck->getLongitude(); ?></td>
+                                                <td><?= $truck->getLatitude(); ?></td>
+                                                <td><?= $truck->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
+                                                <td>
+                                                    <!-- BADGE -->
+                                                    <?php if(isset($truck->user)) { ?>
+                                                        <span class="badge bg-info">Assigné</span>
+                                                    <?php } else if(isset($truck->maintenance)) { ?>
+                                                        <span class="badge bg-danger">Maintenance</span>
+                                                    <?php } else if(!$truck->getActive()) { ?>
+                                                        <span class="badge bg-danger">Inactif</span>
+                                                    <?php } else { ?>
+                                                        <span class="badge bg-success">Disponible</span>
+                                                    <?php } ?>
+                                                </td>
+                                                <td>
+                                                    <!-- Redirige vers la page d'informations du camion -->
+                                                    <a class="btn btn-info btn-sm" href="/administration/trucks/<?= $truck->getId(); ?>/informations"><i class="fas fa-info-circle"></i> Informations</a>
+
+                                                    <!-- Si coordonnées invalides -->
+                                                    <?php if(is_float($truck->getLatitude()) && is_float($truck->getLongitude())){ ?>
+                                                        <!-- Lien vers l'API Google Map -->
+                                                        <a class="btn btn-success btn-sm" target="_blank" href="https://www.google.com/maps/search/?api=1&query=<?= $truck->getLatitude(); ?>,<?= $truck->getLongitude(); ?>"><i class="fas fa-map"></i> Localisation</a>
+                                                    <?php } ?>
+
+                                                    <!-- Si pas d'utilisateur lié au camion -->
+                                                    <?php if(!isset($truck->user) && $truck->getActive()) { ?>
+                                                        <!-- PARTIE PERMETTANT L'ASSIGNATION DU CAMION A UN USER -->
+                                                        <button data-toggle="modal" data-target="#assignModal<?= $truck->getId(); ?>" class="btn btn-warning btn-sm">
+                                                            <i class="fas fa-users"></i> Assigner
+                                                        </button>
+                                                        <div class="modal fade" id="assignModal<?= $truck->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="assignModal<?= $truck->getId(); ?>Title" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLongTitle">Assigner le camion <?= $truck->getMatriculation(); ?> à un utilisateur</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form role="form" action="/administration/trucks/assign/<?= $truck->getId(); ?>" method="POST">
+                                                                            <div class="form-group">
+                                                                                <label for="assignToInput<?= $truck->getId(); ?>">Assigner le véhicule à un franchisé</label>
+                                                                                <select id="assignToInput<?= $truck->getId(); ?>" class="form-control select2 <?= (isset($fields['assign'])) ? 'is-invalid' : ''; ?>" name="assign" style="width: 100%;">
+                                                                                    <option selected="selected" disabled="disabled">--- Selectionner un franchisé ---</option>
+                                                                                    <?php if(isset($availableFranchise)) { ?>
+                                                                                        <?php foreach ($availableFranchise as $franchise): ?>
+                                                                                            <option value="<?= $franchise->getId(); ?>"><?= $franchise->getFirstname(); ?> <?= $franchise->getLastname(); ?></option>
+                                                                                        <?php endforeach; ?>
+                                                                                    <?php } ?>
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <?= \Core\CSRF::fields(); ?>
+                                                                                <button class="btn btn-warning btn-block">Assigner</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- BOUTON RENDRE INACTIF LE CAMION -->
+                                                        <form method="POST" onclick="return confirm('Voulez-vous vraiment rendre inactif ce camion ?')" style="display: inline" action="/administration/trucks/inactive/<?= $truck->getId(); ?>">
+                                                            <?= \Core\CSRF::fields(); ?>
+                                                            <button class="btn btn-danger btn-sm">
+                                                                <i class="fas fa-ban"></i> Rendre inactif
+                                                            </button>
+                                                        </form>
+                                                    <?php } ?>
+
+                                                    <?php if(isset($truck->user)) { ?>
+                                                        <form method="POST" onclick="return confirm('Voulez-vous vraiment déassigner ce camion ?')" style="display: inline" action="/administration/trucks/assign/remove/<?= $truck->getId(); ?>">
+                                                            <?= \Core\CSRF::fields(); ?>
+                                                            <button class="btn btn-warning btn-sm">
+                                                                <i class="fas fa-users"></i> Déassigner
+                                                            </button>
+                                                        </form>
+                                                    <?php } ?>
+
+                                                    <?php if(!$truck->getActive()) { ?>
+                                                        <form method="POST" onclick="return confirm('Voulez-vous vraiment rendre actif ce camion ?')" style="display: inline" action="/administration/trucks/active/<?= $truck->getId(); ?>">
+                                                            <?= \Core\CSRF::fields(); ?>
+                                                            <button class="btn btn-danger btn-sm">
+                                                                <i class="fas fa-plus"></i> Rendre actif
+                                                            </button>
+                                                        </form>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach;
+                                    } ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Immatriculation</th>
+                                    <th>Longitude</th>
+                                    <th>Latitude</th>
+                                    <th>Crée le</th>
+                                    <th>Statut</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<script src="/plugins/datatables/jquery.dataTables.js"></script>
+<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script>
+    $(function () {
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        })
+
+    });
+
+    $("#trucks").DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+        }
+    });
+</script>
+</body>
+</html>

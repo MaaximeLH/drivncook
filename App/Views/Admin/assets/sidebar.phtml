@@ -1,0 +1,208 @@
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/administration" class="nav-link <?= (isset($page) && $page == "index") ? 'active' : ''; ?>">Accueil</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/administration/administrators/<?= $user->getId(); ?>/edit" class="nav-link">Mon compte</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/administration/logout" class="nav-link">Déconnexion</a>
+        </li>
+    </ul>
+</nav>
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="/administration" class="brand-link">
+        <img src="/dist/img/drivncook.png" alt="Driv'n'Cook Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">Driv'n'Cook</span>
+    </a>
+
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="info">
+                <a href="/administration/administrators/<?= $user->getId(); ?>/edit" class="d-block"><?= $user->getFirstname() . ' ' . $user->getLastname(); ?></a>
+            </div>
+        </div>
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="/administration" class="nav-link <?= (isset($page) && $page == "index") ? 'active' : ''; ?>">
+                        <i class="nav-icon fa fa-home"></i>
+                        <p>
+                            Accueil
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-header">FRANCHISE</li>
+
+                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['franchises', 'add_franchises'])) ? 'menu-open' : ''; ?>">
+                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['franchises', 'add_franchises'])) ? 'active' : ''; ?>">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Franchises
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/administration/franchises" class="nav-link <?= (isset($page) && $page == "franchises") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Voir les franchisés</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/administration/franchises/add" class="nav-link <?= (isset($page) && $page == "add_franchises") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ajouter un franchisé</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['trucks', 'trucks_add'])) ? 'menu-open' : ''; ?>">
+                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['trucks', 'trucks_add'])) ? 'active' : ''; ?>">
+                        <i class="nav-icon fas fa-truck"></i>
+                        <p>
+                            Camions
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/administration/trucks" class="nav-link <?= (isset($page) && $page == "trucks") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Voir les camions</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/administration/trucks/add" class="nav-link <?= (isset($page) && $page == "trucks_add") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ajouter un camion</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="nav-header">DRIV'N'COOK</li>
+
+                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['administrators', 'administrators_add'])) ? 'menu-open' : ''; ?>">
+                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['administrators', 'administrators_add'])) ? 'active' : ''; ?>">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Administrateurs
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/administration/administrators" class="nav-link <?= (isset($page) && $page == "administrators") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Voir les administrateurs</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/administration/administrators/add" class="nav-link <?= (isset($page) && $page == "administrators_add") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ajouter un administrateur</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['warehouses', 'add_warehouses', 'add_stocks_category', 'stocks_category'])) ? 'menu-open' : ''; ?>">
+                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['warehouses', 'add_warehouses', 'add_stocks_category', 'stocks_category'])) ? 'active' : ''; ?>">
+                        <i class="nav-icon fas fa-warehouse"></i>
+                        <p>
+                            Entrepôts
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/administration/warehouses" class="nav-link <?= (isset($page) && $page == "warehouses") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Voir les entrepôts</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/administration/warehouses/add" class="nav-link <?= (isset($page) && $page == "add_warehouses") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ajouter un entrepôt</p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['add_stocks_category', 'stocks_category'])) ? 'menu-open' : ''; ?>">
+                            <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['add_stocks_category', 'stocks_category'])) ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Catégories
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/administration/stocks/category" class="nav-link  <?= (isset($page) && $page == "stocks_category") ? 'active' : ''; ?>">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Les catégories</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/administration/stocks/category/add" class="nav-link <?= (isset($page) && $page == "add_stocks_category") ? 'active' : ''; ?>">
+                                        <i class="far fa-dot-circle nav-icon"></i>
+                                        <p>Créer une catégorie</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['invoices_received', 'invoices_issued', 'invoices'])) ? 'menu-open' : ''; ?>">
+                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['invoices_received', 'invoices_issued', 'invoices'])) ? 'active' : ''; ?>">
+                        <i class="nav-icon fas fa-file-contract"></i>
+                        <p>
+                            Facturation
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/administration/invoices/received" class="nav-link <?= (isset($page) && $page == "invoices_received") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Factures reçues</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/administration/invoices/issued" class="nav-link <?= (isset($page) && $page == "invoices_issued") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Factures émises</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/administration/invoices/add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Ajouter une facture</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="/" class="nav-link">
+                        <i class="nav-icon fa fa-chart-area"></i>
+                        <p>
+                            Statistiques
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>

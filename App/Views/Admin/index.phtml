@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Driv'n'Cook - Administration</title>
+  <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+          </div>
+          <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item active">Accueil</li>
+              </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info elevation-1"><i class="fas fa-truck"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Food Trucks</span>
+                <span class="info-box-number">
+                  240
+                </span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Franchisés</span>
+                <span class="info-box-number">180</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfix hidden-md-up"></div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-warehouse"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Entrepôts</span>
+                <span class="info-box-number">8</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Chiffres d'affaires en 2020</span>
+                <span class="info-box-number">54 587,15€</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div class="col-md-12">
+              <div id="map" style="height: 450px"></div>
+          </div>
+      </div>
+    </section>
+
+  </div>
+
+  <aside class="control-sidebar control-sidebar-dark">
+  </aside>
+
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      Projet annuel ESGI <b>2A2</b>
+    </div>
+  </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.js"></script>
+<script async type="text/javascript">
+    // Centre de la carte par défaut -> Paris
+
+    var map = null;
+    var geocoder;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 11,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: true,
+            scrollwheel: false,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR
+            },
+            navigationControl: true,
+            navigationControlOptions: {
+                style: google.maps.NavigationControlStyle.ZOOM_PAN
+            }
+        });
+
+        geocoder = new google.maps.Geocoder();
+
+        // CENTRER LA MAP PAR DEFAUT SUR LA FRANCE
+        geocoder.geocode({'address': "Ile-De-France"}, function(results, status) {
+            if (status === 'OK') {
+                map.setCenter(results[0].geometry.location);
+            } else {
+                console.error('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+
+        var trucksLocates = '<?= $trucksLocates; ?>'
+        trucksLocates = JSON.parse(trucksLocates);
+        for(let i = 0; i < trucksLocates.length; i++) {
+            new google.maps.Marker({
+                position:
+                {
+                    lat: trucksLocates[i]['lat'], lng: trucksLocates[i]['lon']
+                },
+                icon: {
+                    url: 'https://img.icons8.com/color/48/000000/rv-campground.png'
+                },
+                map: map
+            });
+        }
+
+        var warehousesLocates = '<?= $warehousesLocates; ?>'
+        warehousesLocates = JSON.parse(warehousesLocates);
+        for(let i = 0; i < warehousesLocates.length; i++) {
+            codeAddress(warehousesLocates[i]['location'], geocoder, map);
+        }
+    }
+
+    function codeAddress(address, geocoder, map) {
+        geocoder.geocode({'address': address}, function(results, status) {
+            if (status === 'OK') {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location,
+                    icon: {
+                        url: 'https://img.icons8.com/color/48/000000/warehouse.png'
+                    },
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?= \App\Config::GOOGLE_API_KEY; ?>&callback=initMap&language=fr&region=idf"></script>
+</body>
+</html>

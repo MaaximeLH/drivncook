@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Espace Franchisé</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active">Accueil</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="error-page">
+                <h3 class="headline text-warning" style="margin-left: -50px"> Oups</h3>
+                <div class="error-content">
+                    <h3><i class="fas fa-exclamation-triangle text-warning"></i> Erreur</h3>
+                    <p>
+                        Il semblerait que vous n'ayez aucun camion d'assigné pour le moment.<br>
+                        Veuillez nous contactez si cette page ne devrait pas s'afficher.<br><br>
+
+                        Si vous n'avez pas encore réglé vos droits d'entrées, vous pouvez les régler en allant dans la section <br>
+                        <b>Facturation</b> > <a href="/panel/invoices/received"><b>Mes factures reçues</b></a>.
+                        <br><br>
+                        Si vous avez déjà réglé vos droits d'entées, un représentant Driv'n'Cook vous en assignera un rapidemment.
+                    </p>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.js"></script>
+</body>
+</html>

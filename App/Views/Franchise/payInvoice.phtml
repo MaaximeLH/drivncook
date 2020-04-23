@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Espace Franchisé</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item active"><a href="/panel">Accueil</a></li>
+                            <li class="breadcrumb-item active"><a href="/panel/invoices/received">Factures reçues</a></li>
+                            <li class="breadcrumb-item active">Régler une facture</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title">Régler la facture DVN-<?= $invoice->getId(); ?></h3>
+                                <div class="card-tools">
+                                    <a href="/panel/invoices/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info">Retour à la facture</a>
+                                </div>
+                            </div>
+                            <form role="form" id="payment-form" method="POST">
+                                <div class="card-body">
+                                    <?php if(isset($payment) && !$payment) { ?>
+                                        <div class="alert alert-danger alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-info"></i> Erreur</h5>
+                                            Le paiement n'a pas pu aboutir, veuillez vérifier vos informations bancaires. <br>
+                                            Si le problème persiste, veuillez contacter nos services.
+                                        </div>
+                                    <?php } ?>
+                                    <div class="form-group" style="display: inherit">
+                                        <label for="test">Reste à payer:</label>
+                                        <input type="text" readonly value="<?= number_format($total, 2); ?>€" class="form-control">
+                                    </div>
+                                    <br>
+                                    <div class="form-group" style="display: inherit">
+                                        <div id="stripe-form"></div>
+                                        <div id="card-errors" role="alert"></div>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <?= \Core\CSRF::fields(); ?>
+                                    <button type="submit" class="btn btn-warning"><i class="fa fa-dollar-sign"></i> Régler le montant</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    var stripe = Stripe('<?= App\Config::STRIPE_PUB_KEY; ?>');
+    var elements = stripe.elements();
+
+    var style = {
+        base: {
+            color: '#303238',
+            fontSize: '16px',
+            fontFamily: '"Open Sans", sans-serif',
+            fontSmoothing: 'antialiased',
+            '::placeholder': {
+                color: '#CFD7DF',
+            },
+        },
+        invalid: {
+            color: '#e5424d',
+            ':focus': {
+                color: '#303238',
+            },
+        },
+    };
+
+    var card = elements.create('card', {style: style});
+    card.mount('#stripe-form');
+
+    card.addEventListener('change', function (event) {
+        var displayError = document.getElementById('card-errors');
+        if(event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+
+    // A la soumission du formulaire on fait une pré-requête pour récupérer le token
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function (result) {
+            if(result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = event.error.message;
+            } else {
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+
+    // On ajoute ensuite le token à notre formulaire puis on le soumet
+    function stripeTokenHandler(token) {
+        var form = document.getElementById('payment-form');
+        var tokenInput = document.createElement('input');
+        tokenInput.setAttribute('type', 'hidden');
+        tokenInput.setAttribute('name', 'stripeToken');
+        tokenInput.setAttribute('value', token.id);
+        form.appendChild(tokenInput);
+
+        form.submit();
+    }
+</script>
+
+</body>
+</html>

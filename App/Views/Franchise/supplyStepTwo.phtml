@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Espace Franchisé</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/panel">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="/panel/truck">Mon camion</a></li>
+                            <li class="breadcrumb-item active">Approvisionner</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Approvisionner mon camion - Etape 2 - Les produits disponibles dans l'entrepôt de <b><?= $warehouse->getName(); ?></b></h3>
+
+                        <div class="card-tools">
+                            <a href="/panel/truck/supply" class="btn btn-sm btn-info">Retour à la liste des entrepôts</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-info alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-info"></i> Etape 2</h5>
+                                    Selectionner les produits disponible dans notre entrepôt.
+                                </div>
+
+                                <form method="POST" action="/panel/truck/supply/warehouse/<?= $warehouse->getId(); ?>/step/3">
+                                    <div class="form-group">
+                                        <select class="duallistbox" name="products[]" multiple="multiple">
+                                            <?php foreach ($products as $item): ?>
+                                                <?php if($item->total == 0) continue; ?>
+                                                <option value="<?= $item->getId(); ?>"><?= $item->getName(); ?> (<?= $item->total ?> restants)</option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <?= \Core\CSRF::fields(); ?>
+                                        <button class="btn btn-block btn-warning">Etape suivante</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script>
+    $(function () {
+
+        let params = {
+            nonSelectedListLabel: 'Produits disponibles',
+            selectedListLabel: 'Produits selectionés',
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: true,
+            filterPlaceHolder: 'Produits',
+            infoTextEmpty: 'Aucun produit',
+            infoText: 'Total de produit : {0}',
+            selectorMinimalHeight: 200,
+            showFilterInputs: true,
+        };
+
+        let listbox = $('.duallistbox').bootstrapDualListbox(params);
+    })
+</script>
+</body>
+</html>

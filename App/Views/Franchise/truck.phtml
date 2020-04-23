@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Espace Franchisé</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/panel">Accueil</a></li>
+                            <li class="breadcrumb-item">Mon camion</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Mon camion</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-12">
+                            <div class="row">
+                                <div class="col-12 col-sm-6">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Immatriculation</span>
+                                            <span class="info-box-number text-center text-muted mb-0"><?= $truck->getMatriculation(); ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="info-box bg-light">
+                                        <div class="info-box-content">
+                                            <span class="info-box-text text-center text-muted">Disponible depuis le</span>
+                                            <span class="info-box-number text-center text-muted mb-0"><?= $truck->getCreatedAt()->format('d/m/Y H:i:s'); ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <?php if(!is_null($activeMaintenance)) { ?>
+                                        <div class="alert alert-info alert-dismissible">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h5><i class="icon fas fa-info"></i> Informations</h5>
+                                            Une maintenance est en cours sur votre camion.
+                                        </div>
+                                    <?php } ?>
+                                    <h4 class="headline">Les dernières maintenances</h4>
+                                    <table id="maintenances" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Date de mise en maintenance</th>
+                                            <th>Statut</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($maintenances as $maintenance): ?>
+                                                <tr>
+                                                    <td><?= $maintenance->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
+                                                    <td>
+                                                        <?php if($maintenance->getStatus() == "waiting") { ?>
+                                                            <span class="badge badge-danger">En attente</span>
+                                                        <?php } else if($maintenance->getStatus() == "processing") { ?>
+                                                            <span class="badge badge-warning">En cours</span>
+                                                        <?php } else { ?>
+                                                            <span class="badge badge-success">Terminé</span>
+                                                        <?php } ?>
+                                                    </td>
+                                                    <td>
+                                                        <a href="/panel/truck/maintenance/<?= $maintenance->getId(); ?>" class="btn btn-sm btn-info"><i class="fa fa-info-circle"></i> Détails</a>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Statut</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/datatables/jquery.dataTables.js"></script>
+<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="/dist/js/adminlte.js"></script>
+<script>
+    $(function () {
+        // DataTable
+        let table = $("#maintenances").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+            }
+        });
+    });
+</script>
+</body>
+</html>

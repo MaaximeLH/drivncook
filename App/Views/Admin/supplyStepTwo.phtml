@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Administration</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/dist/css/drivncook.css">
+    <link rel="stylesheet" href="https://www.jqueryscript.net/demo/Bootstrap-4-Tag-Input-Plugin-jQuery/tagsinput.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="/administration/warehouses">Entrepôts</a></li>
+                            <li class="breadcrumb-item"><a href="/administration/stocks/warehouses/<?= $warehouse->getId(); ?>"><?= $warehouse->getName(); ?></a></li>
+                            <li class="breadcrumb-item active">Approvisionner</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Approvisionnement de l'entrepôt de <b><?= $warehouse->getName(); ?></b> - Etape 2</h3>
+
+                        <div class="card-tools">
+                            <a href="/administration/warehouses/<?= $warehouse->getId(); ?>/supply" class="btn btn-sm btn-info">Retour à l'étape 1</a>
+                            <a href="/administration/stocks/warehouses/<?= $warehouse->getId(); ?>" class="btn btn-sm btn-info">Retour à l'entrepôt</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-info alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-info"></i> Etape 2</h5>
+                                    Saisissez les informations pour chaque produit, une fois validé, les produits seront enregistrés dans les entrepôts et vous serez redirigé vers la facture auto-générée.
+                                </div>
+
+                                <div class="alert alert-warning alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-info"></i> Attention</h5>
+                                    Les produits sont reliés à tous les entrepôts, la modification d'un produit sera effective pour tous les entrepôts.
+                                </div>
+
+                                <form method="POST" action="/administration/warehouses/<?= $warehouse->getId(); ?>/supply/step/3">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="provider">Nom du fournisseur</label>
+                                            <input type="text" name="provider" required id="provider" class="form-control" placeholder="Nom">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="address_line">Adresse du fournisseur</label>
+                                            <input type="text" name="address_line" required id="address_line" class="form-control" placeholder="Adresse">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="postal_code">Code postal du fournisseur</label>
+                                            <input type="text" name="postal_code" required id="postal_code" class="form-control" placeholder="Code postal">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="city">Ville du fournisseur</label>
+                                            <input type="text" name="city" required id="city" class="form-control" placeholder="Ville">
+                                        </div>
+                                    </div>
+                                    <div id="table">
+                                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">Nom du produit</th>
+                                                <th class="text-center">Prix unitaire (en €)</th>
+                                                <th class="text-center">Prix de revente (en €)</th>
+                                                <th class="text-center">TVA (en %)</th>
+                                                <th class="text-center">Quantité à approvisionner</th>
+                                                <th class="text-center">Supprimer</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach ($products as $product): ?>
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" required class="table_supply_input" <?= (is_object($product)) ? 'readonly' : ''; ?> placeholder="Nom du produit" name="name[]" value="<?= (is_object($product)) ? $product->getName() : $product['name']; ?>">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" required class="table_supply_input" placeholder="Prix unitaire" name="price[]" value="<?= (is_object($product)) ? $product->getPrice() : ''; ?>">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" required class="table_supply_input" placeholder="Prix de revente" name="resale_price[]" value="<?= (is_object($product)) ? $product->getResalePrice() : ''; ?>">
+                                                    </td>
+                                                    <td>
+                                                        <select name="tva[]" class="table_supply_input">
+                                                            <option <?= (!is_object($product)) ? 'selected' : ''; ?>>--- Selectionner un taux de TVA ---</option>
+                                                            <option <?= (is_object($product) && $product->getTva() == 5.5) ? 'selected' : '';  ?>>5.5</option>
+                                                            <option <?= (is_object($product) && $product->getTva() == 10) ? 'selected' : '';  ?>>10</option>
+                                                            <option <?= (is_object($product) && $product->getTva() == 20) ? 'selected' : '';  ?>>20</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" required class="table_supply_input" placeholder="Quantité" name="quantity[]" value="10">
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" onclick="remove(this); return false;" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                    <input type="hidden" name="type[]" value="<?= (is_object($product)) ? 1 : 0; ?>">
+                                                    <input type="hidden" name="product_id[]" value="<?= (is_object($product)) ? $product->getId() : 0; ?>">
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="form-group">
+                                        <?= \Core\CSRF::fields(); ?>
+                                        <button class="btn btn-block btn-warning">Approvisionner l'entrepôt</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.js"></script>
+<script src="https://www.jqueryscript.net/demo/Bootstrap-4-Tag-Input-Plugin-jQuery/tagsinput.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<script>
+    $(function () {
+
+        let params = {
+            nonSelectedListLabel: 'Produits disponibles',
+            selectedListLabel: 'Produits selectionés',
+            preserveSelectionOnMove: 'moved',
+            moveOnSelect: false,
+            helperSelectNamePostfix: '_dvn',
+            filterPlaceHolder: 'Produits',
+            infoTextEmpty: 'Aucun produit',
+            infoText: 'Total de produit : {0}',
+            selectorMinimalHeight: 200,
+            showFilterInputs: true,
+        };
+
+        let listbox = $('.duallistbox').bootstrapDualListbox(params);
+    });
+
+    function remove(object) {
+        let tr = object.parentElement.parentElement;
+        if(window.confirm("Voulez-vous vraiment supprimer ce produit ?")) {
+            tr.remove();
+        }
+    }
+</script>
+</body>
+</html>

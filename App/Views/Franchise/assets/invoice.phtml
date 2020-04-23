@@ -1,0 +1,130 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <?php if(!$invoice->getStatus()) { ?>
+                    <div class="alert alert-info alert-dismissible no-print">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-info"></i> Rappel</h5>
+                        Cette facture n'a pas encore été réglée.
+                        Rendez-vous sur <a href="/panel/invoices/pay/<?= $invoice->getId(); ?>">cette page</a> pour régler la somme dûe.
+                    </div>
+                <?php } ?>
+                <div class="invoice p-3 mb-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>
+                                <i class="fas fa-globe"></i> Driv'n'Cook
+                                <small class="float-right">Date: <?= $invoice->getCreatedAt()->format('d/m/Y'); ?></small>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row invoice-info">
+                        <div class="col-sm-4 invoice-col">
+                            De
+                            <address>
+                                <strong>Driv'n'Cook</strong><br>
+                                242 rue du Faubourg Saint Antoine<br>
+                                Paris, 75012<br>
+                                +33 1 56 06 90 41<br>
+                                sananes@esgi.fr
+                            </address>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 invoice-col">
+                            A
+                            <?php if($invoice->getOwner() == "drivncook") { ?>
+                                <address>
+                                    <strong><?= $invoice->getUser()->getSocietyName(); ?></strong><br>
+                                    ADRESSE<br>
+                                    VILLE, CP<br>
+                                </address>
+                            <?php } ?>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-4 invoice-col">
+                            <b>Facture DVN-<?= $invoice->getId(); ?></b><br>
+                            <br>
+                            <?php if(!is_null($invoice->getWarehouse())) { ?>
+                                <b>Entrepôt</b> : <?= $invoice->getWarehouse()->getName(); ?>
+                            <?php } ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th>TVA</th>
+                                    <th>Sous-total</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                $total = [];
+                                $totalHt = 0;
+                                ?>
+                                <?php foreach ($lines as $line): ?>
+                                    <?php $subtotal = $line->getPrice() * $line->getQuantity(); ?>
+                                    <tr>
+                                        <td><?= $line->getText(); ?></td>
+                                        <td><?= $line->getQuantity(); ?></td>
+                                        <td><?= number_format($line->getPrice(), 2); ?>€</td>
+                                        <td><?= number_format($line->getTva(), 2); ?>%</td>
+                                        <td>
+                                            <?= $subtotal; ?>€
+                                        </td>
+                                    </tr>
+
+                                    <?php
+                                    if(!isset($total[$line->getTva()])) $total[$line->getTva()] = 0;
+                                    $total[$line->getTva()] += $subtotal;
+                                    $totalHt += $subtotal;
+                                    ?>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:50%">Total HT:</th>
+                                        <td><?= number_format($totalHt, 2); ?>€</td>
+                                    </tr>
+                                    <?php $totalTva = 0; ?>
+                                    <?php foreach ($total as $key => $value): if($key == 5) $key = 5.5; ?>
+                                        <?php $tva = $value * ($key / 100); $totalTva += $tva; ?>
+                                        <tr>
+                                            <th style="width:50%">TVA (<?= number_format($key, 1); ?>%):</th>
+                                            <td><?= number_format($tva, 2); ?>€</td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <tr>
+                                        <th>Total TTC:</th>
+                                        <td><?= number_format($totalHt + $totalTva, 2); ?>€</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <button onclick="window.addEventListener('load', window.print())" class="btn btn-info"><i class="fas fa-print"></i> Imprimer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

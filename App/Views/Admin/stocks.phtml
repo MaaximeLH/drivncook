@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Administration</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="/administration/warehouses">Entrepôts</a></li>
+                            <li class="breadcrumb-item active">Stocks</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Visualisation du stock de l'entrepôt de <b><?= $warehouse->getName(); ?></b></h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="administrators" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Nom du produit</th>
+                                    <th>Catégorie</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th>TVA</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($stocks as $stock): ?>
+                                        <tr>
+                                            <td><?= $stock->getItem()->getName(); ?></td>
+                                            <td><?= (!is_null($stock->getItem()->getCategory())) ? $stock->getItem()->getCategory()->getName() : '/'; ?></td>
+                                            <td><?= $stock->total; ?></td>
+                                            <td><?= number_format($stock->getItem()->getPrice(), 2); ?>€</td>
+                                            <td><?= $stock->getItem()->getTva(); ?>%</td>
+                                            <td>
+                                                <button href="#" data-toggle="modal" data-target="#editModal<?= $stock->getId(); ?>" class="btn btn-sm btn-warning"><i class="fas fa-pencil-alt"></i> Editer</button>
+                                                <a href="/administration/warehouses/<?= $warehouse->getId(); ?>/supply/<?= $stock->getId(); ?>" class="btn btn-sm btn-info"><i class="fas fa-plus"></i> Approvisionner</a>
+                                            </td>
+                                        </tr>
+
+                                        <div class="modal fade" id="editModal<?= $stock->getItem()->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="editModal<?= $stock->getId();?>CenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="editModal<?= $stock->getId();?>LongTitle">Modifier le produit <b><?= $stock->getItem()->getName(); ?></b></h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="alert alert-warning alert-dismissible">
+                                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                            <h5><i class="icon fas fa-info"></i> Attention</h5>
+                                                            Les stocks étant liés entre les entrepôts, les modifications seront effectives pour tous les entrepôts.
+                                                        </div>
+
+                                                        <form action="/administration/stocks/edit/<?= $stock->getItem()->getId(); ?>" method="POST">
+                                                            <div class="form-group">
+                                                                <label for="name<?= $stock->getItem()->getId(); ?>">Nom du produit</label>
+                                                                <input type="text" name="name" placeholder="Nom" value="<?= $stock->getItem()->getName(); ?>" id="name<?= $stock->getItem()->getId(); ?>" class="form-control">
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label for="categorieInput<?= $stock->getItem()->getId(); ?>">Catégorie</label>
+                                                                <select id="categorieInput<?= $stock->getItem()->getId(); ?>" class="form-control select2 <?= (isset($fields['category'])) ? 'is-invalid' : ''; ?>" name="category" style="width: 100%;">
+                                                                    <option selected="selected" value="0">--- Selectionner une catégorie ---</option>
+                                                                    <?php foreach ($categories as $category): ?>
+                                                                        <option <?= (!is_null($stock->getItem()->getCategory()) && $stock->getItem()->getCategory()->getId() == $category->getId()) ? 'selected' : ''; ?> value="<?= $category->getId(); ?>">
+                                                                            <?php foreach ($category->parents as $parent): ?>
+                                                                                <?= $parent->getName();  ?> /
+                                                                            <?php endforeach; ?>
+                                                                            <?= $category->getName(); ?>
+                                                                        </option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <?= \Core\CSRF::fields(); ?>
+                                                                <input type="hidden" name="warehouse" value="<?= $warehouse->getId(); ?>">
+                                                                <button class="btn btn-block btn-warning">Sauvegarder</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Nom du produit</th>
+                                    <th>Catégorie</th>
+                                    <th>Quantité</th>
+                                    <th>Prix unitaire</th>
+                                    <th>TVA</th>
+                                    <th>Action</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/datatables/jquery.dataTables.js"></script>
+<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        })
+
+        $("#administrators").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+            }
+        });
+    })
+</script>
+</body>
+</html>

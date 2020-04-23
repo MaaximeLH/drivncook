@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Administration</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
+                            <li class="breadcrumb-item">Franchises</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Ajouter un franchisé</h3>
+                            </div>
+                            <form role="form" method="POST">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="emailInput">Email</label>
+                                        <input type="email" value="<?= (isset($params['email'])) ? htmlspecialchars(trim($params['email'])) : ''; ?>" class="form-control <?= (isset($fields['email'])) ? 'is-invalid' : ''; ?>" id="emailInput" placeholder="Adresse e-mail" name="email">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="societyInput">Nom de société</label>
+                                        <input type="text" value="<?= (isset($params['society'])) ? htmlspecialchars(trim($params['society'])) : ''; ?>" class="form-control <?= (isset($fields['society'])) ? 'is-invalid' : ''; ?>" id="societyInput" placeholder="Société" name="society">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="siretInput">Numéro de SIRET</label>
+                                        <input type="text" value="<?= (isset($params['siret'])) ? htmlspecialchars(trim($params['siret'])) : ''; ?>" class="form-control <?= (isset($fields['siret'])) ? 'is-invalid' : ''; ?>" id="siretInput" placeholder="SIRET" name="siret">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="firstnameInput">Prénom</label>
+                                        <input type="text" value="<?= (isset($params['firstname'])) ? htmlspecialchars(trim($params['firstname'])) : ''; ?>" class="form-control <?= (isset($fields['firstname'])) ? 'is-invalid' : ''; ?>" id="firstnameInput" placeholder="Prénom" name="firstname">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="lastnameInput">Nom</label>
+                                        <input type="text" value="<?= (isset($params['lastname'])) ? htmlspecialchars(trim($params['lastname'])) : ''; ?>" class="form-control <?= (isset($fields['lastname'])) ? 'is-invalid' : ''; ?>" id="lastnameInput" placeholder="Nom" name="lastname">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="phoneNumberInput">Numéro de téléphone</label>
+                                        <input type="text" value="<?= (isset($params['phone_number'])) ? htmlspecialchars(trim($params['phone_number'])) : ''; ?>" class="form-control <?= (isset($fields['phone_number'])) ? 'is-invalid' : ''; ?>" id="phoneNumberInput" placeholder="Numéro" name="phone_number">
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="form-group">
+                                        <label for="addressLineInput">Adresse</label>
+                                        <input type="text" value="<?= (isset($params['address_line'])) ? htmlspecialchars(trim($params['address_line'])) : ''; ?>" class="form-control <?= (isset($fields['address_line'])) ? 'is-invalid' : ''; ?>" id="addressLineInput" placeholder="Adresse" name="address_line">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="cityInput">Ville</label>
+                                                <input type="text" value="<?= (isset($params['city'])) ? htmlspecialchars(trim($params['city'])) : ''; ?>" class="form-control <?= (isset($fields['city'])) ? 'is-invalid' : ''; ?>" id="cityInput" placeholder="Ville" name="city">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="postalCodeInput">Code postal</label>
+                                                <input type="text" value="<?= (isset($params['postal_code'])) ? htmlspecialchars(trim($params['postal_code'])) : ''; ?>" class="form-control <?= (isset($fields['postal_code'])) ? 'is-invalid' : ''; ?>" id="postalCodeInput" placeholder="Code postal" name="postal_code">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="stateInput">Région</label>
+                                                <input type="text" value="<?= (isset($params['state'])) ? htmlspecialchars(trim($params['state'])) : ''; ?>" class="form-control <?= (isset($fields['state'])) ? 'is-invalid' : ''; ?>" id="stateInput" placeholder="Région" name="state">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="countryInput">Pays</label>
+                                                <input type="text" value="<?= (isset($params['country'])) ? htmlspecialchars(trim($params['country'])) : ''; ?>" class="form-control <?= (isset($fields['country'])) ? 'is-invalid' : ''; ?>" id="countryInput" placeholder="Pays" name="country">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+                                    <div class="form-group">
+                                        <label for="assignToInput">Assigner à un camion</label>
+                                        <select id="assignToInput" class="form-control select2 <?= (isset($fields['assign'])) ? 'is-invalid' : ''; ?>" name="assign" style="width: 100%;">
+                                            <option selected="selected" value="0">--- Selectionner un camion ---</option>
+                                            <?php foreach ($trucks as $truck): ?>
+                                                <option <?= (isset($params['assign']) && $params['assign'] == $truck->getId()) ? 'selected' : ''; ?> value="<?= $truck->getId(); ?>"><?= $truck->getMatriculation(); ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="form-group">
+                                        <label for="passwordInput">Mot de passe</label>
+                                        <input type="password" autocomplete="autocomplete" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordInput" name="password" placeholder="Mot de passe">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="passwordConfirmInput">Confirmez le mot de passe</label>
+                                        <input type="password" autocomplete="autocomplete" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordConfirmInput" name="passwordConfirm" placeholder="Confirmez le mot de passe">
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <?= \Core\CSRF::fields(); ?>
+                                    <button type="submit" class="btn btn-warning">Enregistrer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        })
+
+    })
+</script>
+</body>
+</html>

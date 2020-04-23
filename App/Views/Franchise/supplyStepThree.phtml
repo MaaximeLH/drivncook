@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - Espace Franchisé</title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/dist/css/drivncook.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/panel">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="/panel/truck">Mon camion</a></li>
+                            <li class="breadcrumb-item active">Approvisionner</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Etape 3 - Quantité de produit</h3>
+
+                        <div class="card-tools">
+                            <a href="/panel/truck/supply" class="btn btn-sm btn-info">Retour à la liste des entrepôt</a>
+                            <a href="/panel/truck/supply/warehouses/<?= $warehouse->getId(); ?>" class="btn btn-sm btn-info">Retour à la sélection des produits</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <div class="alert alert-warning alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-info"></i> Attention</h5>
+                                    En soumettant le formulaire, vous génererez une facture. Vous serez dans l'obligation de la régler dans les délais inscrits sur la facture. <br>
+                                    Auxquels cas nous serons en mesure de bloquer vos accès.
+                                </div>
+
+                                <div class="alert alert-info alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h5><i class="icon fas fa-info"></i> Etape 3</h5>
+                                    Choisissez une quantité à approvisionner pour chaque produit
+                                </div>
+
+                                <form method="POST" action="/panel/truck/supply/warehouse/<?= $warehouse->getId(); ?>/step/4">
+                                    <div id="table">
+                                        <table class="table table-bordered table-responsive-md table-striped text-center">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">Nom du produit</th>
+                                                <th class="text-center">Prix unitaire (en €)</th>
+                                                <th class="text-center">TVA (en %)</th>
+                                                <th class="text-center">Quantité à approvisionner</th>
+                                                <th class="text-center">Supprimer</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach ($products as $product): ?>
+                                                <tr>
+                                                    <td>
+                                                        <?= $product->getName(); ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= number_format($product->getResalePrice(), 2); ?>€
+                                                    </td>
+                                                    <td>
+                                                        <?= number_format($product->getTva(), 2); ?>%
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" step="1" max="<?= $product->max; ?>" required class="table_supply_input" placeholder="Quantité" name="quantity[]">
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" onclick="remove(this); return false;" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                                    </td>
+                                                    <input type="hidden" name="product_id[]" value="<?= $product->getId(); ?>">
+                                                </tr>
+                                            <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="form-group">
+                                        <?= \Core\CSRF::fields(); ?>
+                                        <button class="btn btn-block btn-warning">Approvisionner mon camion</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.js"></script>
+<script>
+    function remove(object) {
+        let tr = object.parentElement.parentElement;
+        if (window.confirm("Voulez-vous vraiment enlever ce produit ?")) {
+            tr.remove();
+        }
+    }
+</script>
+</body>
+</html>
