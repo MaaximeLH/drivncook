@@ -9,30 +9,34 @@ use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
 use Core\Request;
+use Core\Session;
 use Core\Validator;
 use Core\View;
 
 class Invoices extends Controller {
 
-    private function getUser($id) {
-        $em = Entity::getEntityManager();
-        $repository = $em->getRepository(Admin::class);
-        $user = $repository->find($id);
-        return $user;
-    }
+    private $admin;
 
-    public function receivedAction() {
-        $userId = $this->logged();
-        if(!$userId) {
+    public function __construct($routes)
+    {
+        parent::__construct($routes);
+
+        $userId = Session::get('admin_id');
+        $em = Entity::getEntityManager();
+        if(is_null($admin = $em->find(Admin::class, $userId))) {
             return $this->redirectTo('/administration/login');
         }
 
-        $user = $this->getUser($userId);
+        $this->admin = $admin;
+    }
 
+    public function receivedAction() {
         $em = Entity::getEntityManager();
+
         $invoiceEntity = $em->getRepository(Invoice::class);
         $invoices      = $invoiceEntity->findByRecipient('drivncook');
 
+        // Cherche si une facture externe a été importée pour la facture interne (fichier)
         foreach ($invoices as $key => $invoice) {
             $file = $this->searchInvoiceFile($invoice->getId());
 
@@ -43,61 +47,43 @@ class Invoices extends Controller {
             }
         }
 
-        return View::render('Admin/invoicesReveived', ['user' => $user, 'page' => 'invoices_received', 'invoices' => $invoices]);
+        return View::render('Admin/invoicesReveived', ['user' => $this->admin, 'page' => 'invoices_received', 'invoices' => $invoices]);
     }
 
     public function issuedAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
-
         $em = Entity::getEntityManager();
         $invoiceEntity = $em->getRepository(Invoice::class);
         $invoices      = $invoiceEntity->findByOwner('drivncook');
 
-        return View::render('Admin/invoicesIssued', ['user' => $user, 'page' => 'invoices_issued', 'invoices' => $invoices]);
+        return View::render('Admin/invoicesIssued', ['user' => $this->admin, 'page' => 'invoices_issued', 'invoices' => $invoices]);
     }
 
     public function seeAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
-
         CSRF::generate();
+
         $em = Entity::getEntityManager();
+
         $invoiceEntity = $em->getRepository(Invoice::class);
         $invoiceLineEntity = $em->getRepository(InvoiceLine::class);
-        $invoice = $invoiceEntity->find($this->getRouteParameter('id'));
-        $lines = $invoiceLineEntity->findByInvoice($invoice);
 
-        if(is_null($invoice)) {
+        if(is_null($invoice = $invoiceEntity->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration');
         }
 
+        $lines = $invoiceLineEntity->findByInvoice($invoice);
         $file = $this->searchInvoiceFile($invoice->getId());
 
-        return View::render('Admin/invoice', ['page' => 'invoices', 'user' => $user, 'invoice' => $invoice, 'lines' => $lines, 'externalFile' => $file]);
+        return View::render('Admin/invoice', ['page' => 'invoices', 'user' => $this->admin, 'invoice' => $invoice, 'lines' => $lines, 'externalFile' => $file]);
     }
 
     public function payAction() {
         Request::assertPostOnly();
         CSRF::validate();
 
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
         $em = Entity::getEntityManager();
         $invoiceEntity = $em->getRepository(Invoice::class);
-        $invoice = $invoiceEntity->find($this->getRouteParameter('id'));
-        if(is_null($invoice)) {
+
+        if(is_null($invoice = $invoiceEntity->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration');
         }
 
@@ -114,14 +100,6 @@ class Invoices extends Controller {
     public function addAction() {
         Request::assertPostOnly();
         CSRF::validate();
-
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
-
         CSRF::generate();
         $em = Entity::getEntityManager();
 
@@ -151,14 +129,6 @@ class Invoices extends Controller {
     public function deleteRealInvoiceAction() {
         Request::assertPostOnly();
         CSRF::validate();
-
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
-
         CSRF::generate();
         $em = Entity::getEntityManager();
 
@@ -184,13 +154,6 @@ class Invoices extends Controller {
     }
 
     public function realAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
-
         CSRF::generate();
         $em = Entity::getEntityManager();
 

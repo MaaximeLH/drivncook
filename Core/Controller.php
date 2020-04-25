@@ -8,8 +8,8 @@ abstract class Controller
 {
     protected array $route_parameters = [];
 
-    public function __construct($route_parameters) {
-        $this->route_parameters = $route_parameters;
+    public function __construct($routes) {
+        $this->route_parameters = $routes;
     }
 
     public function __call($name, $args) {
@@ -61,10 +61,6 @@ abstract class Controller
         }
 
         return false;
-    }
-
-    protected function logged() {
-        return Session::get('admin_id');
     }
 
     protected function xStreamFile($absoluteFilePath) {

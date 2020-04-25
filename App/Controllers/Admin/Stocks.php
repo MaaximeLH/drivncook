@@ -11,38 +11,43 @@ use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
 use Core\Request;
+use Core\Session;
 use Core\Validator;
 use Core\View;
 
 class Stocks extends Controller {
 
-    private function getUser($id) {
-        $em = Entity::getEntityManager();
-        $repository = $em->getRepository(Admin::class);
-        $user = $repository->find($id);
-        return $user;
-    }
+    private $admin;
 
-    public function stocksAction() {
-        $userId = $this->logged();
-        if(!$userId) {
+    public function __construct($routes)
+    {
+        parent::__construct($routes);
+
+        $userId = Session::get('admin_id');
+        $em = Entity::getEntityManager();
+        if(is_null($admin = $em->find(Admin::class, $userId))) {
             return $this->redirectTo('/administration/login');
         }
 
-        $user = $this->getUser($userId);
+        $this->admin = $admin;
+    }
 
+    public function stocksAction() {
         $em = Entity::getEntityManager();
 
         // Repository
         $warehousesRepository = $em->getRepository(Warehouse::class);
         $warehouseStockItemRepository = $em->getRepository(WarehouseStockItem::class);
         $warehouseCategoryRepository = $em->getRepository(WarehouseCategory::class);
+
         $categories = $warehouseCategoryRepository->findAll();
         $categories = $this->retrieveParentsCategories($categories);
 
-        $warehouseId = $this->getRouteParameter('id');
-        $warehouse = $warehousesRepository->findOneById($warehouseId);
+        if(is_null($warehouse = $warehousesRepository->findOneById($this->getRouteParameter('id')))) {
+            return $this->redirectTo('/administrations/warehouses');
+        }
 
+        // Récupère le stock de l'entrepôt courant
         $stocks = $warehouseStockItemRepository->findByWarehouse($warehouse);
         foreach ($stocks as $key => $stock) {
             $products = $warehouseStockItemRepository->findBy(['item' => $stock, 'warehouse' => $warehouse]);
@@ -52,20 +57,10 @@ class Stocks extends Controller {
             }
         }
 
-        if(is_null($warehouse)) {
-            return $this->redirectTo('/administrations/warehouses');
-        }
-
-        return View::render('Admin/stocks', ['user' => $user, 'warehouse' => $warehouse, 'page' => 'warehouses', 'stocks' => $stocks, 'categories' => $categories]);
+        return View::render('Admin/stocks', ['user' => $this->admin, 'warehouse' => $warehouse, 'page' => 'warehouses', 'stocks' => $stocks, 'categories' => $categories]);
     }
 
     public function stocksCategoriesAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
         CSRF::generate();
 
         $em = Entity::getEntityManager();
@@ -74,19 +69,14 @@ class Stocks extends Controller {
         $categories = $warehouseCategory->findAll();
         $categories = $this->retrieveParentsCategories($categories);
 
-        return View::render('Admin/stockCategories', ['user' => $user, 'page' => 'stocks_category', 'categories' => $categories]);
+        return View::render('Admin/stockCategories', ['user' => $this->admin, 'page' => 'stocks_category', 'categories' => $categories]);
     }
 
     public function addCategoryAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
-
         $em = Entity::getEntityManager();
+
         $warehouseCategoryRepository = $em->getRepository(WarehouseCategory::class);
+
         CSRF::generate();
 
         $parents = $warehouseCategoryRepository->findAll();
@@ -102,7 +92,7 @@ class Stocks extends Controller {
             }
 
             if(!empty($fields)) {
-                return View::render('Admin/addStocksCategory', ['user' => $user, 'page' => 'add_stocks_category', 'parents' => $parents, 'fields' => $fields, 'params' => $params]);
+                return View::render('Admin/addStocksCategory', ['user' => $this->admin, 'page' => 'add_stocks_category', 'parents' => $parents, 'fields' => $fields, 'params' => $params]);
             }
 
             $category = new WarehouseCategory();
@@ -115,21 +105,17 @@ class Stocks extends Controller {
             return $this->redirectTo('/administration/stocks/category');
         }
 
-        return View::render('Admin/addStocksCategory', ['user' => $user, 'page' => 'add_stocks_category', 'parents' => $parents]);
+        return View::render('Admin/addStocksCategory', ['user' => $this->admin, 'page' => 'add_stocks_category', 'parents' => $parents]);
     }
 
     public function editCategoryAction() {
         Request::assertPostOnly();
         CSRF::validate();
 
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
         $params = Request::getAllParams();
 
         $em = Entity::getEntityManager();
+
         $warehouseCategoryRepository = $em->getRepository(WarehouseCategory::class);
         $category = $warehouseCategoryRepository->find($this->getRouteParameter('id'));
 
@@ -149,21 +135,17 @@ class Stocks extends Controller {
         Request::assertPostOnly();
         CSRF::validate();
 
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
         $params = Request::getAllParams();
 
         $em = Entity::getEntityManager();
+
         $warehouseRepository = $em->getRepository(Warehouse::class);
         $warehouseItemRepository = $em->getRepository(WarehouseItem::class);
         $warehouseCategoryRepository = $em->getRepository(WarehouseCategory::class);
+
         $stock = $warehouseItemRepository->find($this->getRouteParameter('id'));
 
-        $warehouse = $warehouseRepository->find($params['warehouse']);
-        if(is_null($warehouse)) {
+        if(is_null($warehouse = $warehouseRepository->find($params['warehouse']))) {
             return $this->redirectTo('/administration/warehouses');
         }
 

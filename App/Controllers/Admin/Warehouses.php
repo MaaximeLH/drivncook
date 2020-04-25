@@ -12,27 +12,30 @@ use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
 use Core\Request;
+use Core\Session;
 use Core\Validator;
 use Core\View;
 
 class Warehouses extends Controller {
 
-    private function getUser($id) {
-        $em = Entity::getEntityManager();
-        $repository = $em->getRepository(Admin::class);
-        $user = $repository->find($id);
-        return $user;
-    }
+    private $admin;
 
-    public function warehousesAction() {
-        $userId = $this->logged();
-        if(!$userId) {
+    public function __construct($routes)
+    {
+        parent::__construct($routes);
+
+        $userId = Session::get('admin_id');
+        $em = Entity::getEntityManager();
+        if(is_null($admin = $em->find(Admin::class, $userId))) {
             return $this->redirectTo('/administration/login');
         }
 
-        $user = $this->getUser($userId);
+        $this->admin = $admin;
+    }
 
+    public function warehousesAction() {
         $em = Entity::getEntityManager();
+
         $warehousesRepository = $em->getRepository(Warehouse::class);
         $warehouseStockItemRepository = $em->getRepository(WarehouseStockItem::class);
 
@@ -46,61 +49,50 @@ class Warehouses extends Controller {
             }
         }
 
-        return View::render('Admin/warehouses', ['user' => $user, 'page' => 'warehouses', 'warehouses' => $warehouses]);
+        return View::render('Admin/warehouses', ['user' => $this->admin, 'page' => 'warehouses', 'warehouses' => $warehouses]);
     }
 
 
     public function supplyAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
         $em = Entity::getEntityManager();
+
         $warehouseRepository = $em->getRepository(Warehouse::class);
         $warehouseItemRepository = $em->getRepository(WarehouseItem::class);
         $warehouseStockItemRepository = $em->getRepository(WarehouseStockItem::class);
 
         CSRF::generate();
-        $warehouse = $warehouseRepository->find($this->getRouteParameter('id'));
+
+        if(is_null($warehouse = $warehouseRepository->find($this->getRouteParameter('id')))) {
+            return $this->redirectTo('/administration/warehouses');
+        }
+
         $product = $warehouseItemRepository->find($this->getRouteParameter('product'));
         $allProducts = $warehouseItemRepository->findAll();
 
+        // Récupère la quantité restante d'un produit dans un entrepôt
         foreach ($allProducts as $key => $value) {
             $products = $warehouseStockItemRepository->findBy(['item' => $value, 'warehouse' => $warehouse]);
             $allProducts[$key]->total = 0;
             foreach ($products as $item) {
                 $allProducts[$key]->total += $item->getQuantity();
             }
-
         }
 
-        if(is_null($warehouse)) {
-            return $this->redirectTo('/administration/warehouses');
-        }
-
-        return View::render('Admin/supply', ['user' => $user, 'warehouse' => $warehouse, 'product' => $product, 'page' => 'warehouses', 'products' => $allProducts]);
+        return View::render('Admin/supply', ['user' => $this->admin, 'warehouse' => $warehouse, 'product' => $product, 'page' => 'warehouses', 'products' => $allProducts]);
     }
 
     public function supplyStepTwo() {
         Request::assertPostOnly();
         CSRF::validate();
 
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
         $em = Entity::getEntityManager();
+
         $warehouseRepository = $em->getRepository(Warehouse::class);
         $warehouseItemRepository = $em->getRepository(WarehouseItem::class);
 
         CSRF::generate();
-        $warehouse = $warehouseRepository->find($this->getRouteParameter('id'));
 
-        if(is_null($warehouse)) {
+        if(is_null($warehouse = $warehouseRepository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration/warehouses');
         }
 
@@ -135,28 +127,22 @@ class Warehouses extends Controller {
             $products[] = ['name' => htmlspecialchars(trim($key))];
         }
 
-        return View::render('Admin/supplyStepTwo', ['user' => $user, 'page' => 'warehouses', 'warehouse' => $warehouse, 'products' => $products]);
+        return View::render('Admin/supplyStepTwo', ['user' => $this->admin, 'page' => 'warehouses', 'warehouse' => $warehouse, 'products' => $products]);
     }
 
     public function supplyStepThree(){
         Request::assertPostOnly();
         CSRF::validate();
 
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
         $em = Entity::getEntityManager();
+
         $warehouseRepository = $em->getRepository(Warehouse::class);
         $warehouseItemRepository = $em->getRepository(WarehouseItem::class);
         $warehouseStockItemRepository = $em->getRepository(WarehouseStockItem::class);
 
         CSRF::generate();
-        $warehouse = $warehouseRepository->find($this->getRouteParameter('id'));
 
-        if(is_null($warehouse)) {
+        if(is_null($warehouse = $warehouseRepository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration/warehouses');
         }
 
@@ -273,12 +259,6 @@ class Warehouses extends Controller {
     }
 
     public function addWarehousesAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
         $em = Entity::getEntityManager();
 
         CSRF::generate();
@@ -296,7 +276,7 @@ class Warehouses extends Controller {
             }
 
             if(!empty($fields)) {
-                return View::render('Admin/addWarehouses', ['user' => $user, 'page' => 'add_warehouses', 'fields' => $fields, 'params' => $params]);
+                return View::render('Admin/addWarehouses', ['user' => $this->admin, 'page' => 'add_warehouses', 'fields' => $fields, 'params' => $params]);
             }
 
             $warehouse = new Warehouse();
@@ -309,20 +289,15 @@ class Warehouses extends Controller {
             return $this->redirectTo('/administration/warehouses');
         }
 
-        return View::render('Admin/addWarehouses', ['user' => $user, 'page' => 'add_warehouses']);
+        return View::render('Admin/addWarehouses', ['user' => $this->admin, 'page' => 'add_warehouses']);
     }
 
     public function editAction() {
         Request::assertPostOnly();
         CSRF::validate();
+
         $params = Request::getAllParams();
-
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
+        
         $em = Entity::getEntityManager();
 
         $warehouseRepository = $em->getRepository(Warehouse::class);

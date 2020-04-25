@@ -66,10 +66,11 @@ $router->add("administration/invoices/{id:\d+}/pay", ['controller' => 'Invoices'
  * Panel franchisé
  */
 $router->add("panel", ['controller' => 'Home', 'action' => 'index', 'namespace' => 'Franchise']);
-$router->add("panel/my-account", ['controller' => 'Home', 'action' => 'myAccount', 'namespace' => 'Franchise']);
-$router->add("panel/online-payment", ['controller' => 'Home', 'action' => 'onlinePayment', 'namespace' => 'Franchise']);
 $router->add("panel/login", ['controller' => 'Home', 'action' => 'login', 'namespace' => 'Franchise']);
 $router->add("panel/logout", ['controller' => 'Home', 'action' => 'logout', 'namespace' => 'Franchise']);
+// Gestion compte
+$router->add("panel/my-account", ['controller' => 'Franchise', 'action' => 'myAccount', 'namespace' => 'Franchise']);
+$router->add("panel/online-payment", ['controller' => 'Franchise', 'action' => 'onlinePayment', 'namespace' => 'Franchise']);
 // Camion
 $router->add("panel/truck", ['controller' => 'Trucks', 'action' => 'index', 'namespace' => 'Franchise']);
 $router->add("panel/truck/maintenance/{id:\d+}", ['controller' => 'Trucks', 'action' => 'maintenance', 'namespace' => 'Franchise']);

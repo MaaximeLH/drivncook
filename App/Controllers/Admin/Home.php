@@ -19,13 +19,13 @@ use Core\View;
 class Home extends Controller {
 
     public function indexAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
+        $em = Entity::getEntityManager();
+
+        $admin = $em->find(Admin::class, Session::get('admin_id'));
+        if(is_null($admin)) {
+            return $this->redirectTo('/administration');
         }
 
-        $em = Entity::getEntityManager();
-        $user = $em->find(Admin::class, $userId);
         $truckRepository = $em->getRepository(Truck::class);
         $warehouseRepository = $em->getRepository(Warehouse::class);
 
@@ -45,14 +45,12 @@ class Home extends Controller {
             }
         }
 
-        return View::render('Admin/index', ['user' => $user, 'page' => 'index', 'trucksLocates' => json_encode($trucksLocates), 'warehousesLocates' => json_encode($warehousesLocates)]);
+        return View::render('Admin/index', ['user' => $admin, 'page' => 'index', 'trucksLocates' => json_encode($trucksLocates), 'warehousesLocates' => json_encode($warehousesLocates)]);
     }
 
     public function loginAction() {
-        $userId = $this->logged();
-
-        if($userId !== false) {
-            $this->redirectTo('/administration');
+        if(Session::get('admin_id') !== false) {
+            return $this->redirectTo('/administration/logout');
         }
 
         CSRF::generate();

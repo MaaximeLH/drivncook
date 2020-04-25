@@ -19,62 +19,55 @@ use Core\View;
  */
 class Invoices extends Controller
 {
-    protected function logged()
+    private $user;
+
+    public function __construct($routes)
     {
-        return Session::get('user_id');
+        parent::__construct($routes);
+
+        $userId = Session::get('user_id');
+        $em = Entity::getEntityManager();
+        if(is_null($user = $em->find(Users::class, $userId))) {
+            return $this->redirectTo('/panel/login');
+        }
+
+        $this->user = $user;
     }
 
     public function receivedAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/panel/login');
-        }
-
         $em = Entity::getEntityManager();
-        $user = $em->find(Users::class, $userId);
 
         $invoicesRepository = $em->getRepository(Invoice::class);
-        $invoices = $invoicesRepository->findByUser($user);
+        $invoices = $invoicesRepository->findByUser($this->user);
 
-        return View::render('Franchise/invoicesReceived', ['user' => $user, 'page' => 'invoices_received', 'invoices' => $invoices]);
+        return View::render('Franchise/invoicesReceived', ['user' => $this->user, 'page' => 'invoices_received', 'invoices' => $invoices]);
     }
 
     public function seeAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/panel/login');
-        }
-
         $em = Entity::getEntityManager();
-        $user = $em->find(Users::class, $userId);
 
         $invoicesRepository = $em->getRepository(Invoice::class);
         $invoice = $invoicesRepository->find($this->getRouteParameter('id'));
-        if(is_null($invoice) || is_null($invoice->getUser()) || $invoice->getUser()->getId() != $user->getId()) {
+
+        if(is_null($invoice) || is_null($invoice->getUser()) || $invoice->getUser()->getId() != $this->user->getId()) {
             return $this->redirectTo('/panel');
         }
 
         $invoiceLineEntity = $em->getRepository(InvoiceLine::class);
         $lines = $invoiceLineEntity->findByInvoice($invoice);
 
-        return View::render('Franchise/invoice', ['page' => 'invoices', 'user' => $user, 'invoice' => $invoice, 'lines' => $lines]);
+        return View::render('Franchise/invoice', ['page' => 'invoices', 'user' => $this->user, 'invoice' => $invoice, 'lines' => $lines]);
     }
 
     public function payInvoiceAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/panel/login');
-        }
-
         $em = Entity::getEntityManager();
-        $user = $em->find(Users::class, $userId);
 
         $invoiceRepository = $em->getRepository(Invoice::class);
         $invoice = $invoiceRepository->find($this->getRouteParameter('id'));
 
         $total = $this->countTotalInvoice($invoice);
 
-        if(is_null($invoice) || is_null($invoice->getUser()) || $invoice->getUser()->getId() != $user->getId() || $invoice->getOwner() != "drivncook" || $invoice->getStatus()) {
+        if(is_null($invoice) || is_null($invoice->getUser()) || $invoice->getUser()->getId() != $this->user->getId() || $invoice->getOwner() != "drivncook" || $invoice->getStatus()) {
             return $this->redirectTo('/panel');
         }
 
@@ -91,8 +84,8 @@ class Invoices extends Controller
             $stripe->setSource($params['stripeToken']);
 
             $stripe
-                ->setCustomerName($user->getFirstname() . ' ' . $user->getLastname())
-                ->setCustomerEmail($user->getEmail())->createCustomer();
+                ->setCustomerName($this->user->getFirstname() . ' ' . $this->user->getLastname())
+                ->setCustomerEmail($this->user->getEmail())->createCustomer();
 
             $stripe->setChargeAmount($total);
 
@@ -107,11 +100,11 @@ class Invoices extends Controller
                 $em->flush();
                 return $this->redirectTo('/panel/invoices/' . $invoice->getId());
             } else {
-                return View::render('Franchise/payInvoice', ['user' => $user, 'page' => 'invoices_received', 'invoice' => $invoice, 'total' => $total, 'payment' => false]);
+                return View::render('Franchise/payInvoice', ['user' => $this->user, 'page' => 'invoices_received', 'invoice' => $invoice, 'total' => $total, 'payment' => false]);
             }
         }
 
-        return View::render('Franchise/payInvoice', ['user' => $user, 'page' => 'invoices_received', 'invoice' => $invoice, 'total' => $total]);
+        return View::render('Franchise/payInvoice', ['user' => $this->user, 'page' => 'invoices_received', 'invoice' => $invoice, 'total' => $total]);
     }
 
     private function countTotalInvoice($invoice) {

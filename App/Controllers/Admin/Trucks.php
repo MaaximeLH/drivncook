@@ -11,6 +11,7 @@ use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
 use Core\Request;
+use Core\Session;
 use Core\Validator;
 use Core\View;
 
@@ -20,22 +21,24 @@ use Core\View;
  */
 class Trucks extends Controller {
 
-    private function getUser($id) {
-        $em = Entity::getEntityManager();
-        $repository = $em->getRepository(Admin::class);
-        $user = $repository->find($id);
-        return $user;
-    }
+    private $admin;
 
-    public function trucksAction() {
-        $userId = $this->logged();
-        if(!$userId) {
+    public function __construct($routes)
+    {
+        parent::__construct($routes);
+
+        $userId = Session::get('admin_id');
+        $em = Entity::getEntityManager();
+        if(is_null($admin = $em->find(Admin::class, $userId))) {
             return $this->redirectTo('/administration/login');
         }
 
-        $user = $this->getUser($userId);
+        $this->admin = $admin;
+    }
 
+    public function trucksAction() {
         $em = Entity::getEntityManager();
+
         $trucksRepository = $em->getRepository(Truck::class);
         $usersRepository = $em->getRepository(Users::class);
         $maintenanceRepository = $em->getRepository(Maintenance::class);
@@ -48,45 +51,34 @@ class Trucks extends Controller {
             $trucks[$key]->maintenance = $maintenanceRepository->findOneBy(['truck' => $truck, 'status' => 0]);
         }
 
-        return View::render('Admin/trucks', ['user' => $user, 'page' => 'trucks', 'trucks' => $trucks, 'availableFranchise' => $availableFranchise]);
+        return View::render('Admin/trucks', ['user' => $this->admin, 'page' => 'trucks', 'trucks' => $trucks, 'availableFranchise' => $availableFranchise]);
     }
 
     public function informationsAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
         CSRF::generate();
-        $user = $this->getUser($userId);
 
         $em = Entity::getEntityManager();
+
         $trucksRepository = $em->getRepository(Truck::class);
         $usersRepository = $em->getRepository(Users::class);
+        $maintenanceRepository = $em->getRepository(Maintenance::class);
 
         if(is_null($truck = $trucksRepository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration/trucks');
         }
 
         $truck->user = $usersRepository->findOneByTruck($truck);
-
-        $maintenanceRepository = $em->getRepository(Maintenance::class);
         $maintenances = $maintenanceRepository->findByTruck($truck);
         $activeMaintenance = $maintenanceRepository->findOneBy(['truck' => $truck, 'status' => ['processing', 'waiting']]);
 
-        return View::render('Admin/informationsTrucks', ['page' => 'trucks', 'user' => $user, 'truck' => $truck, 'maintenances' => $maintenances, 'activeMaintenance' => $activeMaintenance]);
+        return View::render('Admin/informationsTrucks', ['page' => 'trucks', 'user' => $this->admin, 'truck' => $truck, 'maintenances' => $maintenances, 'activeMaintenance' => $activeMaintenance]);
     }
 
     public function maintenanceStatusAction() {
         Request::assertPostOnly();
         CSRF::validate();
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
 
         $em = Entity::getEntityManager();
-        $user = $this->getUser($userId);
 
         $truckRepository = $em->getRepository(Truck::class);
         $maintenanceRepository = $em->getRepository(Maintenance::class);
@@ -114,7 +106,7 @@ class Trucks extends Controller {
 
         $maintenanceInfo = new MaintenanceInfo();
         $maintenanceInfo->setMaintenance($maintenance);
-        $maintenanceInfo->setInfo("Statut passé de '" . $previousStatus . "' à '" . $maintenance->getStatus() . "' par " . $user->getFirstname() . " " . $user->getLastname());
+        $maintenanceInfo->setInfo("Statut passé de '" . $previousStatus . "' à '" . $maintenance->getStatus() . "' par " . $this->admin->getFirstname() . " " . $this->admin->getLastname());
 
         $em->persist($maintenanceInfo);
         $em->flush();
@@ -125,16 +117,9 @@ class Trucks extends Controller {
     public function setMaintenanceAction() {
         Request::assertPostOnly();
         CSRF::validate();
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
 
         $em = Entity::getEntityManager();
         $trucksRepository = $em->getRepository(Truck::class);
-        $usersRepository = $em->getRepository(Users::class);
 
         if(is_null($truck = $trucksRepository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration/trucks');
@@ -157,7 +142,7 @@ class Trucks extends Controller {
 
         $maintenanceInfo = new MaintenanceInfo();
         $maintenanceInfo->setMaintenance($maintenance);
-        $maintenanceInfo->setInfo("Mise en maintenance du camion par " . $user->getFirstname() . ' ' . $user->getLastname());
+        $maintenanceInfo->setInfo("Mise en maintenance du camion par " . $this->admin->getFirstname() . ' ' . $this->admin->getLastname());
 
         $em->persist($maintenanceInfo);
         $em->flush();
@@ -166,15 +151,10 @@ class Trucks extends Controller {
     }
 
     public function maintenanceDetailsAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
         $em = Entity::getEntityManager();
 
         CSRF::generate();
+
         $truckRepository = $em->getRepository(Truck::class);
         $maintenanceRepository = $em->getRepository(Maintenance::class);
         $maintenanceInfoRepository = $em->getRepository(MaintenanceInfo::class);
@@ -209,18 +189,14 @@ class Trucks extends Controller {
             return $this->redirectTo('/administration/trucks/' . $truck->getId() . '/maintenance/' . $maintenance->getId());
         }
 
-        return View::render('Admin/maintenanceDetails', ['page' => 'trucks', 'user' => $user, 'truck' => $truck, 'maintenance' => $maintenance, 'infos' => $infos]);
+        return View::render('Admin/maintenanceDetails', ['page' => 'trucks', 'user' => $this->admin, 'truck' => $truck, 'maintenance' => $maintenance, 'infos' => $infos]);
     }
 
     public function addTrucksAction() {
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $user = $this->getUser($userId);
         $em = Entity::getEntityManager();
+
         $usersRepository = $em->getRepository(Users::class);
+
         $availableFranchise = $usersRepository->findByTruck(null);
 
         CSRF::generate();
@@ -248,7 +224,7 @@ class Trucks extends Controller {
             }
 
             if(!empty($fields)) {
-                return View::render('Admin/addTrucks', ['user' => $user, 'page' => 'trucks_add', 'availableFranchise' => $availableFranchise, 'fields' => $fields]);
+                return View::render('Admin/addTrucks', ['user' => $this->admin, 'page' => 'trucks_add', 'availableFranchise' => $availableFranchise, 'fields' => $fields]);
             }
 
             $truck = new Truck();
@@ -268,16 +244,11 @@ class Trucks extends Controller {
             return $this->redirectTo('/administration/trucks/' . $truck->getId() . '/informations');
         }
 
-        return View::render('Admin/addTrucks', ['user' => $user, 'page' => 'trucks_add', 'availableFranchise' => $availableFranchise]);
+        return View::render('Admin/addTrucks', ['user' => $this->admin, 'page' => 'trucks_add', 'availableFranchise' => $availableFranchise]);
     }
 
     public function assignAction() {
         Request::assertPostOnly();
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
 
         CSRF::validate();
         $em = Entity::getEntityManager();
@@ -308,19 +279,14 @@ class Trucks extends Controller {
 
     public function removeAssignAction() {
         Request::assertPostOnly();
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
 
         CSRF::validate();
         $em = Entity::getEntityManager();
 
         $usersRepository = $em->getRepository(Users::class);
         $trucksRepository = $em->getRepository(Truck::class);
-        $truckId = $this->getRouteParameter('id');
-        $truck = $trucksRepository->find($truckId);
 
+        $truck = $trucksRepository->find($this->getRouteParameter('id'));
         $truckUser = $usersRepository->findOneByTruck($truck);
 
         if(is_null($truck) && is_null($truckUser)) {
@@ -335,17 +301,13 @@ class Trucks extends Controller {
 
     public function setActiveAction() {
         Request::assertPostOnly();
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
-
         CSRF::validate();
+
         $em = Entity::getEntityManager();
 
         $trucksRepository = $em->getRepository(Truck::class);
-        $truckId = $this->getRouteParameter('id');
-        $truck = $trucksRepository->find($truckId);
+
+        $truck = $trucksRepository->find($this->getRouteParameter('id'));
 
         if(is_null($truck) || $truck->getActive()) {
             return $this->redirectTo('/administration/trucks');
@@ -359,12 +321,9 @@ class Trucks extends Controller {
 
     public function setInactiveAction() {
         Request::assertPostOnly();
-        $userId = $this->logged();
-        if(!$userId) {
-            return $this->redirectTo('/administration/login');
-        }
 
         CSRF::validate();
+
         $em = Entity::getEntityManager();
 
         $usersRepository = $em->getRepository(Users::class);

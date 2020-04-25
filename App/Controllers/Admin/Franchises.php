@@ -9,60 +9,59 @@ use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
 use Core\Request;
+use Core\Session;
 use Core\Validator;
 use Core\View;
 
 class Franchises extends Controller {
 
-    private function getAdmin($id) {
+    private $admin;
+
+    public function __construct($routes)
+    {
+        parent::__construct($routes);
+
+        $userId = Session::get('admin_id');
         $em = Entity::getEntityManager();
-        $repository = $em->getRepository(Admin::class);
-        $user = $repository->find($id);
-        if(is_null($user)) {
-            $this->redirectTo('/administration/login');
-            return;
+        if(is_null($admin = $em->find(Admin::class, $userId))) {
+            return $this->redirectTo('/administration/login');
         }
-        return $user;
+
+        $this->admin = $admin;
     }
 
 
     public function franchisesAction() {
-        $adminId = $this->logged();
-        if(!$adminId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $admin = $this->getAdmin($adminId);
         $em = Entity::getEntityManager();
         $usersRepository = $em->getRepository(Users::class);
         $users = $usersRepository->findAll();
 
         CSRF::generate();
 
-        return View::render('Admin/franchises', ['user' => $admin, 'page' => 'franchises', 'users' => $users]);
+        return View::render('Admin/franchises', ['user' => $this->admin, 'page' => 'franchises', 'users' => $users]);
     }
 
     public function editAction() {
-        $adminId = $this->logged();
-        if(!$adminId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $admin = $this->getAdmin($adminId);
         $em = Entity::getEntityManager();
+
         $trucksRepository = $em->getRepository(Truck::class);
         $usersRepository = $em->getRepository(Users::class);
-        $user = $usersRepository->find($this->getRouteParameter('id'));
+
+        if(is_null($user = $usersRepository->find($this->getRouteParameter('id')))) {
+            return $this->redirectTo('/administration/franchises');
+        }
+
         $trucks = $trucksRepository->findByActive(1);
+
         foreach ($trucks as $key => $truck) {
+
+            // Si le franchisé a un camion et que son camion est celui qu'on itère, alors on skip
             if(!is_null($user->getTruck()) && $user->getTruck()->getId() == $truck->getId()) continue;
+
+            // Si le truck qu'on itère est déjà assigné à un utilisateur
             if(!is_null($usersRepository->findOneByTruck($truck))) {
                 unset($trucks[$key]);
             }
-        }
-
-        if(is_null($user)) {
-            return $this->redirectTo('/administration/franchises');
         }
 
         CSRF::generate();
@@ -188,6 +187,7 @@ class Franchises extends Controller {
             if(!empty($params['assign'])) {
                 $assignTruckId = intval($params['assign']);
             }
+
             $assignTruck = $trucksRepository->find($assignTruckId);
             $checkForAlreadyAssignTruck = $usersRepository->findOneByTruck($assignTruck);
 
@@ -209,20 +209,15 @@ class Franchises extends Controller {
             }
 
             $em->flush();
-            return View::render('Admin/editFranchises', ['user' => $admin, 'page' => 'franchises', 'franchise' => $user, 'trucks' => $trucks, 'fields' => $fields]);
+            return View::render('Admin/editFranchises', ['user' => $this->admin, 'page' => 'franchises', 'franchise' => $user, 'trucks' => $trucks, 'fields' => $fields]);
         }
 
-        return View::render('Admin/editFranchises', ['user' => $admin, 'page' => 'franchises', 'franchise' => $user, 'trucks' => $trucks]);
+        return View::render('Admin/editFranchises', ['user' => $this->admin, 'page' => 'franchises', 'franchise' => $user, 'trucks' => $trucks]);
     }
 
     public function addFranchisesAction() {
-        $adminId = $this->logged();
-        if(!$adminId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $admin = $this->getAdmin($adminId);
         $em = Entity::getEntityManager();
+
         $trucksRepository = $em->getRepository(Truck::class);
         $usersRepository = $em->getRepository(Users::class);
 
@@ -294,7 +289,7 @@ class Franchises extends Controller {
             }
 
             if(!empty($fields)) {
-                return View::render('Admin/addFranchises', ['user' => $admin, 'page' => 'add_franchises', 'trucks' => $trucks, 'fields' => $fields, 'params' => $params]);
+                return View::render('Admin/addFranchises', ['user' => $this->admin, 'page' => 'add_franchises', 'trucks' => $trucks, 'fields' => $fields, 'params' => $params]);
             }
 
             $users = new Users();
@@ -319,24 +314,18 @@ class Franchises extends Controller {
             return $this->redirectTo('/administration/franchises');
         }
 
-        return View::render('Admin/addFranchises', ['user' => $admin, 'page' => 'add_franchises', 'trucks' => $trucks]);
+        return View::render('Admin/addFranchises', ['user' => $this->admin, 'page' => 'add_franchises', 'trucks' => $trucks]);
     }
 
     public function blockAction() {
         Request::assertPostOnly();
         CSRF::validate();
 
-        $adminId = $this->logged();
-        if(!$adminId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $admin = $this->getAdmin($adminId);
-
         $em = Entity::getEntityManager();
+
         $usersRepository = $em->getRepository(Users::class);
-        $user = $usersRepository->find($this->getRouteParameter('id'));
-        if(is_null($user)) {
+
+        if(is_null($user = $usersRepository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration/franchises');
         }
 
@@ -350,19 +339,10 @@ class Franchises extends Controller {
         Request::assertPostOnly();
         CSRF::validate();
 
-        $adminId = $this->logged();
-        if(!$adminId) {
-            return $this->redirectTo('/administration/login');
-        }
-
-        $admin = $this->getAdmin($adminId);
-
         $em = Entity::getEntityManager();
         $usersRepository = $em->getRepository(Users::class);
-        $truckRepository = $em->getRepository(Truck::class);
 
-        $user = $usersRepository->find($this->getRouteParameter('id'));
-        if(is_null($user)) {
+        if(is_null($user = $usersRepository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration/franchises');
         }
 
