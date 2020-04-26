@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="https://www.jqueryscript.net/demo/Bootstrap-4-Tag-Input-Plugin-jQuery/tagsinput.css">
     <!-- Bootstrap4 Duallistbox -->
     <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
@@ -29,10 +30,10 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item"><a href="/administration/warehouses">Entrepôts</a></li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><a href="/administration/warehouses"><?= \Core\Language::get('warehouses') ?></a></li>
                             <li class="breadcrumb-item"><a href="/administration/stocks/warehouses/<?= $warehouse->getId(); ?>"><?= $warehouse->getName(); ?></a></li>
-                            <li class="breadcrumb-item active">Approvisionner</li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('supply') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -44,10 +45,10 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3 class="card-title">Approvisionnement de l'entrepôt de <b><?= $warehouse->getName(); ?></b> - Etape 1</h3>
+                        <h3 class="card-title"><?= \Core\Language::get('supply', [$warehouse->getName()]) ?> - <?= \Core\Language::get('step1') ?></h3>
 
                         <div class="card-tools">
-                            <a href="/administration/stocks/warehouses/<?= $warehouse->getId(); ?>" class="btn btn-sm btn-info">Retour à l'entrepôt</a>
+                            <a href="/administration/stocks/warehouses/<?= $warehouse->getId(); ?>" class="btn btn-sm btn-info"><?= \Core\Language::get('back_to_warehouse') ?></a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -55,8 +56,8 @@
                             <div class="col-12">
                                 <div class="alert alert-info alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h5><i class="icon fas fa-info"></i> Etape 1</h5>
-                                    Selectionner des produits à réapprovisionner ou ajoutez-en.
+                                    <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('step1') ?></h5>
+                                    <?= \Core\Language::get('select_products_to_supply_or_add_it') ?>
                                 </div>
 
                                 <form method="POST" action="/administration/warehouses/<?= $warehouse->getId(); ?>/supply/step/2">
@@ -69,13 +70,13 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="new_products">Le produit ne figure pas sur la liste ? Ajoutez-le ici</label>
-                                        <input type="text" id="new_products[]" data-role="tagsinput" class="form-control" placeholder="Nom" name="new_products">
+                                        <label for="new_products"><?= \Core\Language::get('product_are_not_onlist_add_it') ?></label>
+                                        <input type="text" id="new_products[]" data-role="tagsinput" class="form-control" placeholder="<?= \Core\Language::get('name') ?>" name="new_products">
                                     </div>
 
                                     <div class="form-group">
                                         <?= \Core\CSRF::fields(); ?>
-                                        <button class="btn btn-block btn-warning">Etape suivante</button>
+                                        <button class="btn btn-block btn-warning"><?= \Core\Language::get('next_step') ?></button>
                                     </div>
                                 </form>
                             </div>
@@ -86,8 +87,7 @@
         </section>
     </div>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
@@ -108,13 +108,13 @@
     $(function () {
 
         let params = {
-            nonSelectedListLabel: 'Produits disponibles',
-            selectedListLabel: 'Produits selectionés',
+            nonSelectedListLabel: "<?= \Core\Language::get('available_products') ?>",
+            selectedListLabel: "<?= \Core\Language::get('selected_products') ?>",
             preserveSelectionOnMove: 'moved',
             moveOnSelect: true,
-            filterPlaceHolder: 'Produits',
-            infoTextEmpty: 'Aucun produit',
-            infoText: 'Total de produit : {0}',
+            filterPlaceHolder: "<?= \Core\Language::get('products') ?>",
+            infoTextEmpty: "<?= \Core\Language::get('no_products') ?>",
+            infoText: "<?= \Core\Language::get('total_product_filter') ?>",
             selectorMinimalHeight: 200,
             showFilterInputs: true,
         };

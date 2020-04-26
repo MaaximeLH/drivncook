@@ -7,7 +7,7 @@
                         <div class="col-12">
                             <h4>
                                 <i class="fas fa-globe"></i> Driv'n'Cook
-                                <small class="float-right">Date: <?= $invoice->getCreatedAt()->format('d/m/Y'); ?></small>
+                                <small class="float-right"><?= \Core\Language::get('date') ?>: <?= $invoice->getCreatedAt()->format('d/m/Y'); ?></small>
                             </h4>
                         </div>
                     </div>
@@ -52,10 +52,10 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
-                            <b>Facture DVN-<?= $invoice->getId(); ?></b><br>
+                            <b><?= \Core\Language::get('invoice') ?> DVN-<?= $invoice->getId(); ?></b><br>
                             <br>
                             <?php if(!is_null($invoice->getWarehouse())) { ?>
-                                <b>Réapprovisionnnement</b> : Entrepôt de <?= $invoice->getWarehouse()->getName(); ?>
+                                <b><?= \Core\Language::get('replenishment') ?></b> : <?= \Core\Language::get('warehouse_name', [$invoice->getWarehouse()->getName()]) ?>
                             <?php } ?>
                         </div>
                     </div>
@@ -65,11 +65,11 @@
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Produit</th>
-                                    <th>Quantité</th>
-                                    <th>Prix unitaire</th>
-                                    <th>TVA</th>
-                                    <th>Sous-total</th>
+                                    <th><?= \Core\Language::get('product') ?></th>
+                                    <th><?= \Core\Language::get('quantity') ?></th>
+                                    <th><?= \Core\Language::get('price_unit') ?></th>
+                                    <th><?= \Core\Language::get('tva') ?></th>
+                                    <th><?= \Core\Language::get('subtotal') ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -107,19 +107,19 @@
                             <div class="table-responsive">
                                 <table class="table">
                                     <tr>
-                                        <th style="width:50%">Total HT:</th>
+                                        <th style="width:50%"><?= \Core\Language::get('total_ht') ?>:</th>
                                         <td><?= number_format($totalHt, 2); ?>€</td>
                                     </tr>
                                     <?php $totalTva = 0; ?>
                                     <?php foreach ($total as $key => $value): if($key == 5) $key = 5.5; ?>
                                     <?php $tva = $value * ($key / 100); $totalTva += $tva; ?>
                                         <tr>
-                                            <th style="width:50%">TVA (<?= number_format($key, 1); ?>%):</th>
+                                            <th style="width:50%"><?= \Core\Language::get('tva') ?> (<?= number_format($key, 1); ?>%):</th>
                                             <td><?= number_format($tva, 2); ?>€</td>
                                         </tr>
                                     <?php endforeach; ?>
                                     <tr>
-                                        <th>Total TTC:</th>
+                                        <th><?= \Core\Language::get('total_ttc') ?>:</th>
                                         <td><?= number_format($totalHt + $totalTva, 2); ?>€</td>
                                     </tr>
                                 </table>
@@ -129,50 +129,50 @@
 
                     <div class="row no-print">
                         <div class="col-12">
-                            <button onclick="window.addEventListener('load', window.print())" class="btn btn-info"><i class="fas fa-print"></i> Imprimer</button>
+                            <button onclick="window.addEventListener('load', window.print())" class="btn btn-info"><i class="fas fa-print"></i> <?= \Core\Language::get('print') ?></button>
                             <?php if($invoice->getRecipient() == "drivncook") { ?>
 
                                 <?php if($externalFile == false) { ?>
 
-                                    <button class="btn btn-warning no-print" data-toggle="modal" data-target="#modal<?= $invoice->getId(); ?>"><i class="fa fa-file-contract"></i> Importer une facture externe</button>
+                                    <button class="btn btn-warning no-print" data-toggle="modal" data-target="#modal<?= $invoice->getId(); ?>"><i class="fa fa-file-contract"></i> <?= \Core\Language::get('import_an_external_invoice') ?></button>
                                     <div class="modal fade" id="modal<?= $invoice->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="modal<?= $invoice->getId(); ?>Title" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Importer une facture externe</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle"><?= \Core\Language::get('import_an_external_invoice') ?></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="alert alert-info alert-dismissible">
                                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                        <h5><i class="icon fas fa-info"></i> Informations</h5>
-                                                        Relier une facture externe à Driv'n'Cook à une facture interne auto-générée par le système de facturation.
+                                                        <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('informations') ?></h5>
+                                                        <?= \Core\Language::get('link_an_external_invoice_in_internal_invoice') ?>
                                                     </div>
 
                                                     <form action="/administration/invoices/add/<?= $invoice->getId(); ?>" method="POST" enctype="multipart/form-data">
                                                         <div class="form-group">
-                                                            <label for="invoice<?= $invoice->getId(); ?>">Facture</label>
+                                                            <label for="invoice<?= $invoice->getId(); ?>"><?= \Core\Language::get('invoice') ?></label>
                                                             <input type="file" id="invoice<?= $invoice->getId(); ?>" name="invoice" class="form-control-file">
                                                         </div>
                                                         <div class="form-group">
                                                             <?= \Core\CSRF::fields(); ?>
-                                                            <button class="btn btn-block btn-warning">Importer</button>
+                                                            <button class="btn btn-block btn-warning"><?= \Core\Language::get('import') ?></button>
                                                         </div>
                                                     </form>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                 <?php } else { ?>
-                                    <a href="/administration/invoices/real/<?= $invoice->getId() ?>" class="btn btn-success"><i class="fa fa-download"></i> Télécharger la facture externe</a>
-                                    <form onclick="return confirm('Voulez-vous vraiment supprimer la facture externe liée à cette facture ?')" method="POST" style="display: inline" action="/administration/invoices/<?= $invoice->getId() ?>/delete">
-                                        <button class="btn btn-danger no-print"><i class="fa fa-trash"></i> Supprimer la facture externe</button>
+                                    <a href="/administration/invoices/real/<?= $invoice->getId() ?>" class="btn btn-success"><i class="fa fa-download"></i> <?= \Core\Language::get('download_external_invoice') ?></a>
+                                    <form onclick="return confirm('<?= \Core\Language::get("delete_external_invoice_confirm") ?>')" method="POST" style="display: inline" action="/administration/invoices/<?= $invoice->getId() ?>/delete">
+                                        <button class="btn btn-danger no-print"><i class="fa fa-trash"></i> <?= \Core\Language::get('delete_external_invoice') ?></button>
                                     </form>
                                 <?php } ?>
 

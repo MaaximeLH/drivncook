@@ -2,7 +2,6 @@
 
 namespace Core;
 
-use App\Config;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
@@ -13,7 +12,7 @@ class Entity {
         $dbParams = [
             'driver'   => \App\Config::ORM_DRIVER,
             'host'     => \App\Config::DB_HOST,
-            'charset'  => Config::DB_CHARSET,
+            'charset'  => \App\Config::DB_CHARSET,
             'user'     => \App\Config::DB_USER,
             'password' => \App\Config::DB_PASSWORD,
             'dbname'   => \App\Config::DB_NAME,

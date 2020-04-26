@@ -4,13 +4,27 @@
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/panel" class="nav-link <?= (isset($page) && $page == "index") ? 'active' : ''; ?>">Accueil</a>
+            <a href="/panel" class="nav-link <?= (isset($page) && $page == "index") ? 'active' : ''; ?>"><?= \Core\Language::get('home') ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/panel/my-account" class="nav-link <?= (isset($page) && $page == "my_account") ? 'active' : ''; ?>">Mon compte</a>
+            <a href="/panel/my-account" class="nav-link <?= (isset($page) && $page == "my_account") ? 'active' : ''; ?>"><?= \Core\Language::get('my_account') ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/panel/logout" class="nav-link">Déconnexion</a>
+            <a href="/panel/logout" class="nav-link"><?= \Core\Language::get('logout') ?></a>
+        </li>
+        <li class="nav-item dropdown">
+            <?php if(!empty($_COOKIE['language']) && $_COOKIE['language'] == "fr_FR") { ?>
+                <a href="#" class="nav-link dropdown-toggle" id="droplangdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-fr"> </span> Français</a>
+            <?php } else { ?>
+                <a href="#" class="nav-link dropdown-toggle" id="droplangdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
+            <?php } ?>
+            <div class="dropdown-menu" aria-labelledby="droplangdown">
+                <?php if(!empty($_COOKIE['language']) && $_COOKIE['language'] == "fr_FR") { ?>
+                    <a class="dropdown-item" href="/lang/pref/en"><span class="flag-icon flag-icon-us"> </span>  English</a>
+                <?php } else { ?>
+                    <a class="dropdown-item" href="/lang/pref/fr"><span class="flag-icon flag-icon-fr"> </span>  Français</a>
+                <?php } ?>
+            </div>
         </li>
     </ul>
 </nav>
@@ -34,18 +48,18 @@
                     <a href="/panel" class="nav-link <?= (isset($page) && $page == "index") ? 'active' : ''; ?>">
                         <i class="nav-icon fa fa-home"></i>
                         <p>
-                            Accueil
+                            <?= \Core\Language::get('home') ?>
                         </p>
                     </a>
                 </li>
 
-                <li class="nav-header">SERVICES</li>
+                <li class="nav-header"><?= \Core\Language::get('sidebar_service') ?></li>
 
                 <li class="nav-item">
                     <a href="/panel/truck" class="nav-link <?= (isset($page) && $page == "truck") ? 'active' : ''; ?>">
                         <i class="nav-icon fa fa-truck"></i>
                         <p>
-                            Mon camion
+                            <?= \Core\Language::get('my_truck') ?>
                         </p>
                     </a>
                 </li>
@@ -54,40 +68,16 @@
                     <a href="/panel/truck/supply" class="nav-link <?= (isset($page) && $page == "truck_supply") ? 'active' : ''; ?>">
                         <i class="nav-icon fa fa-warehouse"></i>
                         <p>
-                            Approvisionnement
+                            <?= \Core\Language::get('sidebar_supply') ?>
                         </p>
                     </a>
                 </li>
-
-                <!--<li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['truck', 'truck_supply'])) ? 'menu-open' : ''; ?>">
-                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['truck', 'truck_supply'])) ? 'active' : ''; ?>">
-                        <i class="nav-icon fas fa-truck"></i>
-                        <p>
-                            Camion
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/panel/truck" class="nav-link <?= (isset($page) && $page == "truck") ? 'active' : ''; ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Mon camion</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/panel/truck/supply" class="nav-link <?= (isset($page) && $page == "truck_supply") ? 'active' : ''; ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Approvisionnement</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>-->
 
                 <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['franchises'])) ? 'menu-open' : ''; ?>">
                     <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['franchises'])) ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-hamburger"></i>
                         <p>
-                            Menus
+                            <?= \Core\Language::get('menus') ?>
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -95,13 +85,13 @@
                         <li class="nav-item">
                             <a href="#" class="nav-link <?= (isset($page) && $page == "franchises") ? 'active' : ''; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Mes menus</p>
+                                <p><?= \Core\Language::get('my_menus') ?></p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link <?= (isset($page) && $page == "franchises") ? 'active' : ''; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Ajouter un menu</p>
+                                <p><?= \Core\Language::get('add_menu') ?></p>
                             </a>
                         </li>
                     </ul>
@@ -111,7 +101,7 @@
                     <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['franchises'])) ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>
-                            Promotions
+                            <?= \Core\Language::get('promotions') ?>
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -119,25 +109,29 @@
                         <li class="nav-item">
                             <a href="#" class="nav-link <?= (isset($page) && $page == "franchises") ? 'active' : ''; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Mes promotions</p>
+                                <p>
+                                    <?= \Core\Language::get('my_promotions') ?>
+                                </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link <?= (isset($page) && $page == "franchises") ? 'active' : ''; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Ajouter une promotion</p>
+                                <p>
+                                    <?= \Core\Language::get('add_promotion') ?>
+                                </p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-header">PARAMETRES</li>
+                <li class="nav-header"><?= \Core\Language::get('sidebar_settings') ?></li>
 
                 <li class="nav-item">
                     <a href="/panel/my-account" class="nav-link <?= (isset($page) && $page == "my_account") ? 'active' : ''; ?>">
                         <i class="nav-icon fa fa-user"></i>
                         <p>
-                            Mon compte
+                            <?= \Core\Language::get('my_account') ?>
                         </p>
                     </a>
                 </li>
@@ -146,18 +140,18 @@
                     <a href="/panel/online-payment" class="nav-link <?= (isset($page) && $page == "online_payment") ? 'active' : ''; ?>">
                         <i class="nav-icon fa fa-dollar-sign"></i>
                         <p>
-                            Paiements en ligne
+                            <?= \Core\Language::get('online_payments') ?>
                         </p>
                     </a>
                 </li>
 
-                <li class="nav-header">ADMINISTRATION</li>
+                <li class="nav-header"><?= \Core\Language::get('sidebar_administration') ?></li>
 
                 <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['invoices', 'invoices_received', 'invoices_issued'])) ? 'menu-open' : ''; ?>">
                     <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['invoices', 'invoices_received', 'invoices_issued'])) ? 'active' : ''; ?>">
                         <i class="nav-icon fas fa-file-contract"></i>
                         <p>
-                            Facturation
+                            <?= \Core\Language::get('facturation') ?>
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -165,32 +159,18 @@
                         <li class="nav-item">
                             <a href="/panel/invoices/received" class="nav-link <?= (isset($page) && $page == "invoices_received") ? 'active' : ''; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Factures reçues</p>
+                                <p>
+                                    <?= \Core\Language::get('invoices_received') ?>
+                                </p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="#" class="nav-link <?= (isset($page) && $page == "invoices_issued") ? 'active' : ''; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Factures émises</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['franchises'])) ? 'menu-open' : ''; ?>">
-                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['franchises'])) ? 'active' : ''; ?>">
-                        <i class="nav-icon fas fa-chart-area"></i>
-                        <p>
-                            Ventes
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link <?= (isset($page) && $page == "franchises") ? 'active' : ''; ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>TODO</p>
+                                <p>
+                                    <?= \Core\Language::get('invoices_issued') ?>
+                                </p>
                             </a>
                         </li>
                     </ul>

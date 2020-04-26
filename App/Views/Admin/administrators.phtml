@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -27,8 +28,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item active">Administrateurs</li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('administrators') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -40,18 +41,18 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Les administrateurs Driv'n'Cook</h3>
+                            <h3 class="card-title"><?= \Core\Language::get('drivncook_administrators') ?></h3>
                         </div>
                         <div class="card-body">
                             <table id="administrators" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Prénom</th>
-                                    <th>Nom</th>
-                                    <th>Email</th>
-                                    <th>Crée le</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('firstname') ?></th>
+                                    <th><?= \Core\Language::get('name') ?></th>
+                                    <th><?= \Core\Language::get('email') ?></th>
+                                    <th><?= \Core\Language::get('created_at') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -64,13 +65,13 @@
                                         <td><?= $administrator->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
                                         <td>
                                             <?php if($user->getId() != $administrator->getId()) { ?>
-                                                <a class="btn btn-info btn-sm" href="/administration/administrators/<?= $administrator->getId(); ?>/edit"><i class="fas fa-pencil-alt"></i> Editer</a>
-                                                <form onsubmit="return confirm('Voulez-vous vraiment supprimer cet administrateur ?');" style="display: inline" method="POST" action="/administration/administrators/<?= $administrator->getId(); ?>/delete">
+                                                <a class="btn btn-info btn-sm" href="/administration/administrators/<?= $administrator->getId(); ?>/edit"><i class="fas fa-pencil-alt"></i> <?= \Core\Language::get('edit') ?></a>
+                                                <form onsubmit="return confirm('<?= \Core\Language::get("do_you_really_want_delete_admin") ?>');" style="display: inline" method="POST" action="/administration/administrators/<?= $administrator->getId(); ?>/delete">
                                                     <?= \Core\CSRF::fields(); ?>
-                                                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Supprimer</button>
+                                                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> <?= \Core\Language::get("delete") ?></button>
                                                 </form>
                                             <?php } else { ?>
-                                                <a class="btn btn-warning btn-sm" href="/administration/administrators/<?= $administrator->getId(); ?>/edit"><i class="fas fa-pencil-alt"></i> Mon compte</a>
+                                                <a class="btn btn-warning btn-sm" href="/administration/administrators/<?= $administrator->getId(); ?>/edit"><i class="fas fa-pencil-alt"></i> <?= \Core\Language::get("my_account") ?></a>
                                             <?php } ?>
                                         </td>
                                     </tr>
@@ -79,11 +80,11 @@
                                 <tfoot>
                                 <tr>
                                     <th>#</th>
-                                    <th>Prénom</th>
-                                    <th>Nom</th>
-                                    <th>Email</th>
-                                    <th>Crée le</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('firstname') ?></th>
+                                    <th><?= \Core\Language::get('name') ?></th>
+                                    <th><?= \Core\Language::get('email') ?></th>
+                                    <th><?= \Core\Language::get('created_at') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -102,8 +103,7 @@
         </div>
     </footer>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 </div>
 
 <script src="/plugins/jquery/jquery.min.js"></script>
@@ -115,7 +115,7 @@
     $(function () {
         $("#administrators").DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+                url: '<?= \Core\Language::get("datatable_trad_link") ?>'
             }
         });
     });

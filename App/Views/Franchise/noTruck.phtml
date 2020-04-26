@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Espace Franchisé</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('franchise_space') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
@@ -26,7 +27,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item active">Accueil</li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('home') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -37,15 +38,15 @@
             <div class="error-page">
                 <h3 class="headline text-warning" style="margin-left: -50px"> Oups</h3>
                 <div class="error-content">
-                    <h3><i class="fas fa-exclamation-triangle text-warning"></i> Erreur</h3>
+                    <h3><i class="fas fa-exclamation-triangle text-warning"></i> <?= \Core\Language::get('error') ?></h3>
                     <p>
-                        Il semblerait que vous n'ayez aucun camion d'assigné pour le moment.<br>
-                        Veuillez nous contactez si cette page ne devrait pas s'afficher.<br><br>
+                        <?= \Core\Language::get('no_truck_assign_for_moment') ?><br>
+                        <?= \Core\Language::get('contact_us_if_page_not_show') ?><br><br>
 
-                        Si vous n'avez pas encore réglé vos droits d'entrées, vous pouvez les régler en allant dans la section <br>
-                        <b>Facturation</b> > <a href="/panel/invoices/received"><b>Mes factures reçues</b></a>.
+                        <?= \Core\Language::get('if_you_not_adjust_payed_in_section') ?> <br>
+                        <b><?= \Core\Language::get('facturation') ?></b> > <a href="/panel/invoices/received"><b><?= \Core\Language::get('my_invoices_received') ?></b></a>.
                         <br><br>
-                        Si vous avez déjà réglé vos droits d'entées, un représentant Driv'n'Cook vous en assignera un rapidemment.
+                        <?= \Core\Language::get('if_you_already_adjust_dvn_contact_soon') ?>
                     </p>
 
                 </div>
@@ -53,8 +54,7 @@
         </section>
     </div>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>

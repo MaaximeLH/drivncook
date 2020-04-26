@@ -23,7 +23,7 @@ class Home extends Controller {
 
         $admin = $em->find(Admin::class, Session::get('admin_id'));
         if(is_null($admin)) {
-            return $this->redirectTo('/administration');
+            return $this->redirectTo('/administration/login');
         }
 
         $truckRepository = $em->getRepository(Truck::class);

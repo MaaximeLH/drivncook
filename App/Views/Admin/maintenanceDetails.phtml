@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
@@ -26,9 +27,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item active"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item active"><a href="/administration/trucks/<?= $truck->getId() ?>/informations">Camion</a></li>
-                            <li class="breadcrumb-item active">Détails de maintenance</li>
+                            <li class="breadcrumb-item active"><a href="/administration"><?= \Core\Language::get("home") ?></a></li>
+                            <li class="breadcrumb-item active"><a href="/administration/trucks/<?= $truck->getId() ?>/informations"><?= \Core\Language::get("truck") ?></a></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get("maintenance_details") ?></li>
                         </ol>
                     </div>
                 </div>
@@ -42,18 +43,18 @@
 
                         <div class="alert alert-warning alert-dismissible">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                            <h5><i class="icon fas fa-info"></i> Informations</h5>
-                            Visionnez les détails de la maintenance N°<?= $maintenance->getId(); ?> du <?= $maintenance->getCreatedAt()->format('d/m/Y'); ?> pour le camion <b><?= $truck->getMatriculation(); ?></b>.<br>
-                            Statut de la maintenance : <b><?= ($maintenance->getStatus() == "waiting") ? 'En attente' : (($maintenance->getStatus() == 'processing') ? 'En cours' : 'Terminé'); ?></b>
+                            <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('informations') ?></h5>
+                            <?= \Core\Language::get('maintenance_see_details_for_maintenance_date_truck', [$maintenance->getId(), $maintenance->getCreatedAt()->format('d/m/Y'), $truck->getMatriculation()]); ?><br>
+                            <?= \Core\Language::get("maintenance_status") ?> : <b><?= ($maintenance->getStatus() == "waiting") ? \Core\Language::get("waiting")  : (($maintenance->getStatus() == 'processing') ? \Core\Language::get("processing") : \Core\Language::get("finished")); ?></b>
                         </div>
-                        <a href="/administration/trucks/<?= $truck->getId() ?>/informations" class="btn btn-sm btn-info float-right mb-3"><i class="fa fa-arrow-left"></i> Retour au camion</a>
-                        <button data-toggle="modal" data-target="#updateStatus" class="btn btn-sm btn-warning float-right mr-1"><i class="fa fa-pencil-alt"></i> Modifier le statut de la maintenance</button>
+                        <a href="/administration/trucks/<?= $truck->getId() ?>/informations" class="btn btn-sm btn-info float-right mb-3"><i class="fa fa-arrow-left"></i> <?= \Core\Language::get("back_to_truck") ?></a>
+                        <button data-toggle="modal" data-target="#updateStatus" class="btn btn-sm btn-warning float-right mr-1"><i class="fa fa-pencil-alt"></i> <?= \Core\Language::get("edit_maintenance_status") ?></button>
                         <form action="/administration/trucks/<?= $truck->getId(); ?>/maintenance/<?= $maintenance->getId(); ?>" method="POST">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <button class="btn btn-outline-info">Valider</button>
+                                    <button class="btn btn-outline-info"><?= \Core\Language::get("validate") ?></button>
                                 </div>
-                                <input type="text" class="form-control" name="info" placeholder="Ajouter une ligne d'information">
+                                <input type="text" class="form-control" name="info" placeholder="<?= \Core\Language::get("maintenance_add_info_line") ?>">
                             </div>
                         </form>
 
@@ -85,30 +86,30 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modifier le statut de la maintenance</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <h5 class="modal-title" id="exampleModalLongTitle"><?= \Core\Language::get('edit_maintenance_status') ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form method="POST" action="/administration/trucks/<?= $truck->getId(); ?>/maintenance/<?= $maintenance->getId(); ?>/status">
                         <div class="form-group">
-                            <label for="status">Statut</label>
+                            <label for="status"><?= \Core\Language::get("status") ?></label>
                             <select name="status" id="status" class="form-control">
-                                <option <?= ($maintenance->getStatus() == "waiting") ? 'selected' : ''; ?> value="waiting">En attente</option>
-                                <option <?= ($maintenance->getStatus() == "processing") ? 'selected' : ''; ?> value="processing">En cours</option>
-                                <option <?= ($maintenance->getStatus() == "finished") ? 'selected' : ''; ?> value="finished">Terminé</option>
+                                <option <?= ($maintenance->getStatus() == "waiting") ? 'selected' : ''; ?> value="waiting"><?= \Core\Language::get('waiting') ?></option>
+                                <option <?= ($maintenance->getStatus() == "processing") ? 'selected' : ''; ?> value="processing"><?= \Core\Language::get('processing') ?></option>
+                                <option <?= ($maintenance->getStatus() == "finished") ? 'selected' : ''; ?> value="finished"><?= \Core\Language::get('finished') ?></option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <?= \Core\CSRF::fields(); ?>
-                            <button class="btn btn-block btn-warning">Valider</button>
+                            <button class="btn btn-block btn-warning"><?= \Core\Language::get('validate') ?></button>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
                 </div>
             </div>
         </div>

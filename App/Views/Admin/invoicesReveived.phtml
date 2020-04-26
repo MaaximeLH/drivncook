@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -27,9 +28,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item">Facturation</li>
-                            <li class="breadcrumb-item active">Factures reçues</li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><?= \Core\Language::get('facturation') ?></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('invoices_received') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -42,18 +43,18 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Les factures reçues de Driv'n'Cook</h3>
+                            <h3 class="card-title"><?= \Core\Language::get('received_invoices_from_drivncook') ?></h3>
                         </div>
                         <div class="card-body">
                             <table id="invoices" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Emétteur</th>
-                                    <th>Entrepôt</th>
-                                    <th>Statut</th>
-                                    <th>Reçue le</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('transmitter') ?></th>
+                                    <th><?= \Core\Language::get('warehouse') ?></th>
+                                    <th><?= \Core\Language::get("status") ?></th>
+                                    <th><?= \Core\Language::get('received_at') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -68,9 +69,9 @@
                                             </td>
                                             <td>
                                                 <?php if($invoice->getStatus()){ ?>
-                                                    <span class="badge bg-success">Payée</span>
+                                                    <span class="badge bg-success"><?= \Core\Language::get('payed') ?></span>
                                                 <?php } else { ?>
-                                                    <span class="badge bg-danger">Non payée</span>
+                                                    <span class="badge bg-danger"><?= \Core\Language::get('not_payed') ?></span>
                                                 <?php } ?>
                                             </td>
                                             <td><?= $invoice->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
@@ -78,48 +79,48 @@
 
                                                 <?php if(!$invoice->getStatus()) { ?>
                                                     <form method="POST" style="display: inline" action="/administration/invoices/<?= $invoice->getId(); ?>/pay">
-                                                        <button onclick="return confirm('Confirmez que la facture a été réglée ?');" class="btn btn-sm btn-success"><i class="fas fa-dollar-sign"></i> Réglée</button>
+                                                        <button onclick="return confirm('<?= \Core\Language::get("confirm_invoice_as_payed") ?>');" class="btn btn-sm btn-success"><i class="fas fa-dollar-sign"></i> <?= \Core\Language::get('settled') ?></button>
                                                     </form>
                                                 <?php } ?>
 
-                                                <a href="/administration/invoices/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Facture interne</a>
+                                                <a href="/administration/invoices/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> <?= \Core\Language::get('internal_invoice') ?></a>
 
                                                 <?php if($invoice->externalInvoice) { ?>
-                                                    <a class="btn btn-warning btn-sm" href="/administration/invoices/real/<?= $invoice->getId(); ?>"><i class="fa fa-file-contract"></i> Facture externe</a>
-                                                    <form onclick="return confirm('Voulez-vous vraiment supprimer la facture externe liée à cette facture ?')" method="POST" style="display: inline" action="/administration/invoices/<?= $invoice->getId() ?>/delete">
-                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer la facture externe</button>
+                                                    <a class="btn btn-warning btn-sm" href="/administration/invoices/real/<?= $invoice->getId(); ?>"><i class="fa fa-file-contract"></i> <?= \Core\Language::get('external_invoice') ?></a>
+                                                    <form onclick="return confirm('<?= \Core\Language::get("import_an_external_invoice") ?>')" method="POST" style="display: inline" action="/administration/invoices/<?= $invoice->getId() ?>/delete">
+                                                        <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> <?= \Core\Language::get('delete_external_invoice') ?></button>
                                                     </form>
                                                 <?php } else { ?>
-                                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal<?= $invoice->getId(); ?>"><i class="fa fa-file-contract"></i> Importer une facture externe</button>
+                                                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal<?= $invoice->getId(); ?>"><i class="fa fa-file-contract"></i> <?= \Core\Language::get('import_an_external_invoice') ?></button>
                                                     <div class="modal fade" id="modal<?= $invoice->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="modal<?= $invoice->getId(); ?>Title" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLongTitle">Importer une facture externe</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle"><?= \Core\Language::get('import_an_external_invoice') ?></h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <div class="alert alert-info alert-dismissible">
                                                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                                        <h5><i class="icon fas fa-info"></i> Informations</h5>
-                                                                        Relier une facture externe à Driv'n'Cook à une facture interne auto-générée par le système de facturation.
+                                                                        <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('informations') ?></h5>
+                                                                        <?= \Core\Language::get('link_an_external_invoice_in_internal_invoice'); ?>
                                                                     </div>
 
                                                                     <form action="/administration/invoices/add/<?= $invoice->getId(); ?>" method="POST" enctype="multipart/form-data">
                                                                         <div class="form-group">
-                                                                            <label for="invoice<?= $invoice->getId(); ?>">Facture</label>
+                                                                            <label for="invoice<?= $invoice->getId(); ?>"><?= \Core\Language::get('invoice') ?></label>
                                                                             <input type="file" id="invoice<?= $invoice->getId(); ?>" name="invoice" class="form-control-file">
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <?= \Core\CSRF::fields(); ?>
-                                                                            <button class="btn btn-block btn-warning">Importer</button>
+                                                                            <button class="btn btn-block btn-warning"><?= \Core\Language::get('import') ?></button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -132,11 +133,11 @@
                                 <tfoot>
                                 <tr>
                                     <th>#</th>
-                                    <th>Emétteur</th>
-                                    <th>Entrepôt</th>
-                                    <th>Statut</th>
-                                    <th>Reçue le</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('transmitter') ?></th>
+                                    <th><?= \Core\Language::get('warehouse') ?></th>
+                                    <th><?= \Core\Language::get("status") ?></th>
+                                    <th><?= \Core\Language::get('received_at') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -147,9 +148,6 @@
         </section>
 
     </div>
-
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
@@ -169,7 +167,7 @@
     $(function () {
         $("#invoices").DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+                url: '<?= \Core\Language::get("datatable_trad_link") ?>'
             }
         });
     });

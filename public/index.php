@@ -10,6 +10,7 @@ $router = new Core\Router();
  * Routes
  */
 $router->add('', ['controller' => 'Home', 'action' => 'index', 'namespace' => 'Home']);
+$router->add('lang/pref/{lang:(?:[\w\-](?<!_))+}', ['controller' => 'Home', 'action' => 'lang', 'namespace' => 'Home']);
 
 /**
  * Administration

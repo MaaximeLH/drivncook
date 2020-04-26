@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Espace Franchisé</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('franchise_space') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
@@ -26,9 +27,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item active"><a href="/panel">Accueil</a></li>
-                            <li class="breadcrumb-item active"><a href="/panel/invoices/received">Factures reçues</a></li>
-                            <li class="breadcrumb-item active">Régler une facture</li>
+                            <li class="breadcrumb-item active"><a href="/panel"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item active"><a href="/panel/invoices/received"><?= \Core\Language::get('invoices_received') ?></a></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('adjust_invoice') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -42,9 +43,9 @@
                     <div class="col-md-12">
                         <div class="card card-default">
                             <div class="card-header">
-                                <h3 class="card-title">Régler la facture DVN-<?= $invoice->getId(); ?></h3>
+                                <h3 class="card-title"><?= \Core\Language::get('adjust_invoice_id', $invoice->getId()) ?></h3>
                                 <div class="card-tools">
-                                    <a href="/panel/invoices/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info">Retour à la facture</a>
+                                    <a href="/panel/invoices/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info"><?= \Core\Language::get('back_to_invoice') ?></a>
                                 </div>
                             </div>
                             <form role="form" id="payment-form" method="POST">
@@ -52,13 +53,13 @@
                                     <?php if(isset($payment) && !$payment) { ?>
                                         <div class="alert alert-danger alert-dismissible">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <h5><i class="icon fas fa-info"></i> Erreur</h5>
-                                            Le paiement n'a pas pu aboutir, veuillez vérifier vos informations bancaires. <br>
-                                            Si le problème persiste, veuillez contacter nos services.
+                                            <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('error') ?></h5>
+                                            <?= \Core\Language::get('payment_cant_success_verify_bank_info') ?> <br>
+                                            <?= \Core\Language::get('if_problem_persit_contact_us') ?>
                                         </div>
                                     <?php } ?>
                                     <div class="form-group" style="display: inherit">
-                                        <label for="test">Reste à payer:</label>
+                                        <label for="test"><?= \Core\Language::get('rest_to_adjust') ?>:</label>
                                         <input type="text" readonly value="<?= number_format($total, 2); ?>€" class="form-control">
                                     </div>
                                     <br>
@@ -70,7 +71,7 @@
 
                                 <div class="card-footer">
                                     <?= \Core\CSRF::fields(); ?>
-                                    <button type="submit" class="btn btn-warning"><i class="fa fa-dollar-sign"></i> Régler le montant</button>
+                                    <button type="submit" class="btn btn-warning"><i class="fa fa-dollar-sign"></i> <?= \Core\Language::get('payed_the_amount') ?></button>
                                 </div>
                             </form>
                         </div>
@@ -82,8 +83,7 @@
 
     </div>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>

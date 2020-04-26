@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -29,8 +30,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item">Franchises</li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><?= \Core\Language::get('franchises') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -43,59 +44,59 @@
                     <div class="col-md-12">
                         <div class="card card-warning">
                             <div class="card-header">
-                                <h3 class="card-title">Ajouter un franchisé</h3>
+                                <h3 class="card-title"><?= \Core\Language::get('add_franchise') ?></h3>
                             </div>
                             <form role="form" method="POST">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="emailInput">Email</label>
-                                        <input type="email" value="<?= (isset($params['email'])) ? htmlspecialchars(trim($params['email'])) : ''; ?>" class="form-control <?= (isset($fields['email'])) ? 'is-invalid' : ''; ?>" id="emailInput" placeholder="Adresse e-mail" name="email">
+                                        <label for="emailInput"><?= \Core\Language::get('email') ?></label>
+                                        <input type="email" value="<?= (isset($params['email'])) ? htmlspecialchars(trim($params['email'])) : ''; ?>" class="form-control <?= (isset($fields['email'])) ? 'is-invalid' : ''; ?>" id="emailInput" placeholder="<?= \Core\Language::get('email') ?>" name="email">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="societyInput">Nom de société</label>
-                                        <input type="text" value="<?= (isset($params['society'])) ? htmlspecialchars(trim($params['society'])) : ''; ?>" class="form-control <?= (isset($fields['society'])) ? 'is-invalid' : ''; ?>" id="societyInput" placeholder="Société" name="society">
+                                        <label for="societyInput"><?= \Core\Language::get('society_name') ?></label>
+                                        <input type="text" value="<?= (isset($params['society'])) ? htmlspecialchars(trim($params['society'])) : ''; ?>" class="form-control <?= (isset($fields['society'])) ? 'is-invalid' : ''; ?>" id="societyInput" placeholder="<?= \Core\Language::get('society_name') ?>" name="society">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="siretInput">Numéro de SIRET</label>
-                                        <input type="text" value="<?= (isset($params['siret'])) ? htmlspecialchars(trim($params['siret'])) : ''; ?>" class="form-control <?= (isset($fields['siret'])) ? 'is-invalid' : ''; ?>" id="siretInput" placeholder="SIRET" name="siret">
+                                        <label for="siretInput"><?= \Core\Language::get('siret') ?></label>
+                                        <input type="text" value="<?= (isset($params['siret'])) ? htmlspecialchars(trim($params['siret'])) : ''; ?>" class="form-control <?= (isset($fields['siret'])) ? 'is-invalid' : ''; ?>" id="siretInput" placeholder="<?= \Core\Language::get('siret') ?>" name="siret">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="firstnameInput">Prénom</label>
-                                        <input type="text" value="<?= (isset($params['firstname'])) ? htmlspecialchars(trim($params['firstname'])) : ''; ?>" class="form-control <?= (isset($fields['firstname'])) ? 'is-invalid' : ''; ?>" id="firstnameInput" placeholder="Prénom" name="firstname">
+                                        <label for="firstnameInput"><?= \Core\Language::get('firstname') ?></label>
+                                        <input type="text" value="<?= (isset($params['firstname'])) ? htmlspecialchars(trim($params['firstname'])) : ''; ?>" class="form-control <?= (isset($fields['firstname'])) ? 'is-invalid' : ''; ?>" id="firstnameInput" placeholder="<?= \Core\Language::get('firstname') ?>" name="firstname">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="lastnameInput">Nom</label>
-                                        <input type="text" value="<?= (isset($params['lastname'])) ? htmlspecialchars(trim($params['lastname'])) : ''; ?>" class="form-control <?= (isset($fields['lastname'])) ? 'is-invalid' : ''; ?>" id="lastnameInput" placeholder="Nom" name="lastname">
+                                        <label for="lastnameInput"><?= \Core\Language::get('lastname') ?></label>
+                                        <input type="text" value="<?= (isset($params['lastname'])) ? htmlspecialchars(trim($params['lastname'])) : ''; ?>" class="form-control <?= (isset($fields['lastname'])) ? 'is-invalid' : ''; ?>" id="lastnameInput" placeholder="<?= \Core\Language::get('lastname') ?>" name="lastname">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="phoneNumberInput">Numéro de téléphone</label>
-                                        <input type="text" value="<?= (isset($params['phone_number'])) ? htmlspecialchars(trim($params['phone_number'])) : ''; ?>" class="form-control <?= (isset($fields['phone_number'])) ? 'is-invalid' : ''; ?>" id="phoneNumberInput" placeholder="Numéro" name="phone_number">
+                                        <label for="phoneNumberInput"><?= \Core\Language::get('phone_number') ?></label>
+                                        <input type="text" value="<?= (isset($params['phone_number'])) ? htmlspecialchars(trim($params['phone_number'])) : ''; ?>" class="form-control <?= (isset($fields['phone_number'])) ? 'is-invalid' : ''; ?>" id="phoneNumberInput" placeholder="<?= \Core\Language::get('phone_number') ?>" name="phone_number">
                                     </div>
 
                                     <hr>
 
                                     <div class="form-group">
-                                        <label for="addressLineInput">Adresse</label>
-                                        <input type="text" value="<?= (isset($params['address_line'])) ? htmlspecialchars(trim($params['address_line'])) : ''; ?>" class="form-control <?= (isset($fields['address_line'])) ? 'is-invalid' : ''; ?>" id="addressLineInput" placeholder="Adresse" name="address_line">
+                                        <label for="addressLineInput"><?= \Core\Language::get('address') ?></label>
+                                        <input type="text" value="<?= (isset($params['address_line'])) ? htmlspecialchars(trim($params['address_line'])) : ''; ?>" class="form-control <?= (isset($fields['address_line'])) ? 'is-invalid' : ''; ?>" id="addressLineInput" placeholder="<?= \Core\Language::get('address') ?>" name="address_line">
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="cityInput">Ville</label>
-                                                <input type="text" value="<?= (isset($params['city'])) ? htmlspecialchars(trim($params['city'])) : ''; ?>" class="form-control <?= (isset($fields['city'])) ? 'is-invalid' : ''; ?>" id="cityInput" placeholder="Ville" name="city">
+                                                <label for="cityInput"><?= \Core\Language::get('city') ?></label>
+                                                <input type="text" value="<?= (isset($params['city'])) ? htmlspecialchars(trim($params['city'])) : ''; ?>" class="form-control <?= (isset($fields['city'])) ? 'is-invalid' : ''; ?>" id="cityInput" placeholder="<?= \Core\Language::get('city') ?>" name="city">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="postalCodeInput">Code postal</label>
-                                                <input type="text" value="<?= (isset($params['postal_code'])) ? htmlspecialchars(trim($params['postal_code'])) : ''; ?>" class="form-control <?= (isset($fields['postal_code'])) ? 'is-invalid' : ''; ?>" id="postalCodeInput" placeholder="Code postal" name="postal_code">
+                                                <label for="postalCodeInput"><?= \Core\Language::get('postal_code') ?></label>
+                                                <input type="text" value="<?= (isset($params['postal_code'])) ? htmlspecialchars(trim($params['postal_code'])) : ''; ?>" class="form-control <?= (isset($fields['postal_code'])) ? 'is-invalid' : ''; ?>" id="postalCodeInput" placeholder="<?= \Core\Language::get('postal_code') ?>" name="postal_code">
                                             </div>
                                         </div>
                                     </div>
@@ -103,24 +104,24 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="stateInput">Région</label>
-                                                <input type="text" value="<?= (isset($params['state'])) ? htmlspecialchars(trim($params['state'])) : ''; ?>" class="form-control <?= (isset($fields['state'])) ? 'is-invalid' : ''; ?>" id="stateInput" placeholder="Région" name="state">
+                                                <label for="stateInput"><?= \Core\Language::get('state') ?></label>
+                                                <input type="text" value="<?= (isset($params['state'])) ? htmlspecialchars(trim($params['state'])) : ''; ?>" class="form-control <?= (isset($fields['state'])) ? 'is-invalid' : ''; ?>" id="stateInput" placeholder="<?= \Core\Language::get('state') ?>" name="state">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="countryInput">Pays</label>
-                                                <input type="text" value="<?= (isset($params['country'])) ? htmlspecialchars(trim($params['country'])) : ''; ?>" class="form-control <?= (isset($fields['country'])) ? 'is-invalid' : ''; ?>" id="countryInput" placeholder="Pays" name="country">
+                                                <label for="countryInput"><?= \Core\Language::get('country') ?></label>
+                                                <input type="text" value="<?= (isset($params['country'])) ? htmlspecialchars(trim($params['country'])) : ''; ?>" class="form-control <?= (isset($fields['country'])) ? 'is-invalid' : ''; ?>" id="countryInput" placeholder="<?= \Core\Language::get('country') ?>" name="country">
                                             </div>
                                         </div>
                                     </div>
 
                                     <hr>
                                     <div class="form-group">
-                                        <label for="assignToInput">Assigner à un camion</label>
+                                        <label for="assignToInput"><?= \Core\Language::get('assign_to_truck') ?></label>
                                         <select id="assignToInput" class="form-control select2 <?= (isset($fields['assign'])) ? 'is-invalid' : ''; ?>" name="assign" style="width: 100%;">
-                                            <option selected="selected" value="0">--- Selectionner un camion ---</option>
+                                            <option selected="selected" value="0">--- <?= \Core\Language::get('select_truck') ?> ---</option>
                                             <?php foreach ($trucks as $truck): ?>
                                                 <option <?= (isset($params['assign']) && $params['assign'] == $truck->getId()) ? 'selected' : ''; ?> value="<?= $truck->getId(); ?>"><?= $truck->getMatriculation(); ?></option>
                                             <?php endforeach; ?>
@@ -130,19 +131,19 @@
                                     <hr>
 
                                     <div class="form-group">
-                                        <label for="passwordInput">Mot de passe</label>
-                                        <input type="password" autocomplete="autocomplete" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordInput" name="password" placeholder="Mot de passe">
+                                        <label for="passwordInput"><?= \Core\Language::get('password') ?></label>
+                                        <input type="password" autocomplete="autocomplete" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordInput" name="password" placeholder="<?= \Core\Language::get('password') ?>">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="passwordConfirmInput">Confirmez le mot de passe</label>
-                                        <input type="password" autocomplete="autocomplete" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordConfirmInput" name="passwordConfirm" placeholder="Confirmez le mot de passe">
+                                        <label for="passwordConfirmInput"><?= \Core\Language::get('confirm_password') ?></label>
+                                        <input type="password" autocomplete="autocomplete" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordConfirmInput" name="passwordConfirm" placeholder="<?= \Core\Language::get('confirm_password') ?>">
                                     </div>
                                 </div>
 
                                 <div class="card-footer">
                                     <?= \Core\CSRF::fields(); ?>
-                                    <button type="submit" class="btn btn-warning">Enregistrer</button>
+                                    <button type="submit" class="btn btn-warning"><?= \Core\Language::get('save') ?></button>
                                 </div>
                             </form>
                         </div>
@@ -152,8 +153,7 @@
         </section>
     </div>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>

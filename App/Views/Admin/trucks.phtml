@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -30,8 +31,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item active">Camions</li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('trucks') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -43,19 +44,19 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Les camions Driv'n'Cook</h3>
+                            <h3 class="card-title"><?= \Core\Language::get('trucks_drivncook') ?></h3>
                         </div>
                         <div class="card-body">
                             <table id="trucks" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Véhicule</th>
-                                    <th>Longitude</th>
-                                    <th>Latitude</th>
-                                    <th>Crée le</th>
-                                    <th>Statut</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('truck') ?></th>
+                                    <th><?= \Core\Language::get('longitude') ?></th>
+                                    <th><?= \Core\Language::get('latitude') ?></th>
+                                    <th><?= \Core\Language::get('created_at') ?></th>
+                                    <th><?= \Core\Language::get("status") ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -80,23 +81,23 @@
                                                 <td>
                                                     <!-- BADGE -->
                                                     <?php if(isset($truck->user)) { ?>
-                                                        <span class="badge bg-info">Assigné</span>
+                                                        <span class="badge bg-info"><?= \Core\Language::get('assign') ?></span>
                                                     <?php } else if(isset($truck->maintenance)) { ?>
-                                                        <span class="badge bg-danger">Maintenance</span>
+                                                        <span class="badge bg-danger"><?= \Core\Language::get('maintenance') ?></span>
                                                     <?php } else if(!$truck->getActive()) { ?>
-                                                        <span class="badge bg-danger">Inactif</span>
+                                                        <span class="badge bg-danger"><?= \Core\Language::get('inactif') ?></span>
                                                     <?php } else { ?>
-                                                        <span class="badge bg-success">Disponible</span>
+                                                        <span class="badge bg-success"><?= \Core\Language::get('available') ?></span>
                                                     <?php } ?>
                                                 </td>
                                                 <td>
                                                     <!-- Redirige vers la page d'informations du camion -->
-                                                    <a class="btn btn-info btn-sm" href="/administration/trucks/<?= $truck->getId(); ?>/informations"><i class="fas fa-info-circle"></i> Informations</a>
+                                                    <a class="btn btn-info btn-sm" href="/administration/trucks/<?= $truck->getId(); ?>/informations"><i class="fas fa-info-circle"></i> <?= \Core\Language::get('informations') ?></a>
 
                                                     <!-- Si coordonnées invalides -->
                                                     <?php if(is_float($truck->getLatitude()) && is_float($truck->getLongitude())){ ?>
                                                         <!-- Lien vers l'API Google Map -->
-                                                        <a class="btn btn-success btn-sm" target="_blank" href="https://www.google.com/maps/search/?api=1&query=<?= $truck->getLatitude(); ?>,<?= $truck->getLongitude(); ?>"><i class="fas fa-map"></i> Localisation</a>
+                                                        <a class="btn btn-success btn-sm" target="_blank" href="https://www.google.com/maps/search/?api=1&query=<?= $truck->getLatitude(); ?>,<?= $truck->getLongitude(); ?>"><i class="fas fa-map"></i> <?= \Core\Language::get('location') ?></a>
                                                     <?php } ?>
 
                                                     <!-- Si pas d'utilisateur lié au camion -->
@@ -109,17 +110,17 @@
                                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLongTitle">Assigner le camion <?= $truck->getMatriculation(); ?> à un utilisateur</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <h5 class="modal-title" id="exampleModalLongTitle"><?= \Core\Language::get('assign_truck_immat_to_user', [$truck->getMatriculation()]) ?></h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <form role="form" action="/administration/trucks/assign/<?= $truck->getId(); ?>" method="POST">
                                                                             <div class="form-group">
-                                                                                <label for="assignToInput<?= $truck->getId(); ?>">Assigner le véhicule à un franchisé</label>
+                                                                                <label for="assignToInput<?= $truck->getId(); ?>"><?= \Core\Language::get('assign_truck_to_user') ?></label>
                                                                                 <select id="assignToInput<?= $truck->getId(); ?>" class="form-control select2 <?= (isset($fields['assign'])) ? 'is-invalid' : ''; ?>" name="assign" style="width: 100%;">
-                                                                                    <option selected="selected" disabled="disabled">--- Selectionner un franchisé ---</option>
+                                                                                    <option selected="selected" disabled="disabled">--- <?= \Core\Language::get('select_franchise') ?> ---</option>
                                                                                     <?php if(isset($availableFranchise)) { ?>
                                                                                         <?php foreach ($availableFranchise as $franchise): ?>
                                                                                             <option value="<?= $franchise->getId(); ?>"><?= $franchise->getFirstname(); ?> <?= $franchise->getLastname(); ?></option>
@@ -130,40 +131,40 @@
 
                                                                             <div class="form-group">
                                                                                 <?= \Core\CSRF::fields(); ?>
-                                                                                <button class="btn btn-warning btn-block">Assigner</button>
+                                                                                <button class="btn btn-warning btn-block"><?= \Core\Language::get('save') ?></button>
                                                                             </div>
                                                                         </form>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <!-- BOUTON RENDRE INACTIF LE CAMION -->
-                                                        <form method="POST" onclick="return confirm('Voulez-vous vraiment rendre inactif ce camion ?')" style="display: inline" action="/administration/trucks/inactive/<?= $truck->getId(); ?>">
+                                                        <form method="POST" onclick="return confirm('<?= \Core\Language::get("confirm_put_truck_inactive") ?>')" style="display: inline" action="/administration/trucks/inactive/<?= $truck->getId(); ?>">
                                                             <?= \Core\CSRF::fields(); ?>
                                                             <button class="btn btn-danger btn-sm">
-                                                                <i class="fas fa-ban"></i> Rendre inactif
+                                                                <i class="fas fa-ban"></i> <?= \Core\Language::get("put_inactive") ?>
                                                             </button>
                                                         </form>
                                                     <?php } ?>
 
                                                     <?php if(isset($truck->user)) { ?>
-                                                        <form method="POST" onclick="return confirm('Voulez-vous vraiment déassigner ce camion ?')" style="display: inline" action="/administration/trucks/assign/remove/<?= $truck->getId(); ?>">
+                                                        <form method="POST" onclick="return confirm('<?= \Core\Language::get("confirm_put_truck_inactive") ?>')" style="display: inline" action="/administration/trucks/assign/remove/<?= $truck->getId(); ?>">
                                                             <?= \Core\CSRF::fields(); ?>
                                                             <button class="btn btn-warning btn-sm">
-                                                                <i class="fas fa-users"></i> Déassigner
+                                                                <i class="fas fa-users"></i> <?= \Core\Language::get("deassign") ?>
                                                             </button>
                                                         </form>
                                                     <?php } ?>
 
                                                     <?php if(!$truck->getActive()) { ?>
-                                                        <form method="POST" onclick="return confirm('Voulez-vous vraiment rendre actif ce camion ?')" style="display: inline" action="/administration/trucks/active/<?= $truck->getId(); ?>">
+                                                        <form method="POST" onclick="return confirm('<?= \Core\Language::get("confirm_put_truck_active") ?>')" style="display: inline" action="/administration/trucks/active/<?= $truck->getId(); ?>">
                                                             <?= \Core\CSRF::fields(); ?>
                                                             <button class="btn btn-danger btn-sm">
-                                                                <i class="fas fa-plus"></i> Rendre actif
+                                                                <i class="fas fa-plus"></i> <?= \Core\Language::get("put_active") ?>
                                                             </button>
                                                         </form>
                                                     <?php } ?>
@@ -175,12 +176,12 @@
                                 <tfoot>
                                 <tr>
                                     <th>#</th>
-                                    <th>Immatriculation</th>
-                                    <th>Longitude</th>
-                                    <th>Latitude</th>
-                                    <th>Crée le</th>
-                                    <th>Statut</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('truck') ?></th>
+                                    <th><?= \Core\Language::get('longitude') ?></th>
+                                    <th><?= \Core\Language::get('latitude') ?></th>
+                                    <th><?= \Core\Language::get('created_at') ?></th>
+                                    <th><?= \Core\Language::get("status") ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -199,8 +200,7 @@
         </div>
     </footer>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 </div>
 
 <script src="/plugins/jquery/jquery.min.js"></script>
@@ -219,7 +219,7 @@
 
     $("#trucks").DataTable({
         language: {
-            url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+            url: '<?= \Core\Language::get("datatable_trad_link") ?>'
         }
     });
 </script>

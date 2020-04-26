@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -27,9 +28,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item">Facturation</li>
-                            <li class="breadcrumb-item active">Factures reçues</li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><?= \Core\Language::get('facturation') ?></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('invoices_issued') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -42,17 +43,17 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Les factures reçues de Driv'n'Cook</h3>
+                            <h3 class="card-title"><?= \Core\Language::get('issued_invoices_from_drivncook') ?></h3>
                         </div>
                         <div class="card-body">
                             <table id="invoices" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Entrepôt</th>
-                                    <th>Statut</th>
-                                    <th>Reçue le</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('warehouse') ?></th>
+                                    <th><?= \Core\Language::get("status") ?></th>
+                                    <th><?= \Core\Language::get('received_at') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -66,18 +67,18 @@
                                         </td>
                                         <td>
                                             <?php if($invoice->getStatus()){ ?>
-                                                <span class="badge bg-success">Payée</span>
+                                                <span class="badge bg-success"><?= \Core\Language::get("payed") ?></span>
                                             <?php } else { ?>
-                                                <span class="badge bg-danger">Non payée</span>
+                                                <span class="badge bg-danger"><?= \Core\Language::get("not_payed") ?></span>
                                             <?php } ?>
                                         </td>
                                         <td><?= $invoice->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
                                         <td>
-                                            <a href="/administration/invoices/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> Facture interne</a>
+                                            <a href="/administration/invoices/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> <?= \Core\Language::get("internal_invoice") ?></a>
 
                                             <?php if(!$invoice->getStatus()) { ?>
                                                 <form method="POST" style="display: inline" action="/administration/invoices/<?= $invoice->getId(); ?>/pay">
-                                                    <button onclick="return confirm('Confirmez que la facture a été payée ?');" class="btn btn-sm btn-warning"><i class="fas fa-dollar-sign"></i> Facture payée</button>
+                                                    <button onclick="return confirm('<?= \Core\Language::get("confirm_invoice_as_payed") ?>');" class="btn btn-sm btn-warning"><i class="fas fa-dollar-sign"></i> <?= \Core\Language::get('invoice_payed') ?></button>
                                                 </form>
                                             <?php } ?>
                                         </td>
@@ -87,10 +88,10 @@
                                 <tfoot>
                                 <tr>
                                     <th>#</th>
-                                    <th>Entrepôt</th>
-                                    <th>Statut</th>
-                                    <th>Reçue le</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('warehouse') ?></th>
+                                    <th><?= \Core\Language::get("status") ?></th>
+                                    <th><?= \Core\Language::get('received_at') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -99,11 +100,7 @@
                 </div>
             </div>
         </section>
-
     </div>
-
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
@@ -123,7 +120,7 @@
     $(function () {
         $("#invoices").DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+                url: '<?= \Core\Language::get("datatable_trad_link") ?>'
             }
         });
     });

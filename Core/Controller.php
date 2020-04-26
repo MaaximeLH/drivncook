@@ -33,7 +33,7 @@ abstract class Controller
             ) ||
             !isset($_COOKIE['language'])
         ) {
-            setcookie('language', Config::DEFAULT_LANGUAGE, time() + 3600 * 24 * 30); // One month
+            setcookie('language', Config::DEFAULT_LANGUAGE, strtotime( '+30 days'), '/', 'drivncook.store'); // 30 days
         }
     }
 
@@ -43,7 +43,7 @@ abstract class Controller
 
     protected function setLanguage($lang) {
         if(in_array($lang, Config::LANGUAGES)) {
-            setcookie('language', $lang, time() + 3600 * 24 * 30); // One month
+            setcookie('language', $lang, strtotime( '+30 days'), '/', 'drivncook.store'); // 30 days
         }
     }
 

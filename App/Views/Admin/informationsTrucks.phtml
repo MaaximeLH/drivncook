@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -27,8 +28,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item"><a href="/administration/trucks">Camions</a></li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><a href="/administration/trucks"><?= \Core\Language::get('trucks') ?></a></li>
                             <li class="breadcrumb-item active"><?= $truck->getMatriculation(); ?></li>
                         </ol>
                     </div>
@@ -42,7 +43,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Food Truck N°<?= $truck->getId(); ?></h3>
                     <div class="card-tools">
-                        <a href="/administration/trucks" class="btn btn-info btn-sm">Retour</a>
+                        <a href="/administration/trucks" class="btn btn-info btn-sm"><?= \Core\Language::get('back') ?></a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -52,7 +53,7 @@
                                 <div class="col-12 col-sm-3">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Immatriculation</span>
+                                            <span class="info-box-text text-center text-muted"><?= \Core\Language::get('immatriculation') ?></span>
                                             <span class="info-box-number text-center text-muted mb-0"><?= $truck->getMatriculation(); ?></span>
                                         </div>
                                     </div>
@@ -60,7 +61,7 @@
                                 <div class="col-12 col-sm-3">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Disponible depuis le</span>
+                                            <span class="info-box-text text-center text-muted"><?= \Core\Language::get('available_since') ?></span>
                                             <span class="info-box-number text-center text-muted mb-0"><?= $truck->getCreatedAt()->format('d/m/Y H:i:s'); ?></span>
                                         </div>
                                     </div>
@@ -68,7 +69,7 @@
                                 <div class="col-12 col-sm-3">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Assigné à</span>
+                                            <span class="info-box-text text-center text-muted"><?= \Core\Language::get('assign_to') ?></span>
                                             <span class="info-box-number text-center text-muted mb-0"><?= (isset($truck->user)) ? htmlspecialchars(trim($truck->user->getSocietyName())) : '/'; ?><span>
                                         </div>
                                     </div>
@@ -76,36 +77,34 @@
                                 <div class="col-12 col-sm-3">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
-                                            <span class="info-box-text text-center text-muted">Inactif</span>
-                                            <span class="info-box-number text-center text-muted mb-0"><?= (!$truck->getActive()) ? 'Oui' : 'Non'; ?><span>
+                                            <span class="info-box-text text-center text-muted"><?= \Core\Language::get('active') ?></span>
+                                            <span class="info-box-number text-center text-muted mb-0"><?= (!$truck->getActive()) ? \Core\Language::get('yes') : \Core\Language::get('no'); ?><span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12">
-
-
-                                    <h4 class="headline">Les dernières maintenances</h4>
+                                    <h4 class="headline"><?= \Core\Language::get('last_maintenances') ?></h4>
 
                                     <?php if(!is_null($activeMaintenance)) { ?>
                                         <div class="alert alert-info alert-dismissible">
                                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <h5><i class="icon fas fa-info"></i> Informations</h5>
-                                            Une maintenance est en cours sur ce camion.
+                                            <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('informations') ?></h5>
+                                            <?= \Core\Language::get('maintenance_in_process') ?>
                                         </div>
                                     <?php } else { ?>
-                                        <form method="POST" onclick="return window.confirm('Voulez-vous vraiment mettre en maintenance ce camion ?')" class="pb-3" action="/administration/trucks/<?= $truck->getId(); ?>/maintenance">
-                                            <button class="btn btn-warning"><i class="fa fa-cog"></i> Mettre le camion en maintenance</button>
+                                        <form method="POST" onclick="return window.confirm('<?= \Core\Language::get("put_truck_in_maintenance_confirm") ?>')" class="pb-3" action="/administration/trucks/<?= $truck->getId(); ?>/maintenance">
+                                            <button class="btn btn-warning"><i class="fa fa-cog"></i> <?= \Core\Language::get('put_truck_in_maintenance') ?></button>
                                         </form>
                                     <?php } ?>
 
                                     <table id="maintenances" class="table table-bordered table-striped">
                                         <thead>
                                         <tr>
-                                            <th>Date de mise en maintenance</th>
-                                            <th>Statut</th>
-                                            <th>Action</th>
+                                            <th><?= \Core\Language::get("maintenance_date") ?></th>
+                                            <th><?= \Core\Language::get("status") ?></th>
+                                            <th><?= \Core\Language::get('action') ?></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -114,24 +113,24 @@
                                                 <td><?= $maintenance->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
                                                 <td>
                                                     <?php if($maintenance->getStatus() == "waiting") { ?>
-                                                        <span class="badge badge-danger">En attente</span>
+                                                        <span class="badge badge-danger"><?= \Core\Language::get('waiting') ?></span>
                                                     <?php } else if($maintenance->getStatus() == "processing") { ?>
-                                                        <span class="badge badge-warning">En cours</span>
+                                                        <span class="badge badge-warning"><?= \Core\Language::get('processing') ?></span>
                                                     <?php } else { ?>
-                                                        <span class="badge badge-success">Terminé</span>
+                                                        <span class="badge badge-success"><?= \Core\Language::get('finished') ?></span>
                                                     <?php } ?>
                                                 </td>
                                                 <td>
-                                                    <a href="/administration/trucks/<?= $truck->getId(); ?>/maintenance/<?= $maintenance->getId(); ?>" class="btn btn-sm btn-info"><i class="fa fa-info-circle"></i> Détails</a>
+                                                    <a href="/administration/trucks/<?= $truck->getId(); ?>/maintenance/<?= $maintenance->getId(); ?>" class="btn btn-sm btn-info"><i class="fa fa-info-circle"></i> <?= \Core\Language::get('details') ?></a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
                                         </tbody>
                                         <tfoot>
                                         <tr>
-                                            <th>Date de mise en maintenance</th>
-                                            <th>Statut</th>
-                                            <th>Action</th>
+                                            <th><?= \Core\Language::get("maintenance_date") ?></th>
+                                            <th><?= \Core\Language::get("status") ?></th>
+                                            <th><?= \Core\Language::get('action') ?></th>
                                         </tr>
                                         </tfoot>
                                     </table>
@@ -163,7 +162,7 @@
     $(function () {
         $("#maintenances").DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+                url: '<?= \Core\Language::get("datatable_trad_link") ?>'
             }
         });
     });

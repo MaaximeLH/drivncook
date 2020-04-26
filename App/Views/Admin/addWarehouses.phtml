@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
@@ -26,8 +27,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item">Entrepôts</li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><?= \Core\Language::get('warehouses') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -40,24 +41,24 @@
                     <div class="col-md-12">
                         <div class="card card-warning">
                             <div class="card-header">
-                                <h3 class="card-title">Ajouter un entrepôt</h3>
+                                <h3 class="card-title"><?= \Core\Language::get('add_warehouse') ?></h3>
                             </div>
                             <form role="form" method="POST">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="nameInput">Nom de l'entrepôt</label>
-                                        <input type="text" value="<?= (isset($params['name'])) ? htmlspecialchars(trim($params['name'])) : ''; ?>" class="form-control <?= (isset($fields['name'])) ? 'is-invalid' : ''; ?>" id="nameInput" placeholder="Nom" name="name">
+                                        <label for="nameInput"><?= \Core\Language::get('name') ?></label>
+                                        <input type="text" value="<?= (isset($params['name'])) ? htmlspecialchars(trim($params['name'])) : ''; ?>" class="form-control <?= (isset($fields['name'])) ? 'is-invalid' : ''; ?>" id="nameInput" placeholder="<?= \Core\Language::get('name') ?>" name="name">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="locationInput">Localisation de l'entrepôt</label>
-                                        <input type="text" value="<?= (isset($params['location'])) ? htmlspecialchars(trim($params['location'])) : ''; ?>" class="form-control <?= (isset($fields['location'])) ? 'is-invalid' : ''; ?>" id="locationInput" placeholder="Localisation" name="location">
+                                        <label for="locationInput"><?= \Core\Language::get('warehouse_location') ?></label>
+                                        <input type="text" value="<?= (isset($params['location'])) ? htmlspecialchars(trim($params['location'])) : ''; ?>" class="form-control <?= (isset($fields['location'])) ? 'is-invalid' : ''; ?>" id="locationInput" placeholder="<?= \Core\Language::get('warehouse_location') ?>" name="location">
                                     </div>
                                 </div>
 
                                 <div class="card-footer">
                                     <?= \Core\CSRF::fields(); ?>
-                                    <button type="submit" class="btn btn-warning">Enregistrer</button>
+                                    <button type="submit" class="btn btn-warning"><?= \Core\Language::get('save') ?></button>
                                 </div>
                             </form>
                         </div>
@@ -66,9 +67,6 @@
             </div>
         </section>
     </div>
-
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>

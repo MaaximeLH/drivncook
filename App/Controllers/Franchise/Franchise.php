@@ -15,7 +15,7 @@ use Core\View;
  * class Home, cette classe est utilisée pour la page d'accueil et le login / logout / mon compte & paiements en ligne
  * @package App\Controllers\Franchise
  */
-class Home extends Controller
+class Franchise extends Controller
 {
     private $user;
 

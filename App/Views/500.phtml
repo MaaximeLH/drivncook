@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Driv'N'Cook - Erreur de serveur</title>
+    <title>Driv'N'Cook - <?= \Core\Language::get('an_error_occured'); ?></title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:700,900" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/dist/css/error.css" />
@@ -19,10 +19,10 @@
         <div class="notfound-404">
             <h1>500</h1>
         </div>
-        <h2>Une erreur est survenue</h2>
-        <p><?= $message ?? 'Une erreur interne est survenue. <br> Veuillez renouveler votre requête ultérieurement.' ?></p>
-        <a href="/">Accueil Driv'N'Cook</a>
-        <a href="#" onclick="history.back()">Retour</a>
+        <h2><?= \Core\Language::get('an_error_occured'); ?></h2>
+        <p><?= $message ?? \Core\Language::get('an_internal_error_occured_back_soon'); ?></p>
+        <a href="/"><?= \Core\Language::get('drivncook_home'); ?></a>
+        <a href="#" onclick="history.back()"><?= \Core\Language::get('back'); ?></a>
     </div>
 </div>
 </body>

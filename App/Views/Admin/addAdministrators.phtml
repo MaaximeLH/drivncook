@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
@@ -26,8 +27,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item">Administrateurs</li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><?= \Core\Language::get('administrators') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -40,41 +41,41 @@
                     <div class="col-md-12">
                         <div class="card card-warning">
                             <div class="card-header">
-                                <h3 class="card-title">Ajouter un administrateur</h3>
+                                <h3 class="card-title"><?= \Core\Language::get('add_administrator') ?></h3>
                             </div>
                             <form role="form" method="POST">
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="emailInput">Email</label>
-                                        <input type="email" value="<?= (isset($fields['email'])) ? htmlspecialchars(trim($fields['email'])) : ''; ?>" class="form-control <?= (isset($fields['email'])) ? 'is-invalid' : ''; ?>" id="emailInput" placeholder="Adresse e-mail" name="email">
+                                        <label for="emailInput"><?= \Core\Language::get('email') ?></label>
+                                        <input type="email" value="<?= (isset($fields['email'])) ? htmlspecialchars(trim($fields['email'])) : ''; ?>" class="form-control <?= (isset($fields['email'])) ? 'is-invalid' : ''; ?>" id="emailInput" placeholder="<?= \Core\Language::get("email") ?>" name="email">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="firstnameInput">Prénom</label>
-                                        <input type="text" value="<?= (isset($fields['firstname'])) ? htmlspecialchars(trim($fields['firstname'])) : ''; ?>" class="form-control <?= (isset($fields['firstname'])) ? 'is-invalid' : ''; ?>" id="firstnameInput" placeholder="Prénom" name="firstname">
+                                        <label for="firstnameInput"><?= \Core\Language::get('firstname') ?></label>
+                                        <input type="text" value="<?= (isset($fields['firstname'])) ? htmlspecialchars(trim($fields['firstname'])) : ''; ?>" class="form-control <?= (isset($fields['firstname'])) ? 'is-invalid' : ''; ?>" id="firstnameInput" placeholder="<?= \Core\Language::get('firstname') ?>" name="firstname">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="lastnameInput">Nom</label>
-                                        <input type="text" value="<?= (isset($fields['lastname'])) ? htmlspecialchars(trim($fields['lastname'])) : ''; ?>" class="form-control <?= (isset($fields['lastname'])) ? 'is-invalid' : ''; ?>" id="lastnameInput" placeholder="Nom" name="lastname">
+                                        <label for="lastnameInput"><?= \Core\Language::get('lastname') ?></label>
+                                        <input type="text" value="<?= (isset($fields['lastname'])) ? htmlspecialchars(trim($fields['lastname'])) : ''; ?>" class="form-control <?= (isset($fields['lastname'])) ? 'is-invalid' : ''; ?>" id="lastnameInput" placeholder="<?= \Core\Language::get('lastname') ?>" name="lastname">
                                     </div>
 
                                     <hr>
 
                                     <div class="form-group">
-                                        <label for="passwordInput">Mot de passe</label>
-                                        <input type="password" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordInput" name="password" placeholder="Mot de passe">
+                                        <label for="passwordInput"><?= \Core\Language::get('password') ?></label>
+                                        <input type="password" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordInput" name="password" placeholder="<?= \Core\Language::get('password') ?>">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="passwordConfirmInput">Confirmez le mot de passe</label>
-                                        <input type="password" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordConfirmInput" name="passwordConfirm" placeholder="Confirmez le mot de passe">
+                                        <label for="passwordConfirmInput"><?= \Core\Language::get('confirm_password') ?></label>
+                                        <input type="password" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordConfirmInput" name="passwordConfirm" placeholder="<?= \Core\Language::get('confirm_password') ?>">
                                     </div>
                                 </div>
 
                                 <div class="card-footer">
                                     <?= \Core\CSRF::fields(); ?>
-                                    <button type="submit" class="btn btn-warning">Enregistrer</button>
+                                    <button type="submit" class="btn btn-warning"><?= \Core\Language::get('save') ?></button>
                                 </div>
                             </form>
                         </div>
@@ -83,9 +84,6 @@
             </div>
         </section>
     </div>
-
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>

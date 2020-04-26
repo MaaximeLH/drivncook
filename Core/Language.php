@@ -16,7 +16,6 @@ class Language {
 
         $file = "../langs/" . $lang . ".php";
         try {
-
             $data = include $file;
             $data = $data ?? [];
         } catch (\Exception $e) {

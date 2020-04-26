@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Espace Franchisé</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('franchise_space') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -27,9 +28,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/panel">Accueil</a></li>
-                            <li class="breadcrumb-item"><a href="/panel/truck">Mon camion</a></li>
-                            <li class="breadcrumb-item active">Approvisionner</li>
+                            <li class="breadcrumb-item"><a href="/panel"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><a href="/panel/truck"><?= \Core\Language::get('my_truck') ?></a></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('supply') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -41,20 +42,20 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Approvisionner mon camion - Etape 1 - Les entrepôts disponibles Driv'n'Cook</h3>
+                            <h3 class="card-title"><?= \Core\Language::get('supply_my_truck_step1_available_warehouses') ?></h3>
                         </div>
                         <div class="card-body">
                             <div class="alert alert-info alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <h5><i class="icon fas fa-info"></i> Etape 1</h5>
-                                L'approvisionnement se fait en trois étapes, choisissez en premier temps l'entrepôt dans lequel vous souhaitez vous réapprovisionner.
+                                <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('step1') ?></h5>
+                                <?= \Core\Language::get('supply_do_in_3step_step1_label') ?>
                             </div>
                             <table id="warehouses" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Localisation</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('name') ?></th>
+                                    <th><?= \Core\Language::get('location') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -67,16 +68,16 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a class="btn btn-sm btn-info" href="/panel/truck/supply/warehouse/<?= $warehouse->getId(); ?>"><i class="fas fa-building"></i> Choisir cet entrepôt</a>
+                                            <a class="btn btn-sm btn-info" href="/panel/truck/supply/warehouse/<?= $warehouse->getId(); ?>"><i class="fas fa-building"></i> <?= \Core\Language::get('choose_this_warehouse') ?></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Nom</th>
-                                    <th>Localisation</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('name') ?></th>
+                                    <th><?= \Core\Language::get('location') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -95,8 +96,7 @@
         </div>
     </footer>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 </div>
 
 <script src="/plugins/jquery/jquery.min.js"></script>

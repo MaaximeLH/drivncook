@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Espace Franchisé</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('franchise_space') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <!-- Bootstrap4 Duallistbox -->
     <link rel="stylesheet" href="/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -28,9 +29,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/panel">Accueil</a></li>
-                            <li class="breadcrumb-item"><a href="/panel/truck">Mon camion</a></li>
-                            <li class="breadcrumb-item active">Approvisionner</li>
+                            <li class="breadcrumb-item"><a href="/panel"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><a href="/panel/truck"><?= \Core\Language::get('my_truck') ?></a></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('supply') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -42,10 +43,10 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3 class="card-title">Approvisionner mon camion - Etape 2 - Les produits disponibles dans l'entrepôt de <b><?= $warehouse->getName(); ?></b></h3>
+                        <h3 class="card-title"><?= \Core\Language::get('select_available_products_in_warehosue', [$warehouse->getName()]) ?></h3>
 
                         <div class="card-tools">
-                            <a href="/panel/truck/supply" class="btn btn-sm btn-info">Retour à la liste des entrepôts</a>
+                            <a href="/panel/truck/supply" class="btn btn-sm btn-info"><?= \Core\Language::get('back_to_warehouses') ?></a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -53,8 +54,8 @@
                             <div class="col-12">
                                 <div class="alert alert-info alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h5><i class="icon fas fa-info"></i> Etape 2</h5>
-                                    Selectionner les produits disponible dans notre entrepôt.
+                                    <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('step2') ?></h5>
+                                    <?= \Core\Language::get('select_available_products_in_warehosue') ?>
                                 </div>
 
                                 <form method="POST" action="/panel/truck/supply/warehouse/<?= $warehouse->getId(); ?>/step/3">
@@ -62,14 +63,14 @@
                                         <select class="duallistbox" name="products[]" multiple="multiple">
                                             <?php foreach ($products as $item): ?>
                                                 <?php if($item->total == 0) continue; ?>
-                                                <option value="<?= $item->getId(); ?>"><?= $item->getName(); ?> (<?= $item->total ?> restants)</option>
+                                                <option value="<?= $item->getId(); ?>"><?= $item->getName(); ?> (<?= $item->total ?> <?= \Core\Language::get('remains') ?>)</option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
                                         <?= \Core\CSRF::fields(); ?>
-                                        <button class="btn btn-block btn-warning">Etape suivante</button>
+                                        <button class="btn btn-block btn-warning"><?= \Core\Language::get('next_step') ?></button>
                                     </div>
                                 </form>
                             </div>
@@ -80,8 +81,7 @@
         </section>
     </div>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>

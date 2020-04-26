@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Administration</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -27,8 +28,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration">Accueil</a></li>
-                            <li class="breadcrumb-item active">Franchises</li>
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get("franchises") ?></li>
                         </ol>
                     </div>
                 </div>
@@ -40,19 +41,19 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Les franchisés Driv'n'Cook</h3>
+                            <h3 class="card-title"><?= \Core\Language::get("drivncook_franchises") ?></h3>
                         </div>
                         <div class="card-body">
                             <table id="franchises" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Société</th>
-                                    <th>Adresse</th>
-                                    <th>Gérant</th>
-                                    <th>Statut</th>
-                                    <th>Crée le</th>
-                                    <th>Action</th>
+                                    <th><?= \Core\Language::get('society_name') ?></th>
+                                    <th><?= \Core\Language::get('address') ?></th>
+                                    <th><?= \Core\Language::get('manager') ?></th>
+                                    <th><?= \Core\Language::get('status') ?></th>
+                                    <th><?= \Core\Language::get('created_at') ?></th>
+                                    <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -77,36 +78,36 @@
                                         </td>
                                         <td>
                                             <?php if($user->getIsActive()){ ?>
-                                                <span class="badge badge-success">Compte activé</span>
+                                                <span class="badge badge-success"><?= \Core\Language::get('account_active') ?></span>
                                             <?php } else { ?>
-                                                <span class="badge badge-danger">Compte bloqué</span>
+                                                <span class="badge badge-danger"><?= \Core\Language::get('account_blocked') ?></span>
                                             <?php } ?>
                                         </td>
                                         <td><?= $user->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
                                         <td>
-                                            <a class="btn btn-sm btn-info" href="/administration/franchises/<?= $user->getId(); ?>/edit"><i class="fas fa-pencil-alt"></i> Editer</a>
-                                            <form onclick="return block('<?= ($user->getIsActive()) ? 'Voulez-vous vraiment bloquer le compte de ce franchisé ?' : 'Débloquer le compte du franchisé ?'; ?>')" method="POST" style="display: inline" action="/administration/franchises/<?= $user->getId(); ?>/block">
+                                            <a class="btn btn-sm btn-info" href="/administration/franchises/<?= $user->getId(); ?>/edit"><i class="fas fa-pencil-alt"></i> <?= \Core\Language::get('edit') ?></a>
+                                            <form onclick="return block('<?= ($user->getIsActive()) ? \Core\Language::get("do_you_really_want_to_block_franchise_account") : \Core\Language::get("unblock_franchise_account"); ?>')" method="POST" style="display: inline" action="/administration/franchises/<?= $user->getId(); ?>/block">
                                                 <?= \Core\CSRF::fields(); ?>
-                                                <button class="btn btn-sm btn-warning"><i class="fa fa-ban"></i> <?= ($user->getIsActive()) ? 'Bloquer' : 'Débloquer'; ?></button>
+                                                <button class="btn btn-sm btn-warning"><i class="fa fa-ban"></i> <?= ($user->getIsActive()) ? \Core\Language::get("block") : \Core\Language::get("unblock"); ?></button>
                                             </form>
                                             <form onclick="return remove()" method="POST" style="display: inline" action="/administration/franchises/<?= $user->getId(); ?>/delete">
                                                 <?= \Core\CSRF::fields(); ?>
-                                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Supprimer</button>
+                                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> <?= \Core\Language::get("delete") ?></button>
                                             </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Société</th>
-                                    <th>Adresse</th>
-                                    <th>Gérant</th>
-                                    <th>Statut</th>
-                                    <th>Crée le</th>
-                                    <th>Action</th>
-                                </tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th><?= \Core\Language::get('society_name') ?></th>
+                                        <th><?= \Core\Language::get('address') ?></th>
+                                        <th><?= \Core\Language::get('manager') ?></th>
+                                        <th><?= \Core\Language::get('status') ?></th>
+                                        <th><?= \Core\Language::get('created_at') ?></th>
+                                        <th><?= \Core\Language::get('action') ?></th>
+                                    </tr>
                                 </tfoot>
                             </table>
                         </div>
@@ -123,9 +124,6 @@
             Projet annuel ESGI <b>2A2</b>
         </div>
     </footer>
-
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
 </div>
 
 <script src="/plugins/jquery/jquery.min.js"></script>
@@ -137,7 +135,7 @@
     $(function () {
         $("#franchises").DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+                url: '<?= \Core\Language::get("datatable_trad_link") ?>'
             }
         });
     });
@@ -147,7 +145,7 @@
     }
 
     function remove() {
-        return window.confirm("Voulez-vous vraiment supprimer ce franchisé ? Attention ! Cette action est irréversible !");
+        return window.confirm('<?= \Core\Language::get("do_you_really_want_delete_franchise"); ?>');
     }
 </script>
 </body>

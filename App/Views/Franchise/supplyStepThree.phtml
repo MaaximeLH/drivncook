@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Driv'n'Cook - Espace Franchisé</title>
+    <title>Driv'n'Cook - <?= \Core\Language::get('franchise_space') ?></title>
     <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="/dist/css/drivncook.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -27,9 +28,9 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/panel">Accueil</a></li>
-                            <li class="breadcrumb-item"><a href="/panel/truck">Mon camion</a></li>
-                            <li class="breadcrumb-item active">Approvisionner</li>
+                            <li class="breadcrumb-item"><a href="/panel"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><a href="/panel/truck"><?= \Core\Language::get('my_truck') ?></a></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('supply') ?></li>
                         </ol>
                     </div>
                 </div>
@@ -41,11 +42,11 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <h3 class="card-title">Etape 3 - Quantité de produit</h3>
+                        <h3 class="card-title"><?= \Core\Language::get('step3_quantity_products') ?></h3>
 
                         <div class="card-tools">
-                            <a href="/panel/truck/supply" class="btn btn-sm btn-info">Retour à la liste des entrepôt</a>
-                            <a href="/panel/truck/supply/warehouses/<?= $warehouse->getId(); ?>" class="btn btn-sm btn-info">Retour à la sélection des produits</a>
+                            <a href="/panel/truck/supply" class="btn btn-sm btn-info"><?= \Core\Language::get('back_to_warehouses') ?></a>
+                            <a href="/panel/truck/supply/warehouses/<?= $warehouse->getId(); ?>" class="btn btn-sm btn-info"><?= \Core\Language::get('back_to_products_selection') ?></a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -54,15 +55,14 @@
 
                                 <div class="alert alert-warning alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h5><i class="icon fas fa-info"></i> Attention</h5>
-                                    En soumettant le formulaire, vous génererez une facture. Vous serez dans l'obligation de la régler dans les délais inscrits sur la facture. <br>
-                                    Auxquels cas nous serons en mesure de bloquer vos accès.
+                                    <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('warning') ?></h5>
+                                    <?= \Core\Language::get('warning_supply_truck_not_payed') ?>
                                 </div>
 
                                 <div class="alert alert-info alert-dismissible">
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                    <h5><i class="icon fas fa-info"></i> Etape 3</h5>
-                                    Choisissez une quantité à approvisionner pour chaque produit
+                                    <h5><i class="icon fas fa-info"></i> <?= \Core\Language::get('step3') ?></h5>
+                                    <?= \Core\Language::get('choose_quentity_to_supply_each_products') ?>
                                 </div>
 
                                 <form method="POST" action="/panel/truck/supply/warehouse/<?= $warehouse->getId(); ?>/step/4">
@@ -70,11 +70,14 @@
                                         <table class="table table-bordered table-responsive-md table-striped text-center">
                                             <thead>
                                             <tr>
-                                                <th class="text-center">Nom du produit</th>
-                                                <th class="text-center">Prix unitaire (en €)</th>
-                                                <th class="text-center">TVA (en %)</th>
-                                                <th class="text-center">Quantité à approvisionner</th>
-                                                <th class="text-center">Supprimer</th>
+                                                <th class="text-center"><?= \Core\Language::get('product_name') ?></th>
+                                                <th class="text-center"><?= \Core\Language::get('price_unit') ?> <?= \Core\Language::get('in_euros') ?></th>
+                                                <th class="text-center">
+                                                    <?= \Core\Language::get('tva'); ?>
+                                                    <?= \Core\Language::get('in_percentage'); ?>
+                                                </th>
+                                                <th class="text-center"><?= \Core\Language::get('quantity_to_supply') ?></th>
+                                                <th class="text-center"><?= \Core\Language::get('delete') ?></th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -90,7 +93,7 @@
                                                         <?= number_format($product->getTva(), 2); ?>%
                                                     </td>
                                                     <td>
-                                                        <input type="number" step="1" max="<?= $product->max; ?>" required class="table_supply_input" placeholder="Quantité" name="quantity[]">
+                                                        <input type="number" step="1" max="<?= $product->max; ?>" required class="table_supply_input" placeholder="<?= \Core\Language::get('quantity') ?>" name="quantity[]">
                                                     </td>
                                                     <td>
                                                         <button type="button" onclick="remove(this); return false;" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
@@ -103,7 +106,7 @@
                                     </div>
                                     <div class="form-group">
                                         <?= \Core\CSRF::fields(); ?>
-                                        <button class="btn btn-block btn-warning">Approvisionner mon camion</button>
+                                        <button class="btn btn-block btn-warning"><?= \Core\Language::get('supply_my_truck') ?></button>
                                     </div>
                                 </form>
                             </div>
@@ -114,8 +117,7 @@
         </section>
     </div>
 
-    <aside class="control-sidebar control-sidebar-dark">
-    </aside>
+
 
     <footer class="main-footer">
         <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
@@ -132,7 +134,7 @@
 <script>
     function remove(object) {
         let tr = object.parentElement.parentElement;
-        if (window.confirm("Voulez-vous vraiment enlever ce produit ?")) {
+        if (window.confirm("<?= \Core\Language::get('you_really_want_delete_product') ?>")) {
             tr.remove();
         }
     }
