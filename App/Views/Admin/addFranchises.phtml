@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +10,7 @@
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/dist/css/adminlte.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -17,165 +18,125 @@
 </head>
 
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-    <?php require "assets/sidebar.phtml"; ?>
+        <?php require "assets/sidebar.phtml"; ?>
 
-    <div class="content-wrapper">
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
-                            <li class="breadcrumb-item"><?= \Core\Language::get('franchises') ?></li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-warning">
-                            <div class="card-header">
-                                <h3 class="card-title"><?= \Core\Language::get('add_franchise') ?></h3>
-                            </div>
-                            <form role="form" method="POST">
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <label for="emailInput"><?= \Core\Language::get('email') ?></label>
-                                        <input type="email" value="<?= (isset($params['email'])) ? htmlspecialchars(trim($params['email'])) : ''; ?>" class="form-control <?= (isset($fields['email'])) ? 'is-invalid' : ''; ?>" id="emailInput" placeholder="<?= \Core\Language::get('email') ?>" name="email">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="societyInput"><?= \Core\Language::get('society_name') ?></label>
-                                        <input type="text" value="<?= (isset($params['society'])) ? htmlspecialchars(trim($params['society'])) : ''; ?>" class="form-control <?= (isset($fields['society'])) ? 'is-invalid' : ''; ?>" id="societyInput" placeholder="<?= \Core\Language::get('society_name') ?>" name="society">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="siretInput"><?= \Core\Language::get('siret') ?></label>
-                                        <input type="text" value="<?= (isset($params['siret'])) ? htmlspecialchars(trim($params['siret'])) : ''; ?>" class="form-control <?= (isset($fields['siret'])) ? 'is-invalid' : ''; ?>" id="siretInput" placeholder="<?= \Core\Language::get('siret') ?>" name="siret">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="firstnameInput"><?= \Core\Language::get('firstname') ?></label>
-                                        <input type="text" value="<?= (isset($params['firstname'])) ? htmlspecialchars(trim($params['firstname'])) : ''; ?>" class="form-control <?= (isset($fields['firstname'])) ? 'is-invalid' : ''; ?>" id="firstnameInput" placeholder="<?= \Core\Language::get('firstname') ?>" name="firstname">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="lastnameInput"><?= \Core\Language::get('lastname') ?></label>
-                                        <input type="text" value="<?= (isset($params['lastname'])) ? htmlspecialchars(trim($params['lastname'])) : ''; ?>" class="form-control <?= (isset($fields['lastname'])) ? 'is-invalid' : ''; ?>" id="lastnameInput" placeholder="<?= \Core\Language::get('lastname') ?>" name="lastname">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="phoneNumberInput"><?= \Core\Language::get('phone_number') ?></label>
-                                        <input type="text" value="<?= (isset($params['phone_number'])) ? htmlspecialchars(trim($params['phone_number'])) : ''; ?>" class="form-control <?= (isset($fields['phone_number'])) ? 'is-invalid' : ''; ?>" id="phoneNumberInput" placeholder="<?= \Core\Language::get('phone_number') ?>" name="phone_number">
-                                    </div>
-
-                                    <hr>
-
-                                    <div class="form-group">
-                                        <label for="addressLineInput"><?= \Core\Language::get('address') ?></label>
-                                        <input type="text" value="<?= (isset($params['address_line'])) ? htmlspecialchars(trim($params['address_line'])) : ''; ?>" class="form-control <?= (isset($fields['address_line'])) ? 'is-invalid' : ''; ?>" id="addressLineInput" placeholder="<?= \Core\Language::get('address') ?>" name="address_line">
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="cityInput"><?= \Core\Language::get('city') ?></label>
-                                                <input type="text" value="<?= (isset($params['city'])) ? htmlspecialchars(trim($params['city'])) : ''; ?>" class="form-control <?= (isset($fields['city'])) ? 'is-invalid' : ''; ?>" id="cityInput" placeholder="<?= \Core\Language::get('city') ?>" name="city">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="postalCodeInput"><?= \Core\Language::get('postal_code') ?></label>
-                                                <input type="text" value="<?= (isset($params['postal_code'])) ? htmlspecialchars(trim($params['postal_code'])) : ''; ?>" class="form-control <?= (isset($fields['postal_code'])) ? 'is-invalid' : ''; ?>" id="postalCodeInput" placeholder="<?= \Core\Language::get('postal_code') ?>" name="postal_code">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="stateInput"><?= \Core\Language::get('state') ?></label>
-                                                <input type="text" value="<?= (isset($params['state'])) ? htmlspecialchars(trim($params['state'])) : ''; ?>" class="form-control <?= (isset($fields['state'])) ? 'is-invalid' : ''; ?>" id="stateInput" placeholder="<?= \Core\Language::get('state') ?>" name="state">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="countryInput"><?= \Core\Language::get('country') ?></label>
-                                                <input type="text" value="<?= (isset($params['country'])) ? htmlspecialchars(trim($params['country'])) : ''; ?>" class="form-control <?= (isset($fields['country'])) ? 'is-invalid' : ''; ?>" id="countryInput" placeholder="<?= \Core\Language::get('country') ?>" name="country">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <hr>
-                                    <div class="form-group">
-                                        <label for="assignToInput"><?= \Core\Language::get('assign_to_truck') ?></label>
-                                        <select id="assignToInput" class="form-control select2 <?= (isset($fields['assign'])) ? 'is-invalid' : ''; ?>" name="assign" style="width: 100%;">
-                                            <option selected="selected" value="0">--- <?= \Core\Language::get('select_truck') ?> ---</option>
-                                            <?php foreach ($trucks as $truck): ?>
-                                                <option <?= (isset($params['assign']) && $params['assign'] == $truck->getId()) ? 'selected' : ''; ?> value="<?= $truck->getId(); ?>"><?= $truck->getMatriculation(); ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-
-                                    <hr>
-
-                                    <div class="form-group">
-                                        <label for="passwordInput"><?= \Core\Language::get('password') ?></label>
-                                        <input type="password" autocomplete="autocomplete" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordInput" name="password" placeholder="<?= \Core\Language::get('password') ?>">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="passwordConfirmInput"><?= \Core\Language::get('confirm_password') ?></label>
-                                        <input type="password" autocomplete="autocomplete" class="form-control <?= (isset($fields['password'])) ? 'is-invalid' : ''; ?>" id="passwordConfirmInput" name="passwordConfirm" placeholder="<?= \Core\Language::get('confirm_password') ?>">
-                                    </div>
-                                </div>
-
-                                <div class="card-footer">
-                                    <?= \Core\CSRF::fields(); ?>
-                                    <button type="submit" class="btn btn-warning"><?= \Core\Language::get('save') ?></button>
-                                </div>
-                            </form>
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                                <li class="breadcrumb-item"><?= \Core\Language::get('franchises') ?></li>
+                            </ol>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- Listes des fichiers -->
+                            <?php
+                            if ($handle = opendir('./dist/qrcode')) {
+                                echo '<ul id="list-images">';
+
+                                while (false !== ($entry = readdir($handle))) {
+                                    if ($entry != "." && $entry != ".." && substr($entry, -3) == 'png') {
+                                        echo "<li>$entry</li>";
+                                    }
+                                }
+
+                                closedir($handle);
+                                echo '</ul>';
+                            } ?>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- Action -->
+                            <div class="d-flex flex-column px-5">
+                                <button type="button" id="check-button" class="btn btn-primary mb-4">Check</button>
+                                <button type="button" id="insert-button" class="btn btn-danger mb-4">Insert</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- output -->
+                            <img src="" alt="" class="img-fluid" id="output-image">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <pre id="qrcode-pre"></pre>
+                            <pre id="text-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                Projet annuel ESGI <b>2A2</b>
+            </div>
+        </footer>
     </div>
 
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/plugins/select2/js/select2.full.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
 
+    <script>
+        let filename = '';
+        const checkButton = document.querySelector('#check-button');
+        const insertButton = document.querySelector('#insert-button');
 
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
-        All rights reserved.
-        <div class="float-right d-none d-sm-inline-block">
-            Projet annuel ESGI <b>2A2</b>
-        </div>
-    </footer>
-</div>
+        checkButton.addEventListener('click', function() {
+            $.ajax({
+                type: 'POST',
+                url: '/administration/franchises/shellCheck',
+                data: {
+                    filename: filename
+                },
+                success: output => {
+                    const pre = document.querySelector('#qrcode-pre');
+                    pre.innerText = output;
+                }
+            });
+        });
 
-<script src="/plugins/jquery/jquery.min.js"></script>
-<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/plugins/select2/js/select2.full.min.js"></script>
-<script src="/dist/js/adminlte.min.js"></script>
-<script>
-    $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2({
-            theme: 'bootstrap4'
-        })
+        insertButton.addEventListener('click', function() {
+            $.ajax({
+                type: 'POST',
+                url: '/administration/franchises/shellInsert',
+                data: {
+                    filename: filename
+                },
+                success: output => {
+                    const pre = document.querySelector('#text-output');
+                    pre.innerText = output;
+                }
+            });
+        });
 
-    })
-</script>
+        function loadImage(e) {
+            filename = e.target.innerText;
+            const img = document.querySelector('#output-image');
+            img.setAttribute('src', '/dist/qrcode/' + filename);
+        }
+
+        const listItems = document.querySelectorAll('#list-images > li');
+        listItems.forEach(item => {
+            item.addEventListener('click', loadImage);
+        });
+    </script>
 </body>
+
 </html>

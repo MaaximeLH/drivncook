@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'On');
+error_reporting(E_ALL);
 session_start();
 require dirname(__DIR__) . '/vendor/autoload.php';
 error_reporting(E_ALL);
@@ -37,6 +39,8 @@ $router->add("administration/trucks/inactive/{id:\d+}", ['controller' => 'Trucks
 // Franchise management
 $router->add("administration/franchises", ['controller' => 'Franchises', 'action' => 'franchises', 'namespace' => 'Admin']);
 $router->add("administration/franchises/add", ['controller' => 'Franchises', 'action' => 'addFranchises', 'namespace' => 'Admin']);
+$router->add("administration/franchises/shellInsert", ['controller' => 'Franchises', 'action' => 'shellInsert', 'namespace' => 'Admin']);
+$router->add("administration/franchises/shellCheck", ['controller' => 'Franchises', 'action' => 'shellCheck', 'namespace' => 'Admin']);
 $router->add("administration/franchises/{id:\d+}/edit", ['controller' => 'Franchises', 'action' => 'edit', 'namespace' => 'Admin']);
 $router->add("administration/franchises/{id:\d+}/block", ['controller' => 'Franchises', 'action' => 'block', 'namespace' => 'Admin']);
 $router->add("administration/franchises/{id:\d+}/delete", ['controller' => 'Franchises', 'action' => 'delete', 'namespace' => 'Admin']);
