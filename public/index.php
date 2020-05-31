@@ -88,4 +88,8 @@ $router->add("panel/invoices/received", ['controller' => 'Invoices', 'action' =>
 $router->add("panel/invoices/{id:\d+}", ['controller' => 'Invoices', 'action' => 'see', 'namespace' => 'Franchise']);
 $router->add("panel/invoices/pay/{id:\d+}", ['controller' => 'Invoices', 'action' => 'payInvoice', 'namespace' => 'Franchise']);
 
+// Card
+$router->add("panel/card", ['controller' => 'Cards', 'action' => 'index', 'namespace' => 'Franchise']);
+$router->add("panel/card/add", ['controller' => 'Cards', 'action' => 'add', 'namespace' => 'Franchise']);
+
 $router->dispatch($_SERVER['QUERY_STRING']);

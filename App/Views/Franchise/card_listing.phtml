@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        <?php require "assets/sidebar.phtml"; ?>
+
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                                <li class="breadcrumb-item"><?= \Core\Language::get('franchises') ?></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="content">
+                <div class="container-fluid">
+                    <button type="button" data-toggle="modal" data-target="#addMenuModal" class="btn btn-primary"><?= \Core\Language::get('add_menu') ?></button>
+                    <?php foreach ($cards as $card) : ?>
+                        <p><?= $card->getName() ?></p>
+                    <?php endforeach ?>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="addMenuModal" tabindex="-1" role="dialog" aria-labelledby="addMenu" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"><?= \Core\Language::get('add_menu') ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="response"></div>
+                    <form id="form-modal">
+                        <div class="form-group">
+                            <label for="status"><?= \Core\Language::get("name") ?></label>
+                            <input type="text" name="name" id="name" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <?= \Core\CSRF::fields(); ?>
+                            <button class="btn btn-block btn-warning" id="submit-modal"><?= \Core\Language::get('validate') ?></button>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/dist/js/demo.js"></script>
+    <script>
+        const formModal = document.getElementById('form-modal');
+        formModal.addEventListener('submit', e => {
+            e.preventDefault();
+            inputCsrf = document.querySelector('input[name="csrf_token"]');
+            inputName = document.querySelector('#name');
+            $.ajax({
+                type: 'POST',
+                url: '/panel/card/add',
+                data: {
+                    csrf: inputCsrf.value,
+                    name: inputName.value
+                },
+                error: response => {
+                    document.querySelector('#response').innerHTML = response;
+                    setTimeout(() => location.reload(), 1000);
+
+                },
+                success: response => {
+                    document.querySelector('#response').innerHTML = response;
+                    setTimeout(() => location.reload(), 1000);
+                }
+            });
+        })
+    </script>
+</body>
