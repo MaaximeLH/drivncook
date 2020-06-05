@@ -307,4 +307,5 @@ return [
     'do_you_really_want_delete_franchise' => 'Voulez-vous vraiment supprimer ce franchisé ? Attention ! Cette action est irréversible !',
     'do_you_really_want_to_block_franchise_account' => "Voulez-vous vraiment bloquer le compte de ce franchisé ?",
     'unblock_franchise_account' => "Débloquer le compte du franchisé ?",
+    'add_menu' => 'Ajouter un menu'
 ];

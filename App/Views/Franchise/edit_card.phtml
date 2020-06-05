@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
+    <link rel="stylesheet" href="/dist/css/drivncook.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        <?php require "assets/sidebar.phtml"; ?>
+
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                                <li class="breadcrumb-item"><?= \Core\Language::get('franchises') ?></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Edition du menu <?= $card->getName() ?></h3>
+                            </div>
+                            <div class="card-body">
+                                <form method="post">
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" value="<?= $card->getName() ?>">
+                                    </div>
+                                    <button type="button" data-toggle="modal" data-target="#addMenuCategoryModal" class="btn btn-primary mb-4">Ajouter une catégorie</button>
+
+                                    <div id="category-container" class="row justify-content-between">
+                                        <?php foreach ($cardCategories as $category) : ?>
+                                            <div class="col-md-5 mb-5" id="<?= $category->getName() ?>">
+                                                <input type="hidden" name="cardCategoriesId[]" value="<?= $category->getId() ?>">
+                                                <div class="form-group form-row">
+                                                    <a class="btn btn-danger btn-sm button-block btn-delete-category col-2" href="<?= '/panel/card/deletecategory/' . $category->getId() ?>"><i class="fa fa-trash"></i></a>
+                                                    <div class="col-10">
+                                                        <input type="text" name="cardCategories[]" class="form-control" value="<?= $category->getName() ?>">
+                                                    </div>
+                                                </div>
+
+                                                <button type="button" data-category="<?= $category->getName(); ?>" class="btn btn-success add-menu-btn mb-3">Ajouter un item</button>
+                                                <?php if (!empty($cardItems)) : ?>
+                                                    <?php foreach ($cardItems as $item) : ?>
+                                                        <?php if ($item['card_category_name'] === $category->getName()) : ?>
+                                                            <div class="form-row form-group">
+                                                                <a href="<?= '/panel/card/deleteItem/' . $item['card_item_id'] ?>" class="btn btn-danger btn-sm button-block btn-delete-item col-2"><i class="fa fa-trash"></i></a>
+                                                                <div class="col-7">
+                                                                    <input type="hidden" name="<?= $category->getName() . 'Id[]' ?>" value="<?= $item['card_item_id'] ?>">
+                                                                    <input type="text" name="<?= $category->getName() . '[]' ?>" class="form-control" value="<?= $item['card_item_name'] ?>">
+                                                                </div>
+                                                                <div class="col-3">
+                                                                    <input type="number" name="<?= $category->getName() . 'Price[]' ?>" class="form-control" value="<?= $item['card_item_price'] ?>">
+                                                                </div>
+                                                            </div>
+                                                        <?php endif ?>
+                                                    <?php endforeach ?>
+                                                <?php endif ?>
+                                            </div>
+                                        <?php endforeach ?>
+                                    </div>
+                                    <p class="text-center"><button type="submit" class="btn btn-success">Envoyer</button></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addMenuCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategory" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ajouter une catégorie</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="response"></div>
+                    <form id="form-modal-category">
+                        <?= \Core\CSRF::fields(); ?>
+                        <div class="form-group">
+                            <label for="status"><?= \Core\Language::get("name") ?></label>
+                            <input type="text" id="modalName" required class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-block btn-warning" id="submit-modal"><?= \Core\Language::get('validate') ?></button>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/dist/js/demo.js"></script>
+    <script>
+        const formModalCategory = document.getElementById('form-modal-category');
+        const addMenuItems = [];
+        const addItem = e => {
+            e.preventDefault();
+            const parentCategory = e.srcElement.attributes["data-category"].value;
+            const divCategory = document.getElementById(parentCategory);
+            const row = document.createElement('div');
+            row.setAttribute('class', 'form-row mb-3');
+
+            const buttonDelete = document.createElement('button');
+            buttonDelete.setAttribute('class', 'btn btn-danger btn-sm button-block col-2');
+            const fontAwesomeIcon = document.createElement('i');
+            fontAwesomeIcon.setAttribute('class', 'fa fa-trash');
+            buttonDelete.appendChild(fontAwesomeIcon);
+            buttonDelete.addEventListener('click', () => {
+                row.remove();
+            });
+
+            const inputContainer = document.createElement('div');
+            inputContainer.setAttribute('class', 'col-7');
+            const input = document.createElement('input');
+            input.setAttribute('class', 'form-control');
+            input.setAttribute('type', 'text');
+            input.setAttribute('name', parentCategory + '[]');
+            inputContainer.appendChild(input);
+
+            const inputId = document.createElement('input');
+            inputId.setAttribute('type', 'hidden');
+            inputId.setAttribute('name', parentCategory + 'Id[]');
+            inputContainer.appendChild(inputId);
+
+            const inputPriceContainer = document.createElement('div');
+            inputPriceContainer.setAttribute('class', 'col-3');
+            const inputPrice = document.createElement('input');
+            inputPrice.setAttribute('class', 'form-control');
+            inputPrice.setAttribute('type', 'number');
+            inputPrice.setAttribute('name', parentCategory + 'Price[]');
+            inputPriceContainer.appendChild(inputPrice);
+
+            row.appendChild(buttonDelete);
+            row.appendChild(inputContainer);
+            row.appendChild(inputPriceContainer);
+            divCategory.appendChild(row);
+        }
+
+        formModalCategory.addEventListener('submit', e => {
+            e.preventDefault();
+            inputName = document.querySelector('#modalName');
+            const tableContainer = document.getElementById('category-container');
+            const div = document.createElement('div');
+            div.setAttribute('id', inputName.value);
+            div.setAttribute('class', 'col-md-5 mb-5');
+
+            const btn = document.createElement('button');
+            btn.setAttribute('class', 'btn addMenuItem btn-success mb-3');
+            btn.setAttribute('type', 'button');
+            btn.setAttribute('data-category', inputName.value);
+            btn.innerText = 'Ajouter un item';
+
+            btn.addEventListener('click', addItem);
+
+            const buttonDelete = document.createElement('button');
+            buttonDelete.setAttribute('class', 'btn btn-danger btn-sm button-block col-2');
+            const fontAwesomeIcon = document.createElement('i');
+            fontAwesomeIcon.setAttribute('class', 'fa fa-trash');
+            buttonDelete.appendChild(fontAwesomeIcon);
+            buttonDelete.addEventListener('click', () => {
+                row.remove();
+            });
+
+            const input = document.createElement('input');
+            input.setAttribute('class', 'form-control');
+            input.setAttribute('type', 'text');
+            input.setAttribute('name', 'cardCategories[]');
+            input.value = inputName.value;
+            const inputContainer = document.createElement('div');
+            inputContainer.setAttribute('class', 'col-10');
+            inputContainer.appendChild(input);
+
+            const formRow = document.createElement('div');
+            formRow.setAttribute('class', 'form-row form-group');
+            formRow.appendChild(buttonDelete);
+            formRow.appendChild(inputContainer);
+
+            const inputId = document.createElement('input');
+            inputId.setAttribute('type', 'hidden');
+            inputId.setAttribute('name', 'cardCategoriesId[]');
+
+            div.appendChild(inputId);
+            div.appendChild(formRow);
+            div.appendChild(btn);
+
+
+            tableContainer.appendChild(div);
+            $('#addMenuCategoryModal').modal('hide');
+        });
+
+        const addMenuBtn = document.querySelectorAll('.add-menu-btn');
+        if (addMenuBtn !== undefined) {
+            addMenuBtn.forEach(btn => {
+                btn.addEventListener('click', addItem);
+            });
+        }
+    </script>
+</body>
