@@ -6,9 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Card
+ ***
+ * @ORM\Entity(repositoryClass="App\Repository\CardRepository")
  *
  * @ORM\Table(name="card", indexes={@ORM\Index(name="IDX_161498D3A76ED395", columns={"user_id"})})
- * @ORM\Entity
  */
 class Card
 {
@@ -84,6 +85,30 @@ class Card
     public function setUser(Users $user)
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     *
+     * @return  int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @param  int  $id
+     *
+     * @return  self
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
 
         return $this;
     }

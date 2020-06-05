@@ -73,28 +73,13 @@
                     </a>
                 </li>
 
-                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['franchises'])) ? 'menu-open' : ''; ?>">
-                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['franchises'])) ? 'active' : ''; ?>">
+                <li class="nav-item">
+                    <a href="/panel/card" class="nav-link <?= (isset($page) && in_array($page, ['card/edit', 'card'])) ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-hamburger"></i>
                         <p>
                             <?= \Core\Language::get('menus') ?>
-                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/panel/card" class="nav-link <?= (isset($page) && $page == "franchises") ? 'active' : ''; ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p><?= \Core\Language::get('my_menus') ?></p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/panel/card/add" class="nav-link <?= (isset($page) && $page == "franchises") ? 'active' : ''; ?>">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p><?= \Core\Language::get('add_menu') ?></p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
 
                 <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['franchises'])) ? 'menu-open' : ''; ?>">

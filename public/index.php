@@ -91,5 +91,10 @@ $router->add("panel/invoices/pay/{id:\d+}", ['controller' => 'Invoices', 'action
 // Card
 $router->add("panel/card", ['controller' => 'Cards', 'action' => 'index', 'namespace' => 'Franchise']);
 $router->add("panel/card/add", ['controller' => 'Cards', 'action' => 'add', 'namespace' => 'Franchise']);
+$router->add("panel/card/edit/{id:\d+}", ['controller' => 'Cards', 'action' => 'edit', 'namespace' => 'Franchise']);
+$router->add("panel/card/delete/{id:\d+}", ['controller' => 'Cards', 'action' => 'delete', 'namespace' => 'Franchise']);
+$router->add("panel/card/deletecategory/{id:\d+}", ['controller' => 'Cards', 'action' => 'deleteCategory', 'namespace' => 'Franchise']);
+$router->add("panel/card/deleteitem/{id:\d+}", ['controller' => 'Cards', 'action' => 'deleteItem', 'namespace' => 'Franchise']);
+
 
 $router->dispatch($_SERVER['QUERY_STRING']);

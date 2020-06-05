@@ -1,6 +1,7 @@
 <?php
 
 
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,5 +47,99 @@ class CardCategory
      */
     private $card;
 
+    /**
+     * Get the value of id
+     *
+     * @return  int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * Set the value of id
+     *
+     * @param  int  $id
+     *
+     * @return  self
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of name
+     *
+     * @return  string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set the value of name
+     *
+     * @param  string|null  $name
+     *
+     * @return  self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of createdAt
+     *
+     * @return  \DateTime|null
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set the value of createdAt
+     *
+     * @param  \DateTime|null  $createdAt
+     *
+     * @return  self
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of card
+     *
+     * @return  \Card
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    /**
+     * Set the value of card
+     *
+     * @param  \Card  $card
+     *
+     * @return  self
+     */
+    public function setCard(Card $card)
+    {
+        $this->card = $card;
+
+        return $this;
+    }
 }

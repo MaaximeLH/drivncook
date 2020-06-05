@@ -1,8 +1,12 @@
 .table_supply_input {
-    background:transparent;
-    border: none;width: 100%;
-    height: 100%;
-    text-align: center;
-    text-align-last: center;
+  background: transparent;
+  border: none;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  text-align-last: center;
 }
 
+.btn {
+  padding-top: 0.5rem;
+}

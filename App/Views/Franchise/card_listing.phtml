@@ -40,11 +40,37 @@
             </div>
 
             <section class="content">
-                <div class="container-fluid">
-                    <button type="button" data-toggle="modal" data-target="#addMenuModal" class="btn btn-primary"><?= \Core\Language::get('add_menu') ?></button>
-                    <?php foreach ($cards as $card) : ?>
-                        <p><?= $card->getName() ?></p>
-                    <?php endforeach ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Listes des Menus</h3>
+                            </div>
+                            <div class="card-body">
+                                <button type="button" data-toggle="modal" data-target="#addMenuModal" class="btn btn-primary mb-4"><?= \Core\Language::get('add_menu') ?></button>
+                                <table id="cards" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th><?= \Core\Language::get('name') ?></th>
+                                            <th>Action</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($cards as $card) : ?>
+                                            <tr>
+                                                <td><?= $card->getId() ?></td>
+                                                <td><?= $card->getName() ?></td>
+                                                <td>
+                                                    <a class="btn btn-sm btn-info mr-4" href="<?= '/panel/card/edit/' . $card->getId() ?>">Editer</a>
+                                                    <button class="btn btn-sm btn-danger btn-delete" data-target="<?= '/panel/card/delete/' . $card->getId() ?>">Supprimer</button>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -89,6 +115,16 @@
     <script src="/dist/js/adminlte.min.js"></script>
     <script src="/dist/js/demo.js"></script>
     <script>
+        const btnDeletes = document.querySelectorAll('.btn-delete');
+        btnDeletes.forEach(btnDelete => {
+            btnDelete.addEventListener('click', e => {
+                fetch(e.srcElement.attributes['data-target'].value, {
+                    method: 'DELETE',
+                }).then(() => document.location.reload(true));
+            });
+        });
+
+
         const formModal = document.getElementById('form-modal');
         formModal.addEventListener('submit', e => {
             e.preventDefault();
