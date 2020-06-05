@@ -157,25 +157,26 @@ class Cards extends Controller
                 $category->setCard($card);
                 $this->em->persist($category);
                 $this->em->flush();
-
-                for ($j = 0; $j < count($params[$cardCategoriesName]); $j += 1) {
-                    $cardItem = $this->cardItemRepository->find(
-                        !empty($params[$cardCategoriesName . 'Id'][$j]) ?
-                            $params[$cardCategoriesName . 'Id'][$j] :
-                            0
-                    );
-                    if ($cardItem === null) {
-                        $cardItem = new CardItem();
+                if (isset($params[$cardCategoriesName])) {
+                    for ($j = 0; $j < count($params[$cardCategoriesName]); $j += 1) {
+                        $cardItem = $this->cardItemRepository->find(
+                            !empty($params[$cardCategoriesName . 'Id'][$j]) ?
+                                $params[$cardCategoriesName . 'Id'][$j] :
+                                0
+                        );
+                        if ($cardItem === null) {
+                            $cardItem = new CardItem();
+                        }
+                        $cardItem->setName(trim($params[$cardCategoriesName][$j]));
+                        $cardItem->setPrice(
+                            !empty($params[$cardCategoriesName . 'Price'][$j]) ?
+                                trim($params[$cardCategoriesName . 'Price'][$j]) :
+                                NULL
+                        );
+                        $cardItem->setCategory($category);
+                        $this->em->persist($cardItem);
+                        $this->em->flush();
                     }
-                    $cardItem->setName(trim($params[$cardCategoriesName][$j]));
-                    $cardItem->setPrice(
-                        !empty($params[$cardCategoriesName . 'Price'][$j]) ?
-                            trim($params[$cardCategoriesName . 'Price'][$j]) :
-                            NULL
-                    );
-                    $cardItem->setCategory($category);
-                    $this->em->persist($cardItem);
-                    $this->em->flush();
                 }
             }
         }
