@@ -1,0 +1,72 @@
+<div class="card">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">
+                    Géneral
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="CMS-tab" data-toggle="tab" href="#CMS" role="tab" aria-controls="CMS" aria-selected="true">CMS</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="trucks-tab" data-toggle="tab" href="#trucks" role="tab" aria-controls="trucks" aria-selected="true">Trucks</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body tab-content">
+        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+            <form id="form-general">
+                <div class="form-group">
+                    <?= \Core\CSRF::fields(); ?>
+                    <label for="status"><?= \Core\Language::get("name") ?></label>
+                    <input type="text" name="name" id="name" class="form-control">
+                </div>
+                <label for="status"><?= \Core\Language::get("start_at") ?></label>
+                <div class="form-row form-group">
+                    <div class="col-8">
+                        <input type="date" name="date_start" id="date_start" class="form-control">
+                    </div>
+                    <div class="col-4">
+                        <input type="time" name="time_start" id="time_start" class="form-control">
+                    </div>
+                </div>
+                <label for="status"><?= \Core\Language::get("begin_register_at") ?></label>
+                <div class="form-row form-group">
+                    <div class="col-8">
+                        <input type="date" name="date_begin_register_at" id="date_begin_register_at" class="form-control">
+                    </div>
+                    <div class="col-4">
+                        <input type="time" name="time_begin_register_at" id="time_begin_register_at" class="form-control">
+                    </div>
+                </div>
+                <label for="status"><?= \Core\Language::get("end_at") ?></label>
+
+                <div class="form-row form-group">
+                    <div class="col-8">
+                        <input type="date" name="date_end" id="date_end" class="form-control">
+                    </div>
+                    <div class="col-4">
+                        <input type="time" name="time_end" id="time_end" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description" cols="30" rows="4" class="form-control"></textarea>
+                </div>
+                <button type="submit" class="btn btn-block btn-warning"><?= \Core\Language::get('validate') ?></button>
+            </form>
+        </div>
+        <div class="tab-pane fade" id="CMS" role="tabpanel" aria-labelledby="CMS-tab">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae delectus quia voluptatem
+            inventore, quod quas labore non odit ipsam sapiente magnam velit eveniet fugit quos impedit.
+
+            Culpa blanditiis vitae consequatur?
+        </div>
+        <div class="tab-pane fade" id="trucks" role="tabpanel" aria-labelledby="trucks-tab">
+            <table class="table">
+                <!-- Listes des trucks -->
+            </table>
+        </div>
+    </div>
+</div>

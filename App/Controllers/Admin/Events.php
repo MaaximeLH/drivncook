@@ -76,4 +76,34 @@ class Events extends Controller
         echo '<div class="alert alert-success" role="alert">l\'event a bien été crée</div>';
         return;
     }
+
+    public function editAction()
+    {
+        $event = $this->eventRepository->find($this->getRouteParameter('id'));
+        if (Request::isPost()) {
+            CSRF::validate();
+            $params = Request::getAllParams();
+            /**
+             * TODO
+             * set date
+             */
+            $event->setName($params['name']);
+            $event->setDescription($params['description']);
+        }
+        CSRF::generate();
+
+        $data['event'] = $event;
+        $data['admin'] = $this->admin;
+        $this->load_view('Admin/edit_event', $data);
+    }
+
+    public function deleteAction()
+    {
+        if (is_null($event = $this->eventRepository->find($this->getRouteParameter('id')))) {
+            return $this->redirectTo("/administration/event");
+        }
+        $this->em->remove($event);
+        $this->em->flush();
+        return $this->redirectTo("/administration/event");
+    }
 }
