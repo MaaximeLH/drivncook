@@ -6,6 +6,7 @@ use App\Config;
 
 abstract class Controller
 {
+    protected string $layout;
     protected array $route_parameters = [];
 
     public function __construct($routes)
@@ -84,5 +85,20 @@ abstract class Controller
         header('Content-Type: application/octet-stream');
         header('Content-Transfer-Encoding: Binary');
         header('Content-Disposition: attachement; filename="' . basename($absoluteFilePath) . '"');
+    }
+
+    protected function load_view(string $viewPath, array $data, string $extension = 'phtml'): void
+    {
+        extract($data, EXTR_SKIP);
+        ob_start();
+        require(VIEWPATH . $viewPath . '.' . $extension);
+        $yield = ob_get_clean();
+        require VIEWPATH . $this->layout;
+    }
+
+    protected function show_404()
+    {
+        require VIEWPATH . '404.phtml';
+        exit(4); // EXIT_UNKNOWN_FILE
     }
 }

@@ -7,22 +7,22 @@
             <a href="/administration" class="nav-link <?= (isset($page) && $page == "index") ? 'active' : ''; ?>"><?= \Core\Language::get('home'); ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/administration/administrators/<?= $user->getId(); ?>/edit" class="nav-link"><?= \Core\Language::get('my_account'); ?></a>
+            <a href="/administration/administrators/<?= $admin->getId(); ?>/edit" class="nav-link"><?= \Core\Language::get('my_account'); ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/administration/logout" class="nav-link"><?= \Core\Language::get('logout'); ?></a>
         </li>
         <li class="nav-item dropdown">
-            <?php if(!empty($_COOKIE['language']) && $_COOKIE['language'] == "fr_FR") { ?>
+            <?php if (!empty($_COOKIE['language']) && $_COOKIE['language'] == "fr_FR") { ?>
                 <a href="#" class="nav-link dropdown-toggle" id="droplangdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-fr"> </span> Français</a>
             <?php } else { ?>
                 <a href="#" class="nav-link dropdown-toggle" id="droplangdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="flag-icon flag-icon-us"> </span> English</a>
             <?php } ?>
             <div class="dropdown-menu" aria-labelledby="droplangdown">
-                <?php if(!empty($_COOKIE['language']) && $_COOKIE['language'] == "fr_FR") { ?>
-                    <a class="dropdown-item" href="/lang/pref/en"><span class="flag-icon flag-icon-us"> </span>  English</a>
+                <?php if (!empty($_COOKIE['language']) && $_COOKIE['language'] == "fr_FR") { ?>
+                    <a class="dropdown-item" href="/lang/pref/en"><span class="flag-icon flag-icon-us"> </span> English</a>
                 <?php } else { ?>
-                    <a class="dropdown-item" href="/lang/pref/fr"><span class="flag-icon flag-icon-fr"> </span>  Français</a>
+                    <a class="dropdown-item" href="/lang/pref/fr"><span class="flag-icon flag-icon-fr"> </span> Français</a>
                 <?php } ?>
             </div>
         </li>
@@ -31,15 +31,14 @@
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="/administration" class="brand-link">
-        <img src="/dist/img/drivncook.png" alt="Driv'n'Cook Logo" class="brand-image img-circle elevation-3"
-             style="opacity: .8">
+        <img src="/dist/img/drivncook.png" alt="Driv'n'Cook Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Driv'n'Cook</span>
     </a>
 
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="info">
-                <a href="/administration/administrators/<?= $user->getId(); ?>/edit" class="d-block"><?= $user->getFirstname() . ' ' . $user->getLastname(); ?></a>
+                <a href="/administration/administrators/<?= $admin->getId(); ?>/edit" class="d-block"><?= $admin->getFirstname() . ' ' . $admin->getLastname(); ?></a>
             </div>
         </div>
 
@@ -230,6 +229,15 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="/administration/event" class="nav-link">
+                        <i class="nav-icon fas fa-calendar-week"></i>
+                        <p>
+                            <?= \Core\Language::get('event'); ?>
+                        </p>
+                    </a>
                 </li>
 
                 <li class="nav-item">

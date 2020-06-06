@@ -16,13 +16,15 @@ use Core\View;
  * class Home, cette classe est utilisée pour la page d'accueil et le login / logout
  * @package App\Controllers\Admin
  */
-class Home extends Controller {
+class Home extends Controller
+{
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $em = Entity::getEntityManager();
 
         $admin = $em->find(Admin::class, Session::get('admin_id'));
-        if(is_null($admin)) {
+        if (is_null($admin)) {
             return $this->redirectTo('/administration/login');
         }
 
@@ -32,7 +34,7 @@ class Home extends Controller {
         $trucks = $truckRepository->findAll();
         $trucksLocates = [];
         foreach ($trucks as $truck) {
-            if(!empty($truck->getLongitude()) && !empty($truck->getLatitude())) {
+            if (!empty($truck->getLongitude()) && !empty($truck->getLatitude())) {
                 $trucksLocates[] = ['lon' => $truck->getLongitude(), 'lat' => $truck->getLatitude()];
             }
         }
@@ -40,22 +42,23 @@ class Home extends Controller {
         $warehouses = $warehouseRepository->findAll();
         $warehousesLocates = [];
         foreach ($warehouses as $warehouse) {
-            if(!empty($warehouse->getLocation())) {
+            if (!empty($warehouse->getLocation())) {
                 $warehousesLocates[] = ['location' => str_replace("'", " ", $warehouse->getLocation())];
             }
         }
 
-        return View::render('Admin/index', ['user' => $admin, 'page' => 'index', 'trucksLocates' => json_encode($trucksLocates), 'warehousesLocates' => json_encode($warehousesLocates)]);
+        return View::render('Admin/index', ['admin' => $admin, 'page' => 'index', 'trucksLocates' => json_encode($trucksLocates), 'warehousesLocates' => json_encode($warehousesLocates)]);
     }
 
-    public function loginAction() {
-        if(Session::get('admin_id') !== false) {
+    public function loginAction()
+    {
+        if (Session::get('admin_id') !== false) {
             return $this->redirectTo('/administration/logout');
         }
 
         CSRF::generate();
 
-        if(Request::isPost()) {
+        if (Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
 
@@ -64,7 +67,7 @@ class Home extends Controller {
 
             $user = $repository->findOneByEmail($params['email']);
 
-            if(is_null($user) || !password_verify($params['password'], $user->getPassword())) {
+            if (is_null($user) || !password_verify($params['password'], $user->getPassword())) {
                 return View::render('Admin/login', ['loginError' => true]);
             }
 
@@ -75,7 +78,8 @@ class Home extends Controller {
         return View::render('Admin/login');
     }
 
-    public function logoutAction() {
+    public function logoutAction()
+    {
         Session::destroy();
         $this->redirectTo('/administration/login');
     }

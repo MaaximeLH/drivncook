@@ -41,7 +41,7 @@ class Franchises extends Controller
 
         CSRF::generate();
 
-        return View::render('Admin/franchises', ['user' => $this->admin, 'page' => 'franchises', 'users' => $users]);
+        return View::render('Admin/franchises', ['admin' => $this->admin, 'page' => 'franchises', 'users' => $users]);
     }
 
     public function editAction()
@@ -213,17 +213,17 @@ class Franchises extends Controller
             }
 
             $em->flush();
-            return View::render('Admin/editFranchises', ['user' => $this->admin, 'page' => 'franchises', 'franchise' => $user, 'trucks' => $trucks, 'fields' => $fields]);
+            return View::render('Admin/editFranchises', ['admin' => $this->admin, 'page' => 'franchises', 'franchise' => $user, 'trucks' => $trucks, 'fields' => $fields]);
         }
 
-        return View::render('Admin/editFranchises', ['user' => $this->admin, 'page' => 'franchises', 'franchise' => $user, 'trucks' => $trucks]);
+        return View::render('Admin/editFranchises', ['admin' => $this->admin, 'page' => 'franchises', 'franchise' => $user, 'trucks' => $trucks]);
     }
 
     public function addFranchisesAction()
     {
         $trucks = [];
 
-        return View::render('Admin/addFranchises', ['user' => $this->admin, 'page' => 'add_franchises', 'trucks' => $trucks]);
+        return View::render('Admin/addFranchises', ['admin' => $this->admin, 'page' => 'add_franchises', 'trucks' => $trucks]);
     }
 
     public function blockAction()

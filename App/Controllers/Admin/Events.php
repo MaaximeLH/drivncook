@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Entity\Admin;
+use App\Entity\Event;
 use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
@@ -15,25 +16,64 @@ class Events extends Controller
 {
 
     private $admin;
+    private $em;
+    private $eventRepository;
+
 
     public function __construct($routes)
     {
         parent::__construct($routes);
+        $em = Entity::getEntityManager();
+
+        $this->em = Entity::getEntityManager();
+        $this->layout = 'Admin/assets/layout.phtml';
 
         $userId = Session::get('admin_id');
-        $em = Entity::getEntityManager();
         if (is_null($admin = $em->find(Admin::class, $userId))) {
             return $this->redirectTo('/administration/login');
         }
+        $this->eventRepository = $this->em->getRepository(Event::class);
 
         $this->admin = $admin;
     }
 
     public function indexAction()
     {
+        $events = $this->eventRepository->findAll();
+        CSRF::generate();
+        $data['admin'] = $this->admin;
+        $data['page'] = 'event';
+        $data['events'] = $events;
+        $this->load_view('Admin/event_listing', $data);
     }
 
     public function addAction()
     {
+        if (!Request::isPost()) {
+            echo 'non post';
+            $this->show_404();
+        }
+        CSRF::validate();
+        $params = Request::getAllParams();
+        $event = new Event();
+        if (Validator::isValidName($params['name'])) {
+            $event->setName(trim($params['name']));
+        }
+        $event->setDescription(trim($params['description']));
+        $date_begin_register_at = new \DateTime($params['date_begin_register_at']);
+        $date_start = new \DateTime($params['date_start']);
+        $date_end = new \DateTime($params['date_end']);
+        if ($date_begin_register_at >= $date_start || $date_start >= $date_end) {
+            echo 'Date Incorrect';
+            die();
+        }
+
+        $event->setBeginRegisterAt($date_begin_register_at);
+        $event->setStartAt($date_start);
+        $event->setEndAt($date_end);
+        $this->em->persist($event);
+        $this->em->flush();
+        echo '<div class="alert alert-success" role="alert">l\'event a bien été crée</div>';
+        return;
     }
 }

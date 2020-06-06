@@ -15,7 +15,8 @@ use Core\View;
  * Class Admins, gère les actions sur les administrateurs
  * @package App\Controllers\Admin
  */
-class Admins extends Controller {
+class Admins extends Controller
+{
 
     private $admin;
 
@@ -25,28 +26,30 @@ class Admins extends Controller {
 
         $userId = Session::get('admin_id');
         $em = Entity::getEntityManager();
-        if(is_null($admin = $em->find(Admin::class, $userId))) {
+        if (is_null($admin = $em->find(Admin::class, $userId))) {
             return $this->redirectTo('/administration/login');
         }
 
         $this->admin = $admin;
     }
 
-    public function administratorsAction() {
+    public function administratorsAction()
+    {
         $em = Entity::getEntityManager();
         $repository = $em->getRepository(Admin::class);
         $administrators = $repository->findAll();
 
-        return View::render('Admin/administrators', ['user' => $this->admin, 'administrators' => $administrators, 'page' => 'administrators']);
+        return View::render('Admin/administrators', ['admin' => $this->admin, 'administrators' => $administrators, 'page' => 'administrators']);
     }
 
-    public function addAdministratorsAction() {
+    public function addAdministratorsAction()
+    {
         $em = Entity::getEntityManager();
         $repository = $em->getRepository(Admin::class);
 
         CSRF::generate();
 
-        if(Request::isPost()) {
+        if (Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
 
@@ -54,32 +57,32 @@ class Admins extends Controller {
 
             $admin = new Admin();
 
-            if(Validator::isValidEmail($params['email']) && !$repository->findOneByEmail($params['email'])) {
+            if (Validator::isValidEmail($params['email']) && !$repository->findOneByEmail($params['email'])) {
                 $admin->setEmail(trim($params['email']));
             } else {
                 $fields['email'] = $params['email'];
             }
 
-            if(Validator::isValidName($params['firstname'])) {
+            if (Validator::isValidName($params['firstname'])) {
                 $admin->setFirstName(trim($params['firstname']));
             } else {
                 $fields['firstname'] = $params['firstname'];
             }
 
-            if(Validator::isValidName($params['lastname'])) {
+            if (Validator::isValidName($params['lastname'])) {
                 $admin->setLastName(trim($params['lastname']));
             } else {
                 $fields['lastname'] = $params['lastname'];
             }
 
-            if($params['password'] === $params['passwordConfirm'] && Validator::isGoodPassword($params['password'])) {
+            if ($params['password'] === $params['passwordConfirm'] && Validator::isGoodPassword($params['password'])) {
                 $admin->setPassword(password_hash($params['password'], PASSWORD_DEFAULT));
             } else {
                 $fields['password'] = true;
             }
 
-            if(!empty($fields)) {
-                return View::render('Admin/addAdministrators', ['user' => $this->admin, 'page' => 'administrators_add', 'fields' => $fields]);
+            if (!empty($fields)) {
+                return View::render('Admin/addAdministrators', ['admin' => $this->admin, 'page' => 'administrators_add', 'fields' => $fields]);
             }
 
             $em->persist($admin);
@@ -87,26 +90,27 @@ class Admins extends Controller {
             return $this->redirectTo('/administration/administrators/' . $admin->getId() . '/edit');
         }
 
-        return View::render('Admin/addAdministrators', ['user' => $this->admin, 'page' => 'administrators_add']);
+        return View::render('Admin/addAdministrators', ['admin' => $this->admin, 'page' => 'administrators_add']);
     }
 
-    public function editAdministratorsAction() {
+    public function editAdministratorsAction()
+    {
         $em = Entity::getEntityManager();
         $repository = $em->getRepository(Admin::class);
 
 
-        if(is_null($admin = $repository->find($this->getRouteParameter('id')))) {
+        if (is_null($admin = $repository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo('/administration/administrators');
         }
 
         CSRF::generate();
-        if(Request::isPost()) {
+        if (Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
             $fields = [];
 
-            if($admin->getEmail() != $params['email']) {
-                if(Validator::isValidEmail($params['email']) && !$repository->findOneByEmail($params['email'])) {
+            if ($admin->getEmail() != $params['email']) {
+                if (Validator::isValidEmail($params['email']) && !$repository->findOneByEmail($params['email'])) {
                     $admin->setEmail(trim($params['email']));
                     $fields['email'] = true;
                 } else {
@@ -114,8 +118,8 @@ class Admins extends Controller {
                 }
             }
 
-            if($admin->getFirstname() != $params['firstname']) {
-                if(Validator::isValidName($params['firstname'])) {
+            if ($admin->getFirstname() != $params['firstname']) {
+                if (Validator::isValidName($params['firstname'])) {
                     $admin->setFirstname(trim($params['firstname']));
                     $fields['firstname'] = true;
                 } else {
@@ -123,8 +127,8 @@ class Admins extends Controller {
                 }
             }
 
-            if($admin->getLastname() != $params['lastname']) {
-                if(Validator::isValidName($params['lastname'])) {
+            if ($admin->getLastname() != $params['lastname']) {
+                if (Validator::isValidName($params['lastname'])) {
                     $admin->setLastname(trim($params['lastname']));
                     $fields['lastname'] = true;
                 } else {
@@ -132,8 +136,8 @@ class Admins extends Controller {
                 }
             }
 
-            if(!empty($params['password'])) {
-                if($params['password'] === $params['passwordConfirm'] && Validator::isGoodPassword($params['password'])) {
+            if (!empty($params['password'])) {
+                if ($params['password'] === $params['passwordConfirm'] && Validator::isGoodPassword($params['password'])) {
                     $admin->setPassword(password_hash($params['password'], PASSWORD_DEFAULT));
                     $fields['password'] = true;
                 } else {
@@ -142,20 +146,21 @@ class Admins extends Controller {
             }
 
             $em->flush();
-            return View::render('Admin/editAdministrators', ['user' => $this->admin, 'admin' => $admin, 'page' => 'administrators', 'fields' => $fields]);
+            return View::render('Admin/editAdministrators', ['admin' => $this->admin, 'admin' => $admin, 'page' => 'administrators', 'fields' => $fields]);
         }
 
 
-        return View::render('Admin/editAdministrators', ['user' => $this->admin, 'admin' => $admin, 'page' => 'administrators']);
+        return View::render('Admin/editAdministrators', ['admin' => $this->admin, 'admin' => $admin, 'page' => 'administrators']);
     }
 
-    public function deleteAdministratorsAction() {
+    public function deleteAdministratorsAction()
+    {
         Request::assertPostOnly();
 
         $em = Entity::getEntityManager();
         $repository = $em->getRepository(Admin::class);
 
-        if(is_null($admin = $repository->find($this->getRouteParameter('id')))) {
+        if (is_null($admin = $repository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo("/administration/administrators");
         }
 

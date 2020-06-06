@@ -1,0 +1,158 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success">
+                <h3 class="card-title"><?= \Core\Language::get('event_list') ?></h3>
+            </div>
+            <div class="card-body">
+                <button type="button" data-toggle="modal" data-target="#addEventModal" class="btn btn-primary mb-4"><?= \Core\Language::get('add_event') ?></button>
+                <table id="administrators" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th><?= \Core\Language::get('start_at') ?></th>
+                            <th><?= \Core\Language::get('name') ?></th>
+                            <th><?= \Core\Language::get('end_at') ?></th>
+                            <th><?= \Core\Language::get('begin_register_at') ?></th>
+                            <th><?= \Core\Language::get('description') ?></th>
+                            <th><?= \Core\Language::get('created_at') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($events as $event) : ?>
+                            <tr>
+                                <td><?= $event->getId(); ?></td>
+                                <td><?= $event->getName(); ?></td>
+                                <td><?= $event->getStartAt()->format('d/m/Y H:i:s'); ?></td>
+                                <td><?= $event->getEndAt()->format('d/m/Y H:i:s'); ?></td>
+                                <td><?= $event->getBeginRegisterAt()->format('d/m/Y H:i:s') ?></td>
+                                <td><?= $event->getDescription(); ?></td>
+                                <td><?= $event->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEvent" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="exampleModalLongTitle"><?= \Core\Language::get('add_event') ?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="response"></div>
+                <form id="form-modal">
+                    <div class="form-group">
+                        <?= \Core\CSRF::fields(); ?>
+                        <label for="status"><?= \Core\Language::get("name") ?></label>
+                        <input type="text" name="name" id="name" class="form-control">
+                    </div>
+                    <label for="status"><?= \Core\Language::get("start_at") ?></label>
+                    <div class="form-row form-group">
+                        <div class="col-8">
+                            <input type="date" name="date_start" id="date_start" class="form-control">
+                        </div>
+                        <div class="col-4">
+                            <input type="time" name="time_start" id="time_start" class="form-control">
+                        </div>
+                    </div>
+                    <label for="status"><?= \Core\Language::get("begin_register_at") ?></label>
+                    <div class="form-row form-group">
+                        <div class="col-8">
+                            <input type="date" name="date_begin_register_at" id="date_begin_register_at" class="form-control">
+                        </div>
+                        <div class="col-4">
+                            <input type="time" name="time_begin_register_at" id="time_begin_register_at" class="form-control">
+                        </div>
+                    </div>
+                    <label for="status"><?= \Core\Language::get("end_at") ?></label>
+
+                    <div class="form-row form-group">
+                        <div class="col-8">
+                            <input type="date" name="date_end" id="date_end" class="form-control">
+                        </div>
+                        <div class="col-4">
+                            <input type="time" name="time_end" id="time_end" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" cols="30" rows="4" class="form-control"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-warning"><?= \Core\Language::get('validate') ?></button>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const formModal = document.getElementById('form-modal');
+    formModal.addEventListener('submit', e => {
+        e.preventDefault();
+        const inputCsrf = document.querySelector('input[name="csrf_token"]');
+        const name = document.querySelector('#name');
+        const dateStartInput = document.querySelector('#date_start');
+        const timeStartInput = document.querySelector('#time_start');
+        const dateBeginRegisterAtInput = document.querySelector('#date_begin_register_at');
+        const timeBeginRegisterAtInput = document.querySelector('#time_begin_register_at');
+        const dateEndInput = document.querySelector('#date_end');
+        const timeEndInput = document.querySelector('#time_end');
+        const descriptionInput = document.querySelector('#description');
+
+        const dateFields = {
+            date_start: [dateStartInput.value, timeStartInput.value],
+            date_begin_register_at: [dateBeginRegisterAtInput.value, timeBeginRegisterAtInput.value],
+            date_end: [dateEndInput.value, timeEndInput.value],
+        };
+
+        Object.keys(dateFields).forEach(date => {
+            const dateTmp = dateFields[date][0].split('-');
+            const timeTmp = dateFields[date][1].split(':');
+            dateFields[date] = new Date(Date.UTC(dateTmp[0], dateTmp[1], dateTmp[2], timeTmp[0], timeTmp[1]));
+        });
+
+        if (dateFields['date_start'].getTime() < dateFields['date_end'].getTime() && dateFields['date_begin_register_at'].getTime() < dateFields['date_start'].getTime()) {
+            $.ajax({
+                type: 'POST',
+                url: '/administration/event/add',
+                data: {
+                    csrf_token: inputCsrf.value,
+                    name: name.value,
+                    description: descriptionInput.value,
+                    date_start: dateFields['date_start'].toISOString().slice(0, 19).replace('T', ' '),
+                    date_begin_register_at: dateFields['date_begin_register_at'].toISOString().slice(0, 19).replace('T', ' '),
+                    date_end: dateFields['date_end'].toISOString().slice(0, 19).replace('T', ' ')
+                },
+                error: response => {
+                    document.querySelector('#response').innerHTML = response;
+                    console.log(response);
+                    setTimeout(() => location.reload(), 700);
+
+                },
+                success: response => {
+                    document.querySelector('#response').innerHTML = response;
+                    console.log(response);
+                    setTimeout(() => location.reload(), 700);
+                }
+            });
+        } else {
+            console.log('start < end' + dateFields['date_start'].getTime() < dateFields['date_end'].getTime());
+            console.log('begin < start' + dateFields['date_begin_register_at'].getTime() < dateFields['date_start'].getTime());
+            console.log('date_start: ' + dateFields['date_start'].getTime(), 'date_end: ' + dateFields['date_end'].getTime(), 'date_begin_register_at: ' + dateFields['date_begin_register_at'].getTime());
+            const response = document.getElementById('response');
+            response.innerHTML = '<p class="alert alert-danger">Erreur les dates que vous avez entrée sont incompatible</p>';
+            return;
+        }
+    });
+</script>

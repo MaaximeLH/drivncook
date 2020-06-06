@@ -6,6 +6,8 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 error_reporting(E_ALL);
 set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
+define('VIEWPATH', dirname(__DIR__) . "/App/Views/");
+
 $router = new Core\Router();
 
 /**
@@ -66,6 +68,10 @@ $router->add("administration/invoices/{id:\d+}/delete", ['controller' => 'Invoic
 $router->add("administration/invoices/real/{id:\d+}", ['controller' => 'Invoices', 'action' => 'real', 'namespace' => 'Admin']);
 $router->add("administration/invoices/{id:\d+}", ['controller' => 'Invoices', 'action' => 'see', 'namespace' => 'Admin']);
 $router->add("administration/invoices/{id:\d+}/pay", ['controller' => 'Invoices', 'action' => 'pay', 'namespace' => 'Admin']);
+// Event
+$router->add("administration/event", ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Admin']);
+$router->add("administration/event/add", ['controller' => 'Events', 'action' => 'add', 'namespace' => 'Admin']);
+
 
 /**
  * Panel franchisé
