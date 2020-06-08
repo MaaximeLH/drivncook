@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Entity\Admin;
 use App\Entity\Event;
+use App\Entity\EventUser;
 use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
@@ -18,6 +19,7 @@ class Events extends Controller
     private $admin;
     private $em;
     private $eventRepository;
+    private $eventUserRepository;
 
 
     public function __construct($routes)
@@ -33,6 +35,7 @@ class Events extends Controller
             return $this->redirectTo('/administration/login');
         }
         $this->eventRepository = $this->em->getRepository(Event::class);
+        $this->eventUserRepository = $this->em->getRepository(EventUser::class);
 
         $this->admin = $admin;
     }
@@ -105,5 +108,15 @@ class Events extends Controller
         $this->em->remove($event);
         $this->em->flush();
         return $this->redirectTo("/administration/event");
+    }
+
+    public function removeFranchise()
+    {
+        $franchise_id = $this->getRouteParameter('franchise_id');
+        $event_id = $this->getRouteParameter('event_id');
+        $eventUser = $this->eventUserRepository->findBy(['event_id' => $event_id, 'franchise_id' => $franchise_id]);
+        $this->em->remove($eventUser);
+        $this->em->flush();
+        return $this->redirectTo("/administration/event/edit/" . $event_id);
     }
 }

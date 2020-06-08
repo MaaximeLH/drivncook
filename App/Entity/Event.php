@@ -193,7 +193,7 @@ class Event
     }
 
     /**
-     * @param \Doctrine\Common\Collections\Collection $user
+     * @param User $user
      */
     public function setUser($user)
     {

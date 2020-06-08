@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success">
+                <h3 class="card-title">Promotion Listing</h3>
+            </div>
+            <div class="card-body">
+                <p>
+                    <a href="/panel/promotion/add" class="btn btn-primary">Ajouter une promotion</a>
+                </p>
+                <table class="table table-bordered">
+                    <thead>
+                        <th>id</th>
+                        <th>Name</th>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($promotions as $promotion) : ?>
+                            <td><?= $promotion->getId() ?></td>
+                            <td><?= $promotion->getName() ?></td>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

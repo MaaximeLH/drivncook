@@ -45,4 +45,11 @@ class Events extends Controller
         $data['events'] = $events;
         $this->load_view('Franchise/event_listing', $data);
     }
+
+    public function subscribe()
+    {
+        $this->user->setEvent($this->getRouteParameter('id'));
+        $this->em->flush();
+        $this->redirectTo("/panel/event");
+    }
 }

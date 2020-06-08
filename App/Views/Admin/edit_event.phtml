@@ -20,39 +20,38 @@
                 <div class="form-group">
                     <?= \Core\CSRF::fields(); ?>
                     <label for="status"><?= \Core\Language::get("name") ?></label>
-                    <input type="text" name="name" id="name" class="form-control">
+                    <input type="text" name="name" id="name" class="form-control" value="<?= $event->getName() ?>">
                 </div>
                 <label for="status"><?= \Core\Language::get("start_at") ?></label>
                 <div class="form-row form-group">
                     <div class="col-8">
-                        <input type="date" name="date_start" id="date_start" class="form-control">
+                        <input type="date" name="date_start" id="date_start" class="form-control" value="<?= $event->getBeginRegisterAt()->format('Y-m-d') ?>">
                     </div>
                     <div class="col-4">
-                        <input type="time" name="time_start" id="time_start" class="form-control">
+                        <input type="time" name="time_start" id="time_start" class="form-control" value="<?= $event->getBeginRegisterAt()->format('H:i') ?>">
                     </div>
                 </div>
                 <label for="status"><?= \Core\Language::get("begin_register_at") ?></label>
                 <div class="form-row form-group">
                     <div class="col-8">
-                        <input type="date" name="date_begin_register_at" id="date_begin_register_at" class="form-control">
+                        <input type="date" name="date_begin_register_at" id="date_begin_register_at" class="form-control" value="<?= $event->getStartAt()->format('Y-m-d') ?>">
                     </div>
                     <div class="col-4">
-                        <input type="time" name="time_begin_register_at" id="time_begin_register_at" class="form-control">
+                        <input type="time" name="time_begin_register_at" id="time_begin_register_at" class="form-control" value="<?= $event->getStartAt()->format('H:i') ?>">
                     </div>
                 </div>
                 <label for="status"><?= \Core\Language::get("end_at") ?></label>
-
                 <div class="form-row form-group">
                     <div class="col-8">
-                        <input type="date" name="date_end" id="date_end" class="form-control">
+                        <input type="date" name="date_end" id="date_end" class="form-control" value="<?= $event->getEndAt()->format('Y-m-d') ?>">
                     </div>
                     <div class="col-4">
-                        <input type="time" name="time_end" id="time_end" class="form-control">
+                        <input type="time" name="time_end" id="time_end" class="form-control" value="<?= $event->getEndAt()->format('H:i') ?>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea name="description" id="description" cols="30" rows="4" class="form-control"></textarea>
+                    <textarea name="description" id="description" cols="30" rows="4" class="form-control"><?= $event->getDescription() ?></textarea>
                 </div>
                 <button type="submit" class="btn btn-block btn-warning"><?= \Core\Language::get('validate') ?></button>
             </form>
@@ -64,8 +63,36 @@
             Culpa blanditiis vitae consequatur?
         </div>
         <div class="tab-pane fade" id="trucks" role="tabpanel" aria-labelledby="trucks-tab">
-            <table class="table">
+            <h2>Listes des Camions</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <th>trucks</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>city</th>
+                    <th>action</th>
+                </thead>
                 <!-- Listes des trucks -->
+                <?php
+                $users = $event->getUser();
+                foreach ($users as $user) : ?>
+                    <tr>
+                        <?php if (!empty($user->getTruck())) : ?>
+                            <td class="text-center">
+                                <a href="<?= "/administration/trucks/" . $user->getTruck()->getId() . "/information" ?>" class="btn btn-info btn-sm"><i class="fas fa-truck"></i></a>
+                            </td>
+                        <?php else : ?>
+                            <td class="text-danger">No trucks</td>
+                        <?php endif ?>
+                        <td><?= $user->getFirstName(); ?></td>
+                        <td><?= $user->getLastName(); ?></td>
+                        <td><?= $user->getAddressCity(); ?></td>
+                        <td class="text-center">
+                            <a href="<?= "/administration/franchises/" . $user->getId() . "/edit" ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                            <a href="<?= '/administration/event/' . $event->getId() . '/removefranchise/' . $user->getId() ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </table>
         </div>
     </div>
