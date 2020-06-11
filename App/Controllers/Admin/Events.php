@@ -112,9 +112,14 @@ class Events extends Controller
 
     public function removeFranchise()
     {
-        $franchise_id = $this->getRouteParameter('franchise_id');
-        $event_id = $this->getRouteParameter('event_id');
-        $eventUser = $this->eventUserRepository->findBy(['event_id' => $event_id, 'franchise_id' => $franchise_id]);
+        $userRepository = $this->em->getRepository(Event::class);
+
+
+        $franchise_id = $this->getRouteParameter('franchise');
+        $event_id = $this->getRouteParameter('event');
+        $event = $this->eventRepository->find($event_id);
+        $user = $userRepository->find($franchise_id);
+        $eventUser = $this->eventUserRepository->findBy(['event' => $event, 'user' => $user]);
         $this->em->remove($eventUser);
         $this->em->flush();
         return $this->redirectTo("/administration/event/edit/" . $event_id);

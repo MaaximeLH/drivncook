@@ -73,7 +73,7 @@ $router->add("administration/event", ['controller' => 'Events', 'action' => 'ind
 $router->add("administration/event/add", ['controller' => 'Events', 'action' => 'add', 'namespace' => 'Admin']);
 $router->add("administration/event/edit/{id:\d+}", ['controller' => 'Events', 'action' => 'edit', 'namespace' => 'Admin']);
 $router->add("administration/event/delete/{id:\d+}", ['controller' => 'Events', 'action' => 'delete', 'namespace' => 'Admin']);
-$router->add("administration/event/{event_id:\d+}/removefranchise/{franchise_id:\d+}", ['controller' => 'Events', 'action' => 'removeFranchise', 'namespace' => 'Admin']);
+$router->add("administration/event/{event:\d+}/remove/{franchise:\d+}", ['controller' => 'Events', 'action' => 'removeFranchise', 'namespace' => 'Admin']);
 
 /**
  * Panel franchisé

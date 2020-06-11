@@ -72,7 +72,6 @@
                     <th>city</th>
                     <th>action</th>
                 </thead>
-                <!-- Listes des trucks -->
                 <?php
                 $users = $event->getUser();
                 foreach ($users as $user) : ?>
@@ -89,7 +88,7 @@
                         <td><?= $user->getAddressCity(); ?></td>
                         <td class="text-center">
                             <a href="<?= "/administration/franchises/" . $user->getId() . "/edit" ?>" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                            <a href="<?= '/administration/event/' . $event->getId() . '/removefranchise/' . $user->getId() ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                            <a href="<?= '/administration/event/' . $event->getId() . '/remove/' . $user->getId() ?>" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
