@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Entity\Admin;
 use App\Entity\Event;
+use App\Entity\EventUser;
 use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
@@ -18,6 +19,7 @@ class Events extends Controller
     private $admin;
     private $em;
     private $eventRepository;
+    private $eventUserRepository;
 
 
     public function __construct($routes)
@@ -33,6 +35,7 @@ class Events extends Controller
             return $this->redirectTo('/administration/login');
         }
         $this->eventRepository = $this->em->getRepository(Event::class);
+        $this->eventUserRepository = $this->em->getRepository(EventUser::class);
 
         $this->admin = $admin;
     }
@@ -75,5 +78,50 @@ class Events extends Controller
         $this->em->flush();
         echo '<div class="alert alert-success" role="alert">l\'event a bien été crée</div>';
         return;
+    }
+
+    public function editAction()
+    {
+        $event = $this->eventRepository->find($this->getRouteParameter('id'));
+        if (Request::isPost()) {
+            CSRF::validate();
+            $params = Request::getAllParams();
+            /**
+             * TODO
+             * set date
+             */
+            $event->setName($params['name']);
+            $event->setDescription($params['description']);
+        }
+        CSRF::generate();
+
+        $data['event'] = $event;
+        $data['admin'] = $this->admin;
+        $this->load_view('Admin/edit_event', $data);
+    }
+
+    public function deleteAction()
+    {
+        if (is_null($event = $this->eventRepository->find($this->getRouteParameter('id')))) {
+            return $this->redirectTo("/administration/event");
+        }
+        $this->em->remove($event);
+        $this->em->flush();
+        return $this->redirectTo("/administration/event");
+    }
+
+    public function removeFranchise()
+    {
+        $userRepository = $this->em->getRepository(Event::class);
+
+
+        $franchise_id = $this->getRouteParameter('franchise');
+        $event_id = $this->getRouteParameter('event');
+        $event = $this->eventRepository->find($event_id);
+        $user = $userRepository->find($franchise_id);
+        $eventUser = $this->eventUserRepository->findBy(['event' => $event, 'user' => $user]);
+        $this->em->remove($eventUser);
+        $this->em->flush();
+        return $this->redirectTo("/administration/event/edit/" . $event_id);
     }
 }

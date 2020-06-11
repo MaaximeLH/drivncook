@@ -16,18 +16,27 @@
                             <th><?= \Core\Language::get('begin_register_at') ?></th>
                             <th><?= \Core\Language::get('description') ?></th>
                             <th><?= \Core\Language::get('created_at') ?></th>
+                            <th><?= \Core\Language::get('action') ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($events as $event) : ?>
                             <tr>
                                 <td><?= $event->getId(); ?></td>
-                                <td><?= $event->getName(); ?></td>
                                 <td><?= $event->getStartAt()->format('d/m/Y H:i:s'); ?></td>
+                                <td><?= $event->getName(); ?></td>
                                 <td><?= $event->getEndAt()->format('d/m/Y H:i:s'); ?></td>
                                 <td><?= $event->getBeginRegisterAt()->format('d/m/Y H:i:s') ?></td>
                                 <td><?= $event->getDescription(); ?></td>
                                 <td><?= $event->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
+                                <td>
+                                    <a href="/administration/event/edit/<?= $event->getId(); ?>" class="btn btn-info btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="/administration/event/delete/<?= $event->getId(); ?>" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -54,15 +63,6 @@
                         <label for="status"><?= \Core\Language::get("name") ?></label>
                         <input type="text" name="name" id="name" class="form-control">
                     </div>
-                    <label for="status"><?= \Core\Language::get("start_at") ?></label>
-                    <div class="form-row form-group">
-                        <div class="col-8">
-                            <input type="date" name="date_start" id="date_start" class="form-control">
-                        </div>
-                        <div class="col-4">
-                            <input type="time" name="time_start" id="time_start" class="form-control">
-                        </div>
-                    </div>
                     <label for="status"><?= \Core\Language::get("begin_register_at") ?></label>
                     <div class="form-row form-group">
                         <div class="col-8">
@@ -70,6 +70,15 @@
                         </div>
                         <div class="col-4">
                             <input type="time" name="time_begin_register_at" id="time_begin_register_at" class="form-control">
+                        </div>
+                    </div>
+                    <label for="status"><?= \Core\Language::get("start_at") ?></label>
+                    <div class="form-row form-group">
+                        <div class="col-8">
+                            <input type="date" name="date_start" id="date_start" class="form-control">
+                        </div>
+                        <div class="col-4">
+                            <input type="time" name="time_start" id="time_start" class="form-control">
                         </div>
                     </div>
                     <label for="status"><?= \Core\Language::get("end_at") ?></label>
@@ -136,13 +145,11 @@
                 },
                 error: response => {
                     document.querySelector('#response').innerHTML = response;
-                    console.log(response);
                     setTimeout(() => location.reload(), 700);
 
                 },
                 success: response => {
                     document.querySelector('#response').innerHTML = response;
-                    console.log(response);
                     setTimeout(() => location.reload(), 700);
                 }
             });
