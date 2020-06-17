@@ -29,11 +29,10 @@
                                 <td><?= $event->getDescription(); ?></td>
                                 <td><?= $event->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
                                 <td>
-                                    <!-- Btn s'inscrire -->
-                                    <?php if (true) : ?>
-                                        <a href="/panel/event/subscribe/<?= $event->getId() ?>" class="btn btn-info">S'inscrire</a>
+                                    <?php if (in_array($event->getId(), $events_inscrit)) : ?>
+                                        <button class="btn btn-secondary disabled" disabled><?= \Core\Language::get('subscribed') ?></button>
                                     <?php else : ?>
-                                        <button class="btn btn-info disabled" disabled>Inscrit</button>
+                                        <a href="/panel/event/subscribe/<?= $event->getId(); ?>" class="btn btn-info"><?= \Core\Language::get('subscribe') ?></a>
                                     <?php endif ?>
                                 </td>
                             </tr>

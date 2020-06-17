@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Entity\Admin;
 use App\Entity\Event;
 use App\Entity\EventUser;
+use App\Entity\Users;
 use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
@@ -112,14 +113,14 @@ class Events extends Controller
 
     public function removeFranchise()
     {
-        $userRepository = $this->em->getRepository(Event::class);
+        $userRepository = $this->em->getRepository(Users::class);
 
 
         $franchise_id = $this->getRouteParameter('franchise');
         $event_id = $this->getRouteParameter('event');
         $event = $this->eventRepository->find($event_id);
         $user = $userRepository->find($franchise_id);
-        $eventUser = $this->eventUserRepository->findBy(['event' => $event, 'user' => $user]);
+        $eventUser = $this->eventUserRepository->findOneBy(['event' => $event, 'user' => $user]);
         $this->em->remove($eventUser);
         $this->em->flush();
         return $this->redirectTo("/administration/event/edit/" . $event_id);

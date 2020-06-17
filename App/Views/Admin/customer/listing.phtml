@@ -1,0 +1,66 @@
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h3 class="card-title d-block"><?= \Core\Language::get("listing_customer") ?></h3>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <a href="/administration/customer/add" class="btn btn-primary">Ajouter un Client</a>
+                    </p>
+                    <table id="customers" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th><?= \Core\Language::get('firstname') ?></th>
+                                <th><?= \Core\Language::get('name') ?></th>
+                                <th><?= \Core\Language::get('email') ?></th>
+                                <th><?= \Core\Language::get('created_at') ?></th>
+                                <th><?= \Core\Language::get('action') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($customers as $customer) : ?>
+                                <tr>
+                                    <td><?= $customer->getId(); ?></td>
+                                    <td><?= $customer->getFirstname(); ?></td>
+                                    <td><?= $customer->getLastname(); ?></td>
+                                    <td><?= $customer->getEmail(); ?></td>
+                                    <td><?= $customer->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
+                                    <td>
+                                        <a class="btn btn-info btn-sm" href="/administration/customer/edit/<?= $customer->getId(); ?>"><i class="fas fa-pencil-alt"></i> <?= \Core\Language::get('edit') ?></a>
+                                        <form onsubmit="return confirm('<?= \Core\Language::get("do_you_really_want_delete_customer") ?>');" style="display: inline" method="POST" action="/administration/customer/delete/<?= $customer->getId(); ?>">
+                                            <?= \Core\CSRF::fields(); ?>
+                                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> <?= \Core\Language::get("delete") ?></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th><?= \Core\Language::get('firstname') ?></th>
+                                <th><?= \Core\Language::get('name') ?></th>
+                                <th><?= \Core\Language::get('email') ?></th>
+                                <th><?= \Core\Language::get('created_at') ?></th>
+                                <th><?= \Core\Language::get('action') ?></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        $("#customers").DataTable({
+            language: {
+                url: '<?= \Core\Language::get("datatable_trad_link") ?>'
+            }
+        });
+    });
+</script>

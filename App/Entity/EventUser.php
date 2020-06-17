@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PromotionTarget
+ * EventUser
  *
- * @ORM\Table(name="promotion_target", indexes={@ORM\Index(name="IDX_53D504C14575D828", columns={"card_item_id"}), @ORM\Index(name="IDX_53D504C1BF7DD742", columns={"card_category"})})
+ * @ORM\Table(name="event_user")
  * @ORM\Entity
  */
 class EventUser
@@ -29,7 +29,7 @@ class EventUser
      *
      * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="event", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="event_id", referencedColumnName="id")
      * })
      */
     private $event;
