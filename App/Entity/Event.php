@@ -81,6 +81,55 @@ class Event
     private $user;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="title_Email_FR", type="text", nullable=true)
+     */
+    private $titleEmailFR;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="text_Email_FR", type="text", nullable=true)
+     */
+    private $textEmailFR;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="text_FR", type="text", nullable=true)
+     */
+    private $textFR;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="title_Email_EN", type="text", nullable=true)
+     */
+    private $titleEmailEN;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="text_Email_EN", type="text", nullable=true)
+     */
+    private $textEmailEN;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="text_EN", type="text", nullable=true)
+     */
+    private $textEN;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="image", type="text", nullable=true)
+     */
+    private $image;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -208,5 +257,173 @@ class Event
     public function onPrePersist()
     {
         $this->createdAt = new \DateTime("now");
+    }
+
+    /**
+     * Get the value of image
+     *
+     * @return  string|null
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set the value of image
+     *
+     * @param  string|null  $image
+     *
+     * @return  self
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of textEmailEN
+     *
+     * @return  string|null
+     */
+    public function getTextEmailEN()
+    {
+        return $this->textEmailEN;
+    }
+
+    /**
+     * Set the value of textEmailEN
+     *
+     * @param  string|null  $textEmailEN
+     *
+     * @return  self
+     */
+    public function setTextEmailEN($textEmailEN)
+    {
+        $this->textEmailEN = $textEmailEN;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of textEN
+     *
+     * @return  string|null
+     */
+    public function getTextEN()
+    {
+        return $this->textEN;
+    }
+
+    /**
+     * Set the value of textEN
+     *
+     * @param  string|null  $textEN
+     *
+     * @return  self
+     */
+    public function setTextEN($textEN)
+    {
+        $this->textEN = $textEN;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of titleEmailEN
+     *
+     * @return  string|null
+     */
+    public function getTitleEmailEN()
+    {
+        return $this->titleEmailEN;
+    }
+
+    /**
+     * Set the value of titleEmailEN
+     *
+     * @param  string|null  $titleEmailEN
+     *
+     * @return  self
+     */
+    public function setTitleEmailEN($titleEmailEN)
+    {
+        $this->titleEmailEN = $titleEmailEN;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of textFR
+     *
+     * @return  string|null
+     */
+    public function getTextFR()
+    {
+        return $this->textFR;
+    }
+
+    /**
+     * Set the value of textFR
+     *
+     * @param  string|null  $textFR
+     *
+     * @return  self
+     */
+    public function setTextFR($textFR)
+    {
+        $this->textFR = $textFR;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of textEmailFR
+     *
+     * @return  string|null
+     */
+    public function getTextEmailFR()
+    {
+        return $this->textEmailFR;
+    }
+
+    /**
+     * Set the value of textEmailFR
+     *
+     * @param  string|null  $textEmailFR
+     *
+     * @return  self
+     */
+    public function setTextEmailFR($textEmailFR)
+    {
+        $this->textEmailFR = $textEmailFR;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of titleEmailFR
+     *
+     * @return  string|null
+     */
+    public function getTitleEmailFR()
+    {
+        return $this->titleEmailFR;
+    }
+
+    /**
+     * Set the value of titleEmailFR
+     *
+     * @param  string|null  $titleEmailFR
+     *
+     * @return  self
+     */
+    public function setTitleEmailFR($titleEmailFR)
+    {
+        $this->titleEmailFR = $titleEmailFR;
+
+        return $this;
     }
 }

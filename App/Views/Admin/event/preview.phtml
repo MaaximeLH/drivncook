@@ -1,0 +1,325 @@
+<?php
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . '://' . $_SERVER["HTTP_HOST"];
+
+$url_desinscription = "*****";
+
+$orange = "#EF6E00";
+$orange_clair = "#FFB300";
+$rouge = "#EC2801";
+$noir = "#020102";
+
+$textColor = "#4A4A4A";
+
+$style_header = "text-align:center; font-family:arial; font-size:14px; line-height:20px; font-weight:bold; color:#FFFFFF;";
+
+$style_titre_noir = "text-align:center; font-family:arial; font-size:26px; line-height:26px; font-weight:bold; color:$noir;";
+$style_titre_orange = "text-align:left; font-family:arial; font-size:18px; line-height:18px; font-weight:bold; color:$orange;";
+$style_titre_rouge = "text-align:left; font-family:arial; font-size:12px; line-height:13px; font-weight:bold; color:$rouge;";
+
+$style_titre_puce = "text-align:left; font-family:arial; font-size:14px; line-height:16px; color:$textColor; font-weight:bold; padding:0; margin-top:0; margin-bottom:5px;";
+$style_texte = "text-align:left; font-family:arial; font-size:14px; line-height:16px; color:$textColor;";
+$style_small = "text-align:left; font-family:arial; font-size:12px; line-height:12px; color:$textColor;";
+$style_link = "text-align:left; font-family:arial; font-size:14px; line-height:16px; color:$textColor; font-style:italic; text-decoration:none;";
+
+$style_titre_prefooter = "text-align:center; font-family:arial; font-size:17px; line-height:19px; color:#FFFFFF; font-weight:bold";
+$style_texte_prefooter = "text-align:center; font-family:arial; font-size:14px; line-height:15px; color:#FFFFFF;";
+
+$style_titre_footer = "text-align:left; font-family:arial; font-size:11px; line-height:12px; color:#B3B3B3; font-weight:bold";
+$style_texte_footer = "text-align:left; font-family:arial; font-size:11px; line-height:12px; color:#B3B3B3;";
+
+
+$style_gutter = "padding-left:20px; padding-right:20px;";
+
+function spacer($w, $h)
+{
+    global $url;
+    global $code;
+    return '<img src="' . $url . '/img/spacer.gif" alt="" style="display:block; width:' . $w . 'px; height:' . $h . 'px;" border="0" width="' . $w . '" height="' . $h . '" />';
+}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title><?= \Core\Language::get('invitation_drivncook') ?></title>
+
+    <style type="text/css">
+        @media only screen and (max-width: 679px) {
+
+            /* for gmail mobile */
+            .full {
+                min-width: 100% !important;
+                width: 100% !important;
+                min-height: 1px !important;
+                height: auto !important;
+            }
+
+            /* for others */
+            table[class="full"],
+            td[class="full"],
+            img[class="full"],
+            span[class="full"] {
+                min-width: 100% !important;
+                width: 100% !important;
+                min-height: 1px !important;
+                height: auto !important;
+            }
+
+        }
+    </style>
+
+</head>
+
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; font-family:arial; background-color:white;">
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center"><a href="#"><?= \Core\Language::get('read_in_browser') ?></a></td>
+        </tr>
+    </table>
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:white;">
+        <tr>
+            <td align="center" valign="top">
+
+                <table id="header" width="560" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                    <tr>
+                        <td align="center" style="padding-top:0px; padding-bottom:0px;">
+                            <a href="<?= $url ?>"><img src="<?= $url ?>/dist/img/banniereDrivnCook.png" width="560" height="212" class="full" style="display:block; border:0;" alt="Logo DrivnCook" /></a>
+                        </td>
+                    </tr>
+                </table>
+
+                <table id="banniere" width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                    <tr>
+                        <td align="center" style="padding-left:0; padding-right:0; padding-top:1px; padding-bottom:10px;">
+                            <img alt="" src="<?= $image_banner ?? "" ?>" width="100%" style="margin: 0; border: 0; padding: 0; display: block;">
+                        </td>
+                    </tr>
+                </table>
+
+                <table id="titre" width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                    <tr>
+                        <td align="center" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:15px; <?= $style_titre_noir ?>">
+                            <?= \Core\Language::get('You_are_invited_to_our_event') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:20px;">
+                            <img src="<?= $url ?>/dist/img/red_bar.jpg" width="50" height="5" alt="" />
+                        </td>
+                    </tr>
+                </table>
+
+
+                <table id="explication" width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                    <tr>
+                        <td align="left" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:5px; <?= $style_texte ?>">
+                            Il y a bientôt 6 mois que vous avez acheté notre méthode best-seller pour l’apprentissage de la guitare. Aujourd’hui, vous avez sans doute envie de nouveautés pour continuer votre progression.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:5px; <?= $style_texte ?>">
+                            Nous sommes heureux de vous proposer des méthodes complémentaires à la votre, en vous faisant bénéficier d’un prix très doux.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:10px; <?= $style_texte ?> font-weight:bold;">
+                            A vos guitares !
+                        </td>
+                    </tr>
+                </table>
+
+
+
+                <table id="visuel" width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                    <tr>
+                        <td align="center" valign="top">
+                            <!--[if (gte mso 9)|(IE)]>
+                                <table width="680" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top">
+                                 <![endif]-->
+                            <span style="display:inline-block; vertical-align: top; min-width:50%;" class="full">
+                                <table width="340" cellpadding="0" cellspacing="0" border="0" class="full">
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:0px; text-align:center;">
+                                            <img src="<?= $url ?>/img/methode-accords.jpg" width="300" height="300" alt="" style="border:0;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:5px; text-align:left; <?= $style_texte ?>">
+                                            Plus de 900 accords guitare à utiliser dans les styles classique, rock, blues, jazz ...
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:5px; text-align:left; <?= $style_texte ?>">
+                                            Ce dictionnaire est une aide précieuse pour maîtriser l'accompagnement dans tous les styles.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:20px; text-align:left; <?= $style_texte ?>">
+                                            Tous les enchaînements d'accords sont enregistrés sur les fichiers audio disponibles sur notre kiosque média.
+                                        </td>
+                                    </tr>
+                                </table>
+                            </span>
+                            <!--[if (gte mso 9)|(IE)]></td><td valign="top"><![endif]--><span style="display:inline-block; vertical-align: top; min-width:50%;" class="full">
+                                <table width="340" cellpadding="0" cellspacing="0" border="0" class="full">
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:0px; text-align:center;">
+                                            <img src="<?= $url ?>/img/methode-guitare.jpg" width="300" height="300" alt="" style="border:0;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:5px; text-align:left; <?= $style_texte ?>">
+                                            Dans cette méthode, vous trouverez les techniques et astuces permettant d’accompagner de nombreux styles musicaux avec une guitare acoustique.
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:20px; text-align:left; <?= $style_texte ?>">
+                                            Cette méthode peut-être comparée à une boite à outils dans laquelle vous pouvez piocher des accompagnements utiles pour animer vos soirées entre amis ou faire progresser votre groupe.
+                                        </td>
+                                    </tr>
+                                </table>
+                            </span>
+                            <!--[if (gte mso 9)|(IE)]>
+                                </td></tr></table>
+                                <![endif]-->
+                        </td>
+                    </tr>
+                </table>
+
+
+                <table id="remises" width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                    <tr>
+                        <td align="center" valign="top">
+                            <!--[if (gte mso 9)|(IE)]>
+                                <table width="680" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top">
+                                 <![endif]-->
+                            <span style="display:inline-block; vertical-align: top; min-width:50%;" class="full">
+                                <table width="340" cellpadding="0" cellspacing="0" border="0" class="full">
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:20px; text-align:center;">
+                                            <table width="300" cellpadding="0" cellspacing="0" border="0" align="center">
+                                                <tr>
+                                                    <td style="padding-top:0px;padding-bottom:0px; text-align:center;">
+                                                        <img src="<?= $url ?>/img/round-top.jpg" width="300" height="5" alt="" style="border:0;" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#EBEBEB" style="<?= $style_gutter ?> padding-top:15px;padding-bottom:10px; text-align:center; font-family: arial; font-size: 20px; color: #000000; line-height: 20px; font-weight:bold;">
+                                                        Coup de pouce dictionnaire d'accords
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#EBEBEB" style="<?= $style_gutter ?> padding-top:0px;padding-bottom:10px; text-align:center;  font-family: arial; font-size: 20px; color: #000000; line-height: 20px;">
+                                                        <img src="<?= $url ?>/img/btn-30-remise.jpg" width="159" height="40" alt="" style="border:0;" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#EBEBEB" style="<?= $style_gutter ?> padding-top:0px;padding-bottom:5px; text-align:center;  font-family: arial; font-size: 20px; color: #000000; line-height: 20px;">
+                                                        Votre code perso :
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#EBEBEB" style="<?= $style_gutter ?> padding-top:0px;padding-bottom:15px; text-align:center; font-family: arial; font-size: 20px; color: #000000; line-height: 20px; font-weight:bold;">
+                                                        GGMANU77
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding-top:0px;padding-bottom:20px; text-align:center;">
+                                                        <img src="<?= $url ?>/img/round-bottom.jpg" width="300" height="5" alt="" style="border:0;" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </span>
+                            <!--[if (gte mso 9)|(IE)]></td><td valign="top"><![endif]--><span style="display:inline-block; vertical-align: top; min-width:50%;" class="full">
+                                <table width="340" cellpadding="0" cellspacing="0" border="0" class="full">
+                                    <tr>
+                                        <td style="<?= $style_gutter ?> padding-top:0px;padding-bottom:20px; text-align:center;">
+                                            <table width="300" cellpadding="0" cellspacing="0" border="0" align="center">
+                                                <tr>
+                                                    <td style="padding-top:0px;padding-bottom:0px; text-align:center;">
+                                                        <img src="<?= $url ?>/img/round-top.jpg" width="300" height="5" alt="" style="border:0;" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#EBEBEB" style="<?= $style_gutter ?> padding-top:15px;padding-bottom:10px; text-align:center; font-family: arial; font-size: 20px; color: #000000; line-height: 20px; font-weight:bold;">
+                                                        Coup de pouce guitare accompagnement
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#EBEBEB" style="<?= $style_gutter ?> padding-top:0px;padding-bottom:10px; text-align:center;  font-family: arial; font-size: 20px; color: #000000; line-height: 20px;">
+                                                        <img src="<?= $url ?>/img/btn-30-remise.jpg" width="159" height="40" alt="" style="border:0;" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#EBEBEB" style="<?= $style_gutter ?> padding-top:0px;padding-bottom:5px; text-align:center;  font-family: arial; font-size: 20px; color: #000000; line-height: 20px;">
+                                                        Votre code perso :
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td bgcolor="#EBEBEB" style="<?= $style_gutter ?> padding-top:0px;padding-bottom:15px; text-align:center; font-family: arial; font-size: 20px; color: #000000; line-height: 20px; font-weight:bold;">
+                                                        XXMANU007
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding-top:0px;padding-bottom:20px; text-align:center;">
+                                                        <img src="<?= $url ?>/img/round-bottom.jpg" width="300" height="5" alt="" style="border:0;" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </span>
+                            <!--[if (gte mso 9)|(IE)]>
+                                </td></tr></table>
+                                <![endif]-->
+                        </td>
+                    </tr>
+                </table>
+
+
+                <table id="prefooter" width="680" cellpadding="0" cellspacing="0" border="0" bgcolor="<?= $orange_clair ?>" class="full">
+                    <tr>
+                        <td align="center" style="<?= $style_gutter ?> padding-top:15px; padding-bottom:5px; <?= $style_titre_prefooter ?>">
+                            UNE QUESTION, DES REMARQUES ?
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:15px; <?= $style_texte_prefooter ?>">
+                            Notre équipe support est joignable par email : contact@editions-coup-de pouce.fr
+                        </td>
+                    </tr>
+                </table>
+
+
+                <table id="footer" width="680" cellpadding="0" cellspacing="0" border="0" bgcolor="<?= $noir ?>" class="full">
+                    <tr>
+                        <td align="left" style="<?= $style_gutter ?> padding-top:20px; padding-bottom:10px; <?= $style_titre_footer ?>">
+                            LES ÉDITIONS COUP DE POUCE SONT RESPECTUEUSES DES DONNÉES PRIVÉES
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:20px; <?= $style_texte_footer ?>">
+                            Vous recevez cet emailing car vous nous avez donné votre consentement dans l'un de nos précédents messages ou lors de votre achat sur notre site https://www.editions-coupdepouce.com.
+                            Le service de routage de ce message est français et respectueux du RGPD.
+                            Les bases de données qui stockent les informations qui vous concernent sont également en France.
+                            Aucune de ces informations n'a été et ne sera vendue ou confiée à un tiers à des fins commerciales.
+                            <br /><br />
+                            Pour arrêter de recevoir nos emails d'informations générales <a href="<?= $url_desinscription ?>?utm_source=***&utm_medium=***&utm_campaign=***" style="<?= $style_texte_footer ?>">cliquez-ici</a>.
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

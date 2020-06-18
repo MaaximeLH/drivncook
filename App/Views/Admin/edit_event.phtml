@@ -23,15 +23,18 @@
                 <div class="form-group">
                     <?= \Core\CSRF::fields(); ?>
                     <label for="status"><?= \Core\Language::get("name") ?></label>
-                    <input type="text" name="name" id="name" class="form-control" value="<?= $event->getName() ?>">
+                    <input type="text" name="name" id="name" class="form-control" 
+                    value="<?= $event->getName() ?>">
                 </div>
                 <label for="status"><?= \Core\Language::get("start_at") ?></label>
                 <div class="form-row form-group">
                     <div class="col-8">
-                        <input type="date" name="date_start" id="date_start" class="form-control" value="<?= $event->getBeginRegisterAt()->format('Y-m-d') ?>">
+                        <input type="date" name="date_start" id="date_start" class="form-control" 
+                        value="<?= $event->getBeginRegisterAt()->format('Y-m-d') ?>">
                     </div>
                     <div class="col-4">
-                        <input type="time" name="time_start" id="time_start" class="form-control" value="<?= $event->getBeginRegisterAt()->format('H:i') ?>">
+                        <input type="time" name="time_start" id="time_start" class="form-control" 
+                        value="<?= $event->getBeginRegisterAt()->format('H:i') ?>">
                     </div>
                 </div>
                 <label for="status"><?= \Core\Language::get("begin_register_at") ?></label>
@@ -46,30 +49,82 @@
                 <label for="status"><?= \Core\Language::get("end_at") ?></label>
                 <div class="form-row form-group">
                     <div class="col-8">
-                        <input type="date" name="date_end" id="date_end" class="form-control" value="<?= $event->getEndAt()->format('Y-m-d') ?>">
+                        <input type="date" name="date_end" id="date_end" class="form-control" 
+                        value="<?= $event->getEndAt()->format('Y-m-d') ?>">
                     </div>
                     <div class="col-4">
-                        <input type="time" name="time_end" id="time_end" class="form-control" value="<?= $event->getEndAt()->format('H:i') ?>">
+                        <input type="time" name="time_end" id="time_end" class="form-control" 
+                        value="<?= $event->getEndAt()->format('H:i') ?>">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea name="description" id="description" cols="30" rows="4" class="form-control"><?= $event->getDescription() ?></textarea>
                 </div>
-                <button type="submit" class="btn btn-block btn-warning"><?= \Core\Language::get('validate') ?></button>
+                <button type="submit" class="btn btn-block btn-warning"
+                ><?= \Core\Language::get('validate') ?></button>
             </form>
         </div>
         <div class="tab-pane fade" id="CMS" role="tabpanel" aria-labelledby="CMS-tab">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae delectus quia voluptatem
-            inventore, quod quas labore non odit ipsam sapiente magnam velit eveniet fugit quos impedit.
+            <form method="POST" action="/administration/event/<?= $event->getId() ?>/post-cms">
+                <?php
+                if (isset($_SESSION['errorCMS'])) {
+                    $errors = $_SESSION['errorCMS'];
+                    if (!empty($errors)) {
+                        echo '<div class="alert alert-danger"><h3>Error : </h3><ul>';
+                        foreach ($errors as $error) {
+                            echo "<li>$error</li>";
+                        }
+                        echo '</ul></div>';
+                        unset($_SESSION['errorCMS']);
+                    }
+                }
+                ?>
+                <div class="form-row">
+                    <div class="col-md-6 form-group">
+                        <label for="fileImg"><?= \Core\Language::get('image_event') ?></label>
+                        <input type="file" id="fileImg" name="img" class="form-control-file">
+                    </div>
+                    <div class="col-md-6">
+                        <img src="<?= '/dist/uploads/event/' . $event->getId() . '/' . $event->getImage() ?>" alt="">
+                    </div>
+                </div>
+                <h2>Français</h2>
+                <div class="form-group">
+                    <label for="titleEmailFR">Titre de l'Email</label>
+                    <input type="text" class="form-control" id="titleEmailFR" placeholder="Title Email" name="titleEmailFR" value="<?= \Core\View::set_values('titleEmailFR', $event->getTitleEmailFR()) ?>">
+                </div>
+                <div class="form-group">
+                    <label for="textEmailFR">Text de l'Email</label>
+                    <textarea type="text" class="form-control" id="textEmailFR" placeholder="Text Email" name="textEmailFR"><?= \Core\View::set_values('textEmailFR', $event->getTextEmailFR()) ?></textarea>
+                </div>
+                <div class="form-group">
+                    <textarea id="editorFR" name="wysiwygFR"><?= \Core\View::set_values('wysiwygFR', $event->getTextFR()) ?></textarea>
+                </div>
 
-            Culpa blanditiis vitae consequatur?
+                <h2>Anglais</h2>
+                <div class="form-group">
+                    <label for="titleEmailEN">Titre de l'Email</label>
+                    <input type="text" class="form-control" id="titleEmailEN" placeholder="Title Email" name="titleEmailEN" value="<?= \Core\View::set_values('titleEmailEN', $event->getTitleEmailEN()) ?>">
+                </div>
+                <div class="form-group">
+                    <label for="textEmailEN">Text de l'Email</label>
+                    <textarea type="text" class="form-control" id="textEmailEN" placeholder="Text Email" name="textEmailEN"><?= \Core\View::set_values('textEmailEN', $event->getTextEmailEN()) ?></textarea>
+                </div>
+                <div class="form-group">
+                    <textarea id="editorEN" name="wysiwygEN"><?= \Core\View::set_values('wysiwygEN', $event->getTextEN()) ?></textarea>
+                </div>
+
+                <p class="text-center">
+                    <button type="submit" class="btn btn-warning btn-block">Modifier L'event</button>
+                </p>
+            </form>
         </div>
         <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
             <p>User TAb panel</p>
             <p class="text-center"><input type="text" id="autoComplete"></p>
             <hr>
-            <table class="table-bordered table">
+            <table class="table-bordered table" id="user-table">
                 <thead>
                     <th>id</th>
                     <th>FirstName</th>
@@ -77,8 +132,11 @@
                     <th>Email</th>
                     <th>Action</th>
                 </thead>
+                <tbody>
 
+                </tbody>
             </table>
+            <p class="text-center"><a href="/administration/event/<?= $event->getId(); ?>/sendInvit" class="btn btn-primary"></a></p>
         </div>
         <div class="tab-pane fade" id="trucks" role="tabpanel" aria-labelledby="trucks-tab">
             <h2>Listes des Camions</h2>
@@ -114,7 +172,7 @@
         </div>
     </div>
 </div>
-
+<script defer src="/dist/js/trumbowyg.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
 <script>
     new autoComplete({
@@ -147,11 +205,41 @@
         highlight: true,
         resultItem: {
             content: (data, source) => {
-                console.log(data);
-                console.log(source);
                 source.innerHTML = data.value.firstName;
             },
             element: "li"
         },
+        onSelection: feed => {
+            const customer = feed.selection.value;
+            const tbody = document.querySelector("#user-table > tbody");
+            const tr = document.createElement("tr");
+            Object.keys(customer).forEach(key => {
+                const td = document.createElement("td");
+                const text = document.createTextNode(customer[key]);
+                td.appendChild(text);
+                tbody.appendChild(td);
+            });
+            const td = document.createElement("td");
+            const a = document.createElement("a");
+            const text = document.createTextNode('Preview');
+            a.setAttribute("class", "btn btn-info");
+            a.setAttribute("href", "/administration/event/" + <?= $event->getId() ?> +"/preview/" +
+                customer.id);
+            a.setAttribute("target", '_blank');
+            a.appendChild(text);
+            td.appendChild(a);
+            tbody.appendChild(td);
+        }
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        $('#editorFR').trumbowyg();
+        $('#editorEN').trumbowyg();
+        if (localStorage.getItem('tabEvent') !== null) {
+            console.log('show', localStorage.getItem('tabEvent'))
+            $("#" + localStorage.getItem('tabEvent')).tab('show');
+        }
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            localStorage.setItem('tabEvent', e.target.attributes.id.value);
+        });
     });
 </script>

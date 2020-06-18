@@ -6,6 +6,7 @@ use App\Entity\Admin;
 use App\Entity\Event;
 use App\Entity\EventUser;
 use App\Entity\Users;
+use App\Entity\Customer;
 use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
@@ -124,5 +125,92 @@ class Events extends Controller
         $this->em->remove($eventUser);
         $this->em->flush();
         return $this->redirectTo("/administration/event/edit/" . $event_id);
+    }
+
+    public function previewInvitationAction()
+    {
+        $this->layout = 'empty_layout.phtml';
+
+        $customerRepository = $this->em->getRepository(Customer::class);
+        $event = $this->eventRepository->find($this->getRouteParameter('event'));
+        $cusotmer = $customerRepository->find($this->getRouteParameter('customer'));
+
+        $data['event'] = $event;
+        $data['cusotmer'] = $cusotmer;
+        $this->load_view('Admin/event/preview', $data);
+    }
+
+    public function postCMS()
+    {
+        $event_id = $this->getRouteParameter('id');
+        $event = $this->eventRepository->find($event_id);
+        if (Request::isPost()) {
+            CSRF::validate();
+            $error = [];
+            $params = Request::getAllParams();
+            if (empty($params['titleEmailFR'])) {
+                $error[] = \Core\Language::get('titleEmailFR');
+            } else {
+                $event->setTitleEmailFR($params['titleEmailFR']);
+            }
+            if (empty($params['textEmailFR'])) {
+                $error[] = \Core\Language::get('textEmailFR');
+            } else {
+                $event->setTextEmailFR($params['textEmailFR']);
+            }
+            if (empty($params['wysiwygFR'])) {
+                $error[] = \Core\Language::get('wysiwygFR');
+            } else {
+                $event->setTextFR($params['wysiwygFR']);
+            }
+            if (empty($params['titleEmailEN'])) {
+                $error[] = \Core\Language::get('titleEmailEN');
+            } else {
+                $event->setTitleEmailEN($params['titleEmailEN']);
+            }
+            if (empty($params['textEmailEN'])) {
+                $error[] = \Core\Language::get('textEmailEN');
+            } else {
+                $event->setTextEmailEN($params['textEmailEN']);
+            }
+            if (empty($params['wysiwygEN'])) {
+                $error[] = \Core\Language::get('wysiwygEN');
+            } else {
+                $event->setTextEN($params['wysiwygEN']);
+            }
+
+            $file = Request::getFile('image');
+            if (isset($file['tmp_name'])) {
+                $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                if (!Validator::isValidFileExtension($extension)) {
+                    return $this->redirectTo('/administration/invoices/received');
+                }
+                $uploadDirectory = $this->getImgUploadPath($event_id);
+                $name = basename($file["name"]);
+                if (!move_uploaded_file($file['tmp_name'], "$uploadDirectory/$name")) {
+                    $error[] = \Core\Language::get('errorImage');
+                } else {
+                    $event->setImage("$uploadDirectory/$name");
+                }
+            }
+
+            if (!empty($error)) {
+                $data['error'] = $error;
+                Session::set('errorCMS', $error);
+                return $this->redirectTo('/administration/event/edit/' . $event_id);
+            }
+
+            $this->em->flush();
+        }
+        return $this->redirectTo('/administration/event/edit/' . $event_id);
+    }
+
+    private function getImgUploadPath(int $event_id)
+    {
+        $path = dirname(__DIR__, 3) . 'public/dist/uploads/event/' . $event_id;
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        return $path;
     }
 }

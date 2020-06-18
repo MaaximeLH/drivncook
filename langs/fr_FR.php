@@ -326,4 +326,16 @@ return [
     'see_customers' => 'Voir les clients',
     'add_customer' => 'Ajouté un client',
     'edit_customer' => 'Edité un client',
+    'invitation_drivncook' => 'Invitation Drivncook',
+    'read_in_browser' => 'Lire dans votre navigateur',
+    'You_are_invited_to_our_event' => 'Nous vous invitons a notre événement',
+    'image_event' => 'Image de l\'événement',
+
+    'titleEmailFR' => 'Le champ titre Email Français est vide',
+    'textEmailFR' => 'Le champ text Email Français est vide',
+    'wysiwygFR' => 'Le champ text Français est vide',
+    'titleEmailEN' => 'Le champ titre Email Anglais est vide',
+    'textEmailEN' => 'Le champ text Email Anglais est vide',
+    'wysiwygEN' => 'Le champ text Anglais est vide',
+    'errorImage' => 'Il y eu une erreur avec votre fichier',
 ];

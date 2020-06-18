@@ -10,3 +10,11 @@
 .btn {
   padding-top: 0.5rem;
 }
+
+#autoComplete_list {
+  margin: 0;
+  position: relative;
+  top: initial;
+  left: 50%;
+  transform: translateX(-50%);
+}

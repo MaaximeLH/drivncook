@@ -70,10 +70,12 @@ $router->add("administration/invoices/{id:\d+}", ['controller' => 'Invoices', 'a
 $router->add("administration/invoices/{id:\d+}/pay", ['controller' => 'Invoices', 'action' => 'pay', 'namespace' => 'Admin']);
 // Event
 $router->add("administration/event", ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Admin']);
+$router->add("administration/event/{id:\d+}/post-cms", ['controller' => 'Events', 'action' => 'postCMS', 'namespace' => 'Admin']);
 $router->add("administration/event/add", ['controller' => 'Events', 'action' => 'add', 'namespace' => 'Admin']);
 $router->add("administration/event/edit/{id:\d+}", ['controller' => 'Events', 'action' => 'edit', 'namespace' => 'Admin']);
 $router->add("administration/event/delete/{id:\d+}", ['controller' => 'Events', 'action' => 'delete', 'namespace' => 'Admin']);
 $router->add("administration/event/{event:\d+}/remove/{franchise:\d+}", ['controller' => 'Events', 'action' => 'removeFranchise', 'namespace' => 'Admin']);
+$router->add("administration/event/{event:\d+}/preview/{customer:\d+}", ['controller' => 'Events', 'action' => 'previewInvitation', 'namespace' => 'Admin']);
 
 // Customer
 $router->add("administration/customer", ['controller' => 'Customers', 'action' => 'index', 'namespace' => 'Admin']);

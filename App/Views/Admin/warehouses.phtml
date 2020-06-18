@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,148 +10,149 @@
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
-<link rel="stylesheet" href="/dist/css/adminlte.css">
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
     <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-    <?php require "assets/sidebar.phtml"; ?>
+        <?php require "assets/sidebar.phtml"; ?>
 
-    <div class="content-wrapper">
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Driv'n'Cook</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
-                            <li class="breadcrumb-item active"><?= \Core\Language::get('warehouses') ?></li>
-                        </ol>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Driv'n'Cook</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                                <li class="breadcrumb-item active"><?= \Core\Language::get('warehouses') ?></li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="content">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><?= \Core\Language::get('warehouses_drivncook') ?></h3>
-                        </div>
-                        <div class="card-body">
-                            <table id="warehouses" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th><?= \Core\Language::get('name') ?></th>
-                                    <th><?= \Core\Language::get('location') ?></th>
-                                    <th><?= \Core\Language::get('total_of_products') ?></th>
-                                    <th><?= \Core\Language::get('total_of_quantity_products') ?></th>
-                                    <th><?= \Core\Language::get('action') ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($warehouses as $warehouse): ?>
+            <section class="content">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"><?= \Core\Language::get('warehouses_drivncook') ?></h3>
+                            </div>
+                            <div class="card-body">
+                                <table id="warehouses" class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
-                                            <td><?= $warehouse->getName(); ?></td>
-                                            <td>
-                                                <a href="https://maps.google.com/?q=<?= $warehouse->getLocation(); ?>">
-                                                    <?= $warehouse->getLocation(); ?>
-                                                </a>
-                                            </td>
-                                            <td><?= $warehouse->total; ?></td>
-                                            <td><?= $warehouse->quantityTotal; ?></td>
-                                            <td>
-                                                <a class="btn btn-sm btn-success" href="/administration/stocks/warehouses/<?= $warehouse->getId(); ?>"><i class="fas fa-eye"></i> <?= \Core\Language::get('see') ?></a>
-
-                                                <a class="btn btn-sm btn-info" href="/administration/warehouses/<?= $warehouse->getId(); ?>/supply"><i class="fas fa-plus"></i> <?= \Core\Language::get('supply') ?></a>
-
-                                                <a href="#" data-toggle="modal" data-target="#modalEdit<?= $warehouse->getId(); ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil-alt"></i> <?= \Core\Language::get('edit') ?></a>
-
-                                                <a class="btn btn-sm btn-danger" href="/administration/warehouses/<?= $warehouse->getId(); ?>/delete"><i class="fas fa-trash"></i> <?= \Core\Language::get("delete") ?></a>
-                                            </td>
+                                            <th><?= \Core\Language::get('name') ?></th>
+                                            <th><?= \Core\Language::get('location') ?></th>
+                                            <th><?= \Core\Language::get('total_of_products') ?></th>
+                                            <th><?= \Core\Language::get('total_of_quantity_products') ?></th>
+                                            <th><?= \Core\Language::get('action') ?></th>
                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($warehouses as $warehouse) : ?>
+                                            <tr>
+                                                <td><?= $warehouse->getName(); ?></td>
+                                                <td>
+                                                    <a href="https://maps.google.com/?q=<?= $warehouse->getLocation(); ?>">
+                                                        <?= $warehouse->getLocation(); ?>
+                                                    </a>
+                                                </td>
+                                                <td><?= $warehouse->total; ?></td>
+                                                <td><?= $warehouse->quantityTotal; ?></td>
+                                                <td>
+                                                    <a class="btn btn-sm btn-success" href="/administration/stocks/warehouses/<?= $warehouse->getId(); ?>"><i class="fas fa-eye"></i> <?= \Core\Language::get('see') ?></a>
 
-                                        <div class="modal fade" id="modalEdit<?= $warehouse->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="modalEdit<?= $warehouse->getId(); ?>Title" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title"><?= \Core\Language::get('edit_warehouse_name') ?></h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form method="POST" action="/administration/warehouses/<?= $warehouse->getId(); ?>/edit">
-                                                            <div class="form-group">
-                                                                <label for="name<?= $warehouse->getId(); ?>"><?= \Core\Language::get('name') ?></label>
-                                                                <input type="text" class="form-control" id="name<?= $warehouse->getId(); ?>" name="name" value="<?= $warehouse->getName(); ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="locate<?= $warehouse->getId(); ?>"><?= \Core\Language::get('location') ?></label>
-                                                                <input type="text" class="form-control" id="locate<?= $warehouse->getId(); ?>" name="location" value="<?= $warehouse->getLocation(); ?>">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <?= \Core\CSRF::fields(); ?>
-                                                                <button class="btn btn-block btn-warning"><?= \Core\Language::get('save') ?></button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
+                                                    <a class="btn btn-sm btn-info" href="/administration/warehouses/<?= $warehouse->getId(); ?>/supply"><i class="fas fa-plus"></i> <?= \Core\Language::get('supply') ?></a>
+
+                                                    <a href="#" data-toggle="modal" data-target="#modalEdit<?= $warehouse->getId(); ?>" class="btn btn-warning btn-sm"><i class="fa fa-pencil-alt"></i> <?= \Core\Language::get('edit') ?></a>
+
+                                                    <a class="btn btn-sm btn-danger" href="/administration/warehouses/<?= $warehouse->getId(); ?>/delete"><i class="fas fa-trash"></i> <?= \Core\Language::get("delete") ?></a>
+                                                </td>
+                                            </tr>
+
+                                            <div class="modal fade" id="modalEdit<?= $warehouse->getId(); ?>" tabindex="-1" role="dialog" aria-labelledby="modalEdit<?= $warehouse->getId(); ?>Title" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"><?= \Core\Language::get('edit_warehouse_name') ?></h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="POST" action="/administration/warehouses/<?= $warehouse->getId(); ?>/edit">
+                                                                <div class="form-group">
+                                                                    <label for="name<?= $warehouse->getId(); ?>"><?= \Core\Language::get('name') ?></label>
+                                                                    <input type="text" class="form-control" id="name<?= $warehouse->getId(); ?>" name="name" value="<?= $warehouse->getName(); ?>">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="locate<?= $warehouse->getId(); ?>"><?= \Core\Language::get('location') ?></label>
+                                                                    <input type="text" class="form-control" id="locate<?= $warehouse->getId(); ?>" name="location" value="<?= $warehouse->getLocation(); ?>">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <?= \Core\CSRF::fields(); ?>
+                                                                    <button class="btn btn-block btn-warning"><?= \Core\Language::get('save') ?></button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= \Core\Language::get('close') ?></button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th><?= \Core\Language::get('name') ?></th>
-                                    <th><?= \Core\Language::get('location') ?></th>
-                                    <th><?= \Core\Language::get('total_of_products') ?></th>
-                                    <th><?= \Core\Language::get('total_of_quantity_products') ?></th>
-                                    <th><?= \Core\Language::get('action') ?></th>
-                                </tr>
-                                </tfoot>
-                            </table>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th><?= \Core\Language::get('name') ?></th>
+                                            <th><?= \Core\Language::get('location') ?></th>
+                                            <th><?= \Core\Language::get('total_of_products') ?></th>
+                                            <th><?= \Core\Language::get('total_of_quantity_products') ?></th>
+                                            <th><?= \Core\Language::get('action') ?></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </section>
+        </div>
+
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                Projet annuel ESGI <b>2A2</b>
             </div>
-        </section>
+        </footer>
+
+
     </div>
 
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
-        All rights reserved.
-        <div class="float-right d-none d-sm-inline-block">
-            Projet annuel ESGI <b>2A2</b>
-        </div>
-    </footer>
-
-
-</div>
-
-<script src="/plugins/jquery/jquery.min.js"></script>
-<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/plugins/datatables/jquery.dataTables.js"></script>
-<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
-<script src="/dist/js/adminlte.min.js"></script>
-<script src="/dist/js/demo.js"></script>
-<script>
-    $(function () {
-        $("#warehouses").DataTable({
-            language: {
-                url: '<?= \Core\Language::get("datatable_trad_link") ?>'
-            }
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/dist/js/demo.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            $("#warehouses").DataTable({
+                language: {
+                    url: '<?= \Core\Language::get("datatable_trad_link") ?>'
+                }
+            });
         });
-    });
-</script>
+    </script>
 </body>
+
 </html>
