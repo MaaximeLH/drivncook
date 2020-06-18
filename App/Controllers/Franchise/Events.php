@@ -4,6 +4,7 @@ namespace App\Controllers\Franchise;
 
 use App\Entity\Users;
 use App\Entity\Event;
+use App\Entity\EventUser;
 use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
@@ -38,17 +39,37 @@ class Events extends Controller
 
     public function indexAction()
     {
+        $events_inscrit = $this->eventRepository->getEventSubscribed($this->user->getId());
         $events = $this->eventRepository->findAll();
         CSRF::generate();
         $data['user'] = $this->user;
         $data['page'] = 'event';
         $data['events'] = $events;
+        $data['events_inscrit'] = $events_inscrit;
         $this->load_view('Franchise/event_listing', $data);
     }
 
     public function subscribe()
     {
-        $this->user->setEvent($this->getRouteParameter('id'));
+        $usersRepository = $this->em->getRepository(Users::class);
+        $EventUserRepository = $this->em->getRepository(EventUser::class);
+
+        if (is_null($user = $usersRepository->find($this->user->getId()))) {
+            return $this->redirectTo('/administration/franchises');
+        }
+        if (is_null($event = $this->eventRepository->find($this->getRouteParameter('id')))) {
+            return $this->redirectTo('/administration/franchises');
+        }
+
+        if ($EventUserRepository->findOneBy(['event' => $event, 'user' => $user]) != null) {
+            return $this->redirectTo('/administration/franchises');
+        }
+
+        $eventUser = new EventUser();
+        $eventUser->setEvent($event);
+        $eventUser->setUser($user);
+
+        $this->em->persist($eventUser);
         $this->em->flush();
         $this->redirectTo("/panel/event");
     }

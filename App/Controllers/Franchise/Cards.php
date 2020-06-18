@@ -42,7 +42,7 @@ class Cards extends Controller
 
     public function indexAction()
     {
-        $cards = $this->cardsRepository->findAll();
+        $cards = $this->cardsRepository->findBy(['user' => $this->user]);
         CSRF::generate();
 
 

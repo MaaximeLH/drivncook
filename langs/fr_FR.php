@@ -316,4 +316,14 @@ return [
     'created_at' => 'Date de création',
     'event_list' => 'Listes des events',
     'add_event' => 'Ajouter un event',
+
+    'subscribe' => "S'inscrire",
+    'subscribed' => 'inscrit',
+
+    'do_you_really_want_delete_customer' => 'Voulez-vous vraiment supprimer ce client ?',
+    'listing_customer' => 'Liste des clients',
+    'customer' => 'Client',
+    'see_customers' => 'Voir les clients',
+    'add_customer' => 'Ajouté un client',
+    'edit_customer' => 'Edité un client',
 ];

@@ -116,7 +116,7 @@
 
                 <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['administrators', 'administrators_add'])) ? 'menu-open' : ''; ?>">
                     <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['administrators', 'administrators_add'])) ? 'active' : ''; ?>">
-                        <i class="nav-icon fas fa-users"></i>
+                        <i class="fas fa-user-shield"></i>
                         <p>
                             <?= \Core\Language::get('administrators'); ?>
                             <i class="fas fa-angle-left right"></i>
@@ -136,6 +136,33 @@
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     <?= \Core\Language::get('add_administrator'); ?>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['customer', 'customer_add'])) ? 'menu-open' : ''; ?>">
+                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['customer', 'customer_add'])) ? 'active' : ''; ?>">
+                        <i class="fas fa-users"></i>
+                        <p>
+                            <?= \Core\Language::get('customer'); ?>
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/administration/customer" class="nav-link <?= (isset($page) && $page == "customer") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    <?= \Core\Language::get('see_customers'); ?>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/administration/customer/add" class="nav-link <?= (isset($page) && $page == "customer_add") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    <?= \Core\Language::get('add_customer'); ?>
                                 </p>
                             </a>
                         </li>

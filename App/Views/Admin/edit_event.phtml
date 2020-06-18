@@ -10,6 +10,9 @@
                 <a class="nav-link" id="CMS-tab" data-toggle="tab" href="#CMS" role="tab" aria-controls="CMS" aria-selected="true">CMS</a>
             </li>
             <li class="nav-item" role="presentation">
+                <a class="nav-link" id="user-tab" data-toggle="tab" href="#user" role="tab" aria-controls="user" aria-selected="true">User</a>
+            </li>
+            <li class="nav-item" role="presentation">
                 <a class="nav-link" id="trucks-tab" data-toggle="tab" href="#trucks" role="tab" aria-controls="trucks" aria-selected="true">Trucks</a>
             </li>
         </ul>
@@ -62,6 +65,21 @@
 
             Culpa blanditiis vitae consequatur?
         </div>
+        <div class="tab-pane fade" id="user" role="tabpanel" aria-labelledby="user-tab">
+            <p>User TAb panel</p>
+            <p class="text-center"><input type="text" id="autoComplete"></p>
+            <hr>
+            <table class="table-bordered table">
+                <thead>
+                    <th>id</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </thead>
+
+            </table>
+        </div>
         <div class="tab-pane fade" id="trucks" role="tabpanel" aria-labelledby="trucks-tab">
             <h2>Listes des Camions</h2>
             <table class="table table-bordered">
@@ -96,3 +114,44 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
+<script>
+    new autoComplete({
+        data: {
+            src: async () => {
+                const query = document.querySelector("#autoComplete").value;
+                const source = await fetch(`/administration/customer/search?q=${query}`);
+                return await source.json();
+            },
+            key: ["firstName", "lastName"],
+            cache: false
+        },
+        sort: (a, b) => {
+            if (a.match < b.match) return -1;
+            if (a.match > b.match) return 1;
+            return 0;
+        },
+        placeHolder: "Firstname & Lastname",
+        selector: "#autoComplete",
+        threshold: 3,
+        debounce: 300,
+        searchEngine: "strict",
+        resultsList: {
+            render: true,
+            destination: document.querySelector("#autoComplete_list"),
+            position: "afterend",
+            element: "ul"
+        },
+        maxResults: 5,
+        highlight: true,
+        resultItem: {
+            content: (data, source) => {
+                console.log(data);
+                console.log(source);
+                source.innerHTML = data.value.firstName;
+            },
+            element: "li"
+        },
+    });
+</script>
