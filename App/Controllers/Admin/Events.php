@@ -137,7 +137,7 @@ class Events extends Controller
 
         $data['event'] = $event;
         $data['cusotmer'] = $cusotmer;
-        $this->load_view('Admin/event/preview', $data);
+        $this->load_view('Admin/event/invitation', $data);
     }
 
     public function postCMS()

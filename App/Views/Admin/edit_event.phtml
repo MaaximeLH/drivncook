@@ -220,7 +220,7 @@
                 const td = document.createElement("td");
                 const text = document.createTextNode(customer[key]);
                 td.appendChild(text);
-                tbody.appendChild(td);
+                tr.appendChild(td);
             });
             const td = document.createElement("td");
             const a = document.createElement("a");
@@ -231,7 +231,8 @@
             a.setAttribute("target", '_blank');
             a.appendChild(text);
             td.appendChild(a);
-            tbody.appendChild(td);
+            tr.appendChild(td);
+            tbody.appendChild(tr);
         }
     });
     document.addEventListener('DOMContentLoaded', () => {
