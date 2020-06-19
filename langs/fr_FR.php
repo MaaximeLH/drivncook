@@ -338,4 +338,5 @@ return [
     'textEmailEN' => 'Le champ text Email Anglais est vide',
     'wysiwygEN' => 'Le champ text Anglais est vide',
     'errorImage' => 'Il y eu une erreur avec votre fichier',
+    'submit' => 'envoyer',
 ];

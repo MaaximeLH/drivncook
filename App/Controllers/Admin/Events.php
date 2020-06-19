@@ -148,38 +148,41 @@ class Events extends Controller
             CSRF::validate();
             $error = [];
             $params = Request::getAllParams();
+            // echo '<pre>' . htmlentities(print_r($params, true)) . '</pre>';
+            // die();
             if (empty($params['titleEmailFR'])) {
                 $error[] = \Core\Language::get('titleEmailFR');
             } else {
-                $event->setTitleEmailFR($params['titleEmailFR']);
+                $event->setTitleEmailFR(trim($params['titleEmailFR']));
             }
             if (empty($params['textEmailFR'])) {
                 $error[] = \Core\Language::get('textEmailFR');
             } else {
-                $event->setTextEmailFR($params['textEmailFR']);
+                $event->setTextEmailFR(trim($params['textEmailFR']));
             }
             if (empty($params['wysiwygFR'])) {
                 $error[] = \Core\Language::get('wysiwygFR');
             } else {
-                $event->setTextFR($params['wysiwygFR']);
+                $event->setTextFR(trim($params['wysiwygFR']));
             }
             if (empty($params['titleEmailEN'])) {
                 $error[] = \Core\Language::get('titleEmailEN');
             } else {
-                $event->setTitleEmailEN($params['titleEmailEN']);
+                $event->setTitleEmailEN(trim($params['titleEmailEN']));
             }
             if (empty($params['textEmailEN'])) {
                 $error[] = \Core\Language::get('textEmailEN');
             } else {
-                $event->setTextEmailEN($params['textEmailEN']);
+                $event->setTextEmailEN(trim($params['textEmailEN']));
             }
             if (empty($params['wysiwygEN'])) {
                 $error[] = \Core\Language::get('wysiwygEN');
             } else {
-                $event->setTextEN($params['wysiwygEN']);
+                $event->setTextEN(trim($params['wysiwygEN']));
             }
 
-            $file = Request::getFile('image');
+            $file = Request::getFile('img');
+            // var_dump($file);die();
             if (isset($file['tmp_name'])) {
                 $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                 if (!Validator::isValidFileExtension($extension)) {
@@ -190,7 +193,7 @@ class Events extends Controller
                 if (!move_uploaded_file($file['tmp_name'], "$uploadDirectory/$name")) {
                     $error[] = \Core\Language::get('errorImage');
                 } else {
-                    $event->setImage("$uploadDirectory/$name");
+                    $event->setImage($name);
                 }
             }
 
@@ -207,7 +210,7 @@ class Events extends Controller
 
     private function getImgUploadPath(int $event_id)
     {
-        $path = dirname(__DIR__, 3) . 'public/dist/uploads/event/' . $event_id;
+        $path = dirname(__DIR__, 3) . '/public/dist/uploads/event/' . $event_id;
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }

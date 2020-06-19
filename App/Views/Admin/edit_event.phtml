@@ -66,7 +66,7 @@
             </form>
         </div>
         <div class="tab-pane fade" id="CMS" role="tabpanel" aria-labelledby="CMS-tab">
-            <form method="POST" action="/administration/event/<?= $event->getId() ?>/post-cms">
+            <form method="POST" action="/administration/event/<?= $event->getId() ?>/post-cms" enctype="multipart/form-data">
                 <?php
                 if (isset($_SESSION['errorCMS'])) {
                     $errors = $_SESSION['errorCMS'];
@@ -86,7 +86,7 @@
                         <input type="file" id="fileImg" name="img" class="form-control-file">
                     </div>
                     <div class="col-md-6">
-                        <img src="<?= '/dist/uploads/event/' . $event->getId() . '/' . $event->getImage() ?>" alt="">
+                        <img src="<?= '/dist/uploads/event/' . $event->getId() . '/' . $event->getImage() ?>" alt="" class="img-fluid">
                     </div>
                 </div>
                 <h2>Français</h2>
@@ -136,7 +136,10 @@
 
                 </tbody>
             </table>
-            <p class="text-center"><a href="/administration/event/<?= $event->getId(); ?>/sendInvit" class="btn btn-primary"></a></p>
+            <p class="text-center">
+                <a href="/administration/event/<?= $event->getId(); ?>/sendInvit"
+                 class="btn btn-primary"><?= \Core\Language::get('submit') ?></a>
+            </p>
         </div>
         <div class="tab-pane fade" id="trucks" role="tabpanel" aria-labelledby="trucks-tab">
             <h2>Listes des Camions</h2>
@@ -235,7 +238,6 @@
         $('#editorFR').trumbowyg();
         $('#editorEN').trumbowyg();
         if (localStorage.getItem('tabEvent') !== null) {
-            console.log('show', localStorage.getItem('tabEvent'))
             $("#" + localStorage.getItem('tabEvent')).tab('show');
         }
         $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {

@@ -83,7 +83,7 @@ class Event
     /**
      * @var string|null
      *
-     * @ORM\Column(name="title_Email_FR", type="text", nullable=true)
+     * @ORM\Column(name="title_Email_FR", type="string", length=255, nullable=true)
      */
     private $titleEmailFR;
 
@@ -104,7 +104,7 @@ class Event
     /**
      * @var string|null
      *
-     * @ORM\Column(name="title_Email_EN", type="text", nullable=true)
+     * @ORM\Column(name="title_Email_EN", type="string", length=255, nullable=true)
      */
     private $titleEmailEN;
 
@@ -125,7 +125,7 @@ class Event
     /**
      * @var string|null
      *
-     * @ORM\Column(name="image", type="text", nullable=true)
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
      */
     private $image;
 
