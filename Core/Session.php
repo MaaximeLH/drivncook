@@ -16,6 +16,12 @@ class Session
         return (isset($_SESSION[$key])) ? $_SESSION[$key] : false;
     }
 
+    public static function delete($key) {
+        if (isset($_SESSION[$key])) {
+            unset($_SESSION[$key]);
+        }
+    }
+
     public static function destroy()
     {
         $_SESSION = [];

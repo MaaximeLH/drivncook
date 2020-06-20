@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Entity\Admin;
 use App\Entity\Event;
 use App\Entity\EventUser;
+use App\Entity\EventCustomer;
 use App\Entity\Users;
 use App\Entity\Customer;
 use Core\Controller;
@@ -85,18 +86,17 @@ class Events extends Controller
     public function editAction()
     {
         $event = $this->eventRepository->find($this->getRouteParameter('id'));
+        $eventCustomerRepository = $this->em->getRepository(EventCustomer::class);
+        $eventCustomers = $eventCustomerRepository->findBy(['event' => $event]);
         if (Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
-            /**
-             * TODO
-             * set date
-             */
             $event->setName($params['name']);
             $event->setDescription($params['description']);
         }
         CSRF::generate();
 
+        $data['eventCustomers'] = $eventCustomers;
         $data['event'] = $event;
         $data['admin'] = $this->admin;
         $this->load_view('Admin/edit_event', $data);
@@ -215,5 +215,44 @@ class Events extends Controller
             mkdir($path, 0777, true);
         }
         return $path;
+    }
+
+    public function send_invitation()
+    {
+        $event_id = $this->getRouteParameter('id');
+        if (!$event_id) {
+            $this->redirectTo('/administration/event/edit/' . $event_id);
+        }
+        $event = $this->eventRepository->find($event_id);
+        $customerRepository = $this->em->getRepository(Customer::class);
+
+        if (Request::isPost()) {
+            CSRF::validate();
+            $params = Request::getAllParams();
+            var_dump($params);
+            foreach ($params['id'] as $id) {
+                $customer = $customerRepository->find($id);
+
+                $eventCustomer = new eventCustomer();
+                
+                $eventCustomer->setEvent($event);
+                $eventCustomer->setCustomer($customer);
+                $eventCustomer->setStatut('Invité');
+                $this->em->persist($eventCustomer);
+                $this->em->flush();
+                ob_start();
+                require(VIEWPATH . 'Admin/event/invitation.phtml');
+                $message = ob_get_clean();
+
+                $from = "norepley@drivncook.store";
+                $to = $customer->getEmail();
+                $header = 'Content-Type: text/html';
+                if (mail($from, $to, $message, $header)) {
+                    die("Email sent");
+                }
+
+            }
+            $this->redirectTo('/administration/event/edit/' . $event_id);
+        }
     }
 }
