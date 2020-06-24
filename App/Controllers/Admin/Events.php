@@ -183,10 +183,11 @@ class Events extends Controller
 
             $file = Request::getFile('img');
             // var_dump($file);die();
-            if (isset($file['tmp_name'])) {
+            if (!empty($file['tmp_name'])) {
                 $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                 if (!Validator::isValidFileExtension($extension)) {
-                    return $this->redirectTo('/administration/invoices/received');
+                    $error[] = \Core\Language::get('errorImage');
+                    return $this->redirectTo('/administration/event/edit/' . $event_id);
                 }
                 $uploadDirectory = $this->getImgUploadPath($event_id);
                 $name = basename($file["name"]);
@@ -217,7 +218,7 @@ class Events extends Controller
         return $path;
     }
 
-    public function send_invitation()
+    public function sendInvitation()
     {
         $event_id = $this->getRouteParameter('id');
         if (!$event_id) {
@@ -240,19 +241,39 @@ class Events extends Controller
                 $eventCustomer->setStatut('Invité');
                 $this->em->persist($eventCustomer);
                 $this->em->flush();
-                ob_start();
-                require(VIEWPATH . 'Admin/event/invitation.phtml');
-                $message = ob_get_clean();
-
-                $from = "norepley@drivncook.store";
-                $to = $customer->getEmail();
-                $header = 'Content-Type: text/html';
-                if (mail($from, $to, $message, $header)) {
-                    die("Email sent");
-                }
+                $this->sendInvitaitonEmail($event, $customer);
 
             }
             $this->redirectTo('/administration/event/edit/' . $event_id);
+        }
+    }
+
+    public function resendInvitation()
+    {
+        $event_id = $this->getRouteParameter('event');
+        $customer_id = $this->getRouteParameter('customer');
+        if (!$event_id || !$customer_id) {
+            $this->redirectTo('/administration/event/edit/' . $event_id);
+        }
+        $customerRepository = $this->em->getRepository(Customer::class);
+        $event = $this->eventRepository->find($event_id);
+        $customer = $customerRepository->find($customer_id);
+
+        $this->sendInvitaitonEmail($event, $customer);
+        $this->redirectTo('/administration/event/edit/' . $event_id);
+    }
+
+    private function sendInvitaitonEmail($event, $customer)
+    {
+        ob_start();
+                require(VIEWPATH . 'Admin/event/invitation.phtml');
+        $message = ob_get_clean();
+
+        $from = "norepley@drivncook.store";
+        $to = $customer->getEmail();
+        $header = 'Content-Type: text/html';
+        if (mail($from, $to, $message, $header)) {
+            die("Email sent");
         }
     }
 }

@@ -35,6 +35,13 @@ function spacer($w, $h)
     global $code;
     return '<img src="' . $url . '/img/spacer.gif" alt="" style="display:block; width:' . $w . 'px; height:' . $h . 'px;" border="0" width="' . $w . '" height="' . $h . '" />';
 }
+
+$vars = [
+    '[firstname]' => $cusotmer->getFirstName(), 
+    '[lastname]' => $cusotmer->getLastName(),
+    '[email]' => $cusotmer->getEmail(),
+];
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -132,12 +139,12 @@ function spacer($w, $h)
                                     <table width="340" cellpadding="0" cellspacing="0" border="0" class="w320">
                                         <tr>
                                             <td style="padding-left:20px; padding-right:20px; padding-top:0px;padding-bottom:25px;<?= $style_titre_orange ?>">
-                                                <?= $event->getTitleEmailFR(); ?>
+                                                <?= strtr($event->getTitleEmailFR(), $vars); ?>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td style="padding-left:20px; padding-right:20px; padding-top:0px;padding-bottom:20px;">
-                                                <?= $event->getTextEmailFR(); ?>
+                                                <?= strtr($event->getTextEmailFR(), $vars); ?>
                                             </td>
                                         </tr>                                        
                                     </table>

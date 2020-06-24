@@ -96,6 +96,7 @@
                 </div>
                 <div class="form-group">
                     <label for="textEmailFR">Text de l'Email</label>
+                    <small class="form-text text-muted">Vous pouvez utiliser [firstname], [lastname], [email] pour utiliser les données du customer</small>
                     <textarea type="text" class="form-control" id="textEmailFR" placeholder="Text Email" name="textEmailFR"><?= \Core\View::set_values('textEmailFR', $event->getTextEmailFR()) ?></textarea>
                 </div>
                 <div class="form-group">
@@ -109,6 +110,7 @@
                 </div>
                 <div class="form-group">
                     <label for="textEmailEN">Text de l'Email</label>
+                    <small class="form-text text-muted">Vous pouvez utiliser [firstname], [lastname], [email] pour utiliser les données du customer</small>
                     <textarea type="text" class="form-control" id="textEmailEN" placeholder="Text Email" name="textEmailEN"><?= \Core\View::set_values('textEmailEN', $event->getTextEmailEN()) ?></textarea>
                 </div>
                 <div class="form-group">
@@ -142,8 +144,13 @@
                                 <td><?= $customer->getLastName(); ?></td>
                                 <td><?= $customer->getEmail(); ?></td>
                                 <td>
-                                    <a href="#" class="btn btn-info">Preview</a>
-                                    <button class="btn btn-danger">resend</button>
+                                    <a class="btn btn-info"
+                                    target="_blank"
+                                    href="<?= '/administration/event/' . $event->getId() . '/preview/' . $customer->getId() ?>"
+                                    >Preview</a>
+                                    <a class="btn btn-danger" 
+                                    href="<?= '/administration/event/' . $event->getId() . '/resend/' . $customer->getId() ?>"
+                                    >Resend</a>
                                 </td>
                             </tr>
                         <?php endforeach ?>
@@ -201,11 +208,6 @@
             key: ["firstName", "lastName"],
             cache: false
         },
-        sort: (a, b) => {
-            if (a.match < b.match) return -1;
-            if (a.match > b.match) return 1;
-            return 0;
-        },
         placeHolder: "Firstname & Lastname",
         selector: "#autoComplete",
         threshold: 2,
@@ -238,8 +240,7 @@
             Object.keys(customer).map(key => {
                 const td = document.createElement("td");
                 const text = document.createTextNode(customer[key]);
-
-                if (key === "id") {
+                if (key  === "id") {
                     const input = document.createElement('input');
                     input.setAttribute('type', 'hidden');
                     input.setAttribute('name', 'id[]');
@@ -269,6 +270,7 @@
         if (localStorage.getItem('tabEvent') !== null) {
             $("#" + localStorage.getItem('tabEvent')).tab('show');
         }
+
         $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
             localStorage.setItem('tabEvent', e.target.attributes.id.value);
         });
