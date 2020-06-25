@@ -1,0 +1,55 @@
+<header class="header-transparent">
+    <div class="header-top top-layout-02">
+        <div class="container">
+            <div class="topbar-left">
+                <div class="topbar-content">
+                    <div class="item">
+                        <div class="wg-contact"><i class="fa fa-map-marker"></i><span>242 rue du Faubourg Saint Antoine, 75012, Paris</span></div>
+                    </div>
+                    <div class="item">
+                        <div class="wg-contact"><i class="fa fa-phone"></i><span>(+33) 1 56 06 90 41</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-content">
+                    <div class="item">
+                        <ul class="socials-nb list-inline wg-social">
+                            <li><a href="https://facebook.com/ESGIParis"><i class="fa fa-facebook"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="item">
+                        <div class="wg-social"><i class="fa fa-user-plus"></i><span>Mon espace franchisé</span></div>
+                    </div>
+                    <div class="item">
+                        <div class="wg-social"><i class="fa fa-user"></i><span>Mon compte client</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-main">
+        <div class="container">
+            <div class="open-offcanvas">&#9776;</div>
+            <div class="header-logo">
+                <a href="/" class="logo logo-static">
+                    <img src="/assets/images/logo.png" style="margin-top: 25px;" alt="drivncook" class="logo-img">
+                </a>
+
+            </div>
+            <nav id="main-nav-offcanvas" class="main-nav-wrapper">
+                <div class="close-offcanvas-wrapper"><span class="close-offcanvas">x</span></div>
+                <div class="main-nav">
+                    <ul id="main-nav" class="nav nav-pills">
+                        <li class="<?= (isset($page) && $page == "home") ? 'current-menu-item' : ''; ?>"><a href="/">Accueil</a></li>
+                        <li class="<?= (isset($page) && $page == "about") ? 'current-menu-item' : ''; ?>"><a href="/about">A propos</a></li>
+                        <li><a href="#">Nos food trucks</a></li>
+                        <li class="<?= (isset($page) && $page == "events") ? 'current-menu-item' : ''; ?>"><a href="/events">Événement</a></li>
+                        <li><a href="#">Franchise</a></li>
+                        <li class="<?= (isset($page) && $page == "contact") ? 'current-menu-item' : ''; ?>"><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>

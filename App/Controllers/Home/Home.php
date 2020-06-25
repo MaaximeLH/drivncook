@@ -9,7 +9,19 @@ use Core\View;
 class Home extends Controller {
 
     public function indexAction() {
-        return View::render('Home/index');
+        return View::render('Home/index', ['page' => 'home']);
+    }
+
+    public function aboutAction() {
+        return View::render('Home/about', ['page' => 'about']);
+    }
+
+    public function eventsAction() {
+        return View::render('Home/events', ['page' => 'events']);
+    }
+
+    public function contactAction() {
+        return View::render('Home/contact', ['page' => 'contact']);
     }
 
     public function langAction() {
