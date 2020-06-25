@@ -4,3 +4,4 @@ vendor/
 composer.lock
 Documents/Invoices/*
 public/dist/qrcode/*
+public/dist/uploads/*
