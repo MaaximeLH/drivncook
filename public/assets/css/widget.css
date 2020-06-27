@@ -178,6 +178,9 @@ footer .swin-widget .title-widget {
   .wget-about-content:last-child {
     border-bottom: 0; }
 
+.about-contact-info a {
+  color: #fff; }
+
 .about-contact-info .address-info {
   width: 40%;
   float: left; }
