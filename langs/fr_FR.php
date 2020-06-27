@@ -339,4 +339,45 @@ return [
     'wysiwygEN' => 'Le champ text Anglais est vide',
     'errorImage' => 'Il y eu une erreur avec votre fichier',
     'submit' => 'envoyer',
+
+    
+    
+    /*  FRONT  */
+    /* Header */
+    'home' => 'Acceuil',
+    'event' => "Événement",
+    'contact' => 'Contact',
+    'my_franchised_account' => 'Mon espace franchisé',
+    'my_customer_account' => 'Mon compte client',
+    
+    /* Footer */
+    'subscribe_to_the_newsletter' => 'Inscrivez-vous à la newletters',
+    'Soyez tenu au courant de nos dernières promotions' => 'Soyez tenu au courant de nos dernières promotions',
+    "DRIV'N'COOK SAS, Société par Actions Simplifiés enregistrée à la chambre de commerce de Paris dont le siège social se trouve au 242 rue du Faubourg Saint Antoine, 75012, Paris." => "DRIV'N'COOK SAS, Société par Actions Simplifiés enregistrée à la chambre de commerce de Paris dont le siège social se trouve au 242 rue du Faubourg Saint Antoine, 75012, Paris.",
+    'SIRET_number' => "Numéro de siret",
+    '242 rue du Faubourg Saint Antoine, 75012, Paris' => '242 rue du Faubourg Saint Antoine, 75012, Paris',
+
+    /* ABOUT page */
+    'about' => 'A propos',
+    'getting_to_know_each_other_better_for_a_confident_future' => 'Mieux se connaître pour un avenir de confiance',
+    'our_story' => 'Notre histoire',
+    '2018.09.03' => '03.09.2018',
+    'the_beginning' => 'Le commecement',
+    "Début septembre 2018, une grande histoire a commencée, une histoire où l'on apprend toutes les bases nécessaires pour construire un empire tel que Driv'N'Cook." => "Début septembre 2018, une grande histoire a commencée, une histoire où l'on apprend toutes les bases nécessaires pour construire un empire tel que Driv'N'Cook.",
+    "L'infrastructure de nos services, l'aspect marketing et commercial que Driv'N'Cook, toutes ces choses qui ont été apprises et vues en classe au sein de l'ESGI." => "L'infrastructure de nos services, l'aspect marketing et commercial que Driv'N'Cook, toutes ces choses qui ont été apprises et vues en classe au sein de l'ESGI.",
+    "2019.03.03" => '03.03.2019',
+    "the_first_tests" => "Les premiers tests",
+    "Des premiers tests ont été effectués, chaque personne travaillant pour Driv'N'Cook a un passé et des projets, nous avons tous commencer en cette date." => "Des premiers tests ont été effectués, chaque personne travaillant pour Driv'N'Cook a un passé et des projets, nous avons tous commencer en cette date.",
+    '2020.01.16'  => "16.01.2020",
+    'Things_are_getting_complicated' => 'Les choses se compliquent',
+    "Driv'N'Cook devient la franchise numéro 1 des Food Trucks en europe occidentale, ce qui fait de nous une référence, et qui dit référence, dit pas le droit à l'erreur." => "Driv'N'Cook devient la franchise numéro 1 des Food Trucks en europe occidentale, ce qui fait de nous une référence, et qui dit référence, dit pas le droit à l'erreur.",
+    "Nous avons près de 87.000 franchisés partout dans le monde, prêt à vous désservir leurs délicieux plats et vous faire connaître leur culture." => "Nous avons près de 87.000 franchisés partout dans le monde, prêt à vous désservir leurs délicieux plats et vous faire connaître leur culture.",
+    "Les infrastructures de Driv'N'Cook sont complexes et le moindre bug peut s'avérer très impactant pour le système économique. C'est pour cela que nous avons recruté en masse des développeurs sortant de l'ESGI pour un total estimé de 5.000.000€ d'investissement." => "Les infrastructures de Driv'N'Cook sont complexes et le moindre bug peut s'avérer très impactant pour le système économique. C'est pour cela que nous avons recruté en masse des développeurs sortant de l'ESGI pour un total estimé de 5.000.000€ d'investissement.",
+    "Directeur de la section R&D" => "Directeur de la section R&D",
+    "Le modèle économique sur lequel se repose Driv'N'Cook est unique et permet un assouplissement des charges sur le long terme, que ce soit pour nous ou pour les franchisés. Ce qui fait de nous la société de franchise la plus prolifique." => "Le modèle économique sur lequel se repose Driv'N'Cook est unique et permet un assouplissement des charges sur le long terme, que ce soit pour nous ou pour les franchisés. Ce qui fait de nous la société de franchise la plus prolifique.",
+    "Directeur marketing et commercial" => "Directeur marketing et commercial",
+    'dishes' => 'plats',
+    "customers" => "clients",
+    'kitchen_hours' => 'heures en cuisine',
+
 ];

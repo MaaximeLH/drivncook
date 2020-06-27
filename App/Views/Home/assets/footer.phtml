@@ -5,8 +5,8 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="subscribe-heading">
-                            <h3 class="title">Inscrivez-vous à la newletters</h3>
-                            <div class="des">Soyez tenu au courant de nos dernières promotions</div>
+                            <h3 class="title"><?= \Core\Language::get('subscribe_to_the_newsletter') ?></h3>
+                            <div class="des"><?= \Core\Language::get('Soyez tenu au courant de nos dernières promotions') ?></div>
                         </div>
                         <form method="POST" class="widget-newsletter">
                             <input placeholder="Email" name="email" class="form-control">
@@ -33,7 +33,7 @@
                                     </ul>
                                 </div>
                                 <div class="wget-about-content">
-                                    <p>DRIV'N'COOK SAS, Société par Actions Simplifiés enregistrée à la chambre de commerce de Paris dont le siège social se trouve au 242 rue du Faubourg Saint Antoine, 75012, Paris.<br> Numéro de SIRET : PROJETANNUEL20SUR20.<br>
+                                    <p><?= \Core\Language::get("DRIV'N'COOK SAS, Société par Actions Simplifiés enregistrée à la chambre de commerce de Paris dont le siège social se trouve au 242 rue du Faubourg Saint Antoine, 75012, Paris.") ?><br><?= \Core\Language::get('SIRET_number') ?> : PROJETANNUEL20SUR20.<br>
                                     </p>
                                 </div>
                                 <div class="about-contact-info clearfix">
@@ -42,7 +42,7 @@
                                         <div class="info-content">
                                             <p>
                                                 <a href="https://goo.gl/maps/HtNJADfuSCRqNjpNA" target="_blank" rel="noopener noreferrer">
-                                                    242 rue du Faubourg Saint Antoine, 75012, Paris
+                                                <?= \Core\Language::get('242 rue du Faubourg Saint Antoine, 75012, Paris') ?>
                                                 </a>
                                             </p>
                                         </div>
