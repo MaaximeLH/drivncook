@@ -79,7 +79,7 @@ return [
     "testimonial" => "Testimonial",
     "Ils parlent de nous" => "They talk about us",
     "De passage sur Paris, il me fallait un repas goûtu rapidemment, pour pas très cher sans pour autant y laisser la qualité, je me suis donc tourné vers un Food Truck de Driv'n'Cook, et j'ai été ravi." => "Passing through Paris, I needed a quick and tasty meal, not very expensive but not too expensive, so I turned to a Food Truck from Driv'n'Cook, and I was delighted.",
-    "Devenir un franchis&#xE9; Driv&#x27;n&#x27;Cook m&#x27;a fait &#xE9;voluer de 870% en 3 ans, la qualit&#xE9; des services et la reconnaissance de la marque nous permet d&#x27;assurer un &#xE9;quilibre dans nos vies d&#x27;ind&#xE9;pendant." => "Becoming a Driv'n'Cook franchisee has helped me grow by 870% in 3 years. The quality of service and brand recognition allows us to ensure a balance in our independent lives.",
+    "Devenir un franchisé de Drinv'N'Cook a permis a mon entreprise de grandir grace a la qualité des services et la reconnaissance de la marque" => "Becoming a Drinv'N'Cook franchisee has allowed my business to grow because of the quality of service and brand recognition.",
     'franchisee' => 'Franchisee',
     "C'était bon." => "That was good.",
     'Cliente' => 'client',
