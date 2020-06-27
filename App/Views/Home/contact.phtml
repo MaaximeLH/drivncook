@@ -11,7 +11,7 @@
                     <div class="title-wrapper">
                         <div data-top="transform: translateY(0px);opacity:1;" data--120-top="transform: translateY(-30px);opacity:0;" data-anchor-target=".page-title" class="title">Contact</div>
                         <div data-top="opacity:1;" data--120-top="opacity:0;" data-anchor-target=".page-title" class="divider"><span class="line-before"></span><span class="dot"></span><span class="line-after"></span></div>
-                        <div data-top="transform: translateY(0px);opacity:1;" data--20-top="transform: translateY(5px);" data--50-top="transform: translateY(15px);opacity:0.8;" data--120-top="transform: translateY(30px);opacity:0;" data-anchor-target=".page-title" class="subtitle">Vous souhaitez avoir plus d'informations sur nous ou avez une question pour devenir franchisé ? Vous êtes sur la bonne page</div>
+                        <div data-top="transform: translateY(0px);opacity:1;" data--20-top="transform: translateY(5px);" data--50-top="transform: translateY(15px);opacity:0.8;" data--120-top="transform: translateY(30px);opacity:0;" data-anchor-target=".page-title" class="subtitle"><?= \Core\Language::get("Vous souhaitez avoir plus d'informations sur nous ou avez une question pour devenir franchisé ? Vous êtes sur la bonne page") ?></div>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                         <div class="row">
                             <div class="col-md-8 col-sm-12">
                                 <div class="swin-sc swin-sc-title style-2 text-left">
-                                    <p class="title"><span>Nous contacter</span></p>
+                                    <p class="title"><span><?= \Core\Language::get('contact_us') ?></span></p>
                                 </div>
                                 <div class="reservation-form style-02">
                                     <div class="swin-sc swin-sc-contact-form light mtl style-full">
@@ -50,7 +50,7 @@
                                                 <textarea placeholder="Message" class="form-control"></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <div class="swin-btn-wrap"><a href="#" class="swin-btn center form-submit"><span>Envoyer</span></a></div>
+                                                <div class="swin-btn-wrap"><a href="#" class="swin-btn center form-submit"><span><?= \Core\Language::get('send') ?></span></a></div>
                                             </div>
                                         </form>
                                     </div>
@@ -58,7 +58,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="swin-sc swin-sc-title style-2 text-left">
-                                    <p class="title"><span>Nos coordonnées</span></p>
+                                    <p class="title"><span><?= \Core\Language::get('our_contact_details') ?></span></p>
                                 </div>
                                 <div class="swin-sc swin-sc-contact">
                                     <div class="media item">
@@ -66,8 +66,8 @@
                                             <div class="wrapper-icon"><i class="icons fa fa-map-marker"></i></div>
                                         </div>
                                         <div class="media-body">
-                                            <h4 class="media-heading title">Siège social</h4>
-                                            <div class="description">242 rue du Faubourg Saint Antoine, 75012, Paris</div>
+                                            <h4 class="media-heading title"><?= \Core\Language::get('head_office') ?></h4>
+                                            <div class="description"><?= \Core\Language::get('242 rue du Faubourg Saint Antoine, 75012, Paris') ?></div>
                                         </div>
                                     </div>
                                     <div class="media item">
@@ -75,7 +75,7 @@
                                             <div class="wrapper-icon"><i class="icons fa fa-phone"></i></div>
                                         </div>
                                         <div class="media-body">
-                                            <h4 class="media-heading title">Téléphone</h4>
+                                            <h4 class="media-heading title"><?= \Core\Language::get('phone') ?></h4>
                                             <div class="description">(+33) 1 56 06 90 4</div>
                                         </div>
                                     </div>
