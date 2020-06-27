@@ -12,7 +12,7 @@
                         <div class="container">
                             <div class="slide-content-inner"><img src="/assets/images/slider/slider2-icon.png" data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="500" alt="drivncook" class="slide-icon img img-responsive animated">
                                 <h3 data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="1000" class="slide-title animated">FOOD TRUCKS</h3>
-                                <p data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="1500" class="slide-sub-title animated"><span class="line-before"></span><span class="line-after"></span><span class="text"><span>Savoureux</span><span>Délicieux</span><span>Rapide</span></span></p>
+                                <p data-ani-in="fadeInUp" data-ani-out="fadeOutDown" data-ani-delay="1500" class="slide-sub-title animated"><span class="line-before"></span><span class="line-after"></span><span class="text"><span><?= \Core\Language::get('tasty') ?></span><span><?= \Core\Language::get('delicious') ?></span><span><?= \Core\Language::get('fast') ?></span></span></p>
                             </div>
                         </div>
                     </div>
@@ -25,15 +25,15 @@
                             <div class="col-md-6 colsm-12"><img src="/assets/images/pages/home1-about.jpg" alt="" class="img img-responsive wow zoomIn"></div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="swin-sc swin-sc-title style-4 margin-bottom-20 margin-top-50">
-                                    <p class="top-title"><span>Découverte</span></p>
-                                    <h3 class="title">Notre histoire</h3>
+                                    <p class="top-title"><span><?= \Core\Language::get('discovery') ?></span></p>
+                                    <h3 class="title"><?= \Core\Language::get('our_story') ?></h3>
                                 </div>
-                                <p class="des font-bold text-center">A LA BASE C'ETAIT UN SIMPLE PROJET ANNUEL</p>
+                                <p class="des font-bold text-center"><?= \Core\Language::get("A LA BASE C'ETAIT UN SIMPLE PROJET ANNUEL") ?></p>
                                 <p class="des margin-bottom-20 text-center">
-                                    Ce concept assez original nous vient tout droit de l'imagination d'un immense Monsieur, dont nous tairons le noms. <span style="color: #f7f7f7">(Fréderic Sananes)</span><br>
-                                    Suite à des mois de travail acharné et à un passage en troisième année, le projet s'est abouti sur le lancement de la société, et aujourd'hui nous sommes la franchise numéro 1 du marché des food trucks en Europe occidentale.
+                                    <?= \Core\Language::get(" Ce concept assez original nous vient tout droit de l'imagination d'un immense Monsieur, dont nous tairons le noms.") ?> <span style="color: #f7f7f7">(Fréderic Sananes)</span><br>
+                                    <?= \Core\Language::get("Suite à des mois de travail acharné et à un passage en troisième année, le projet s'est abouti sur le lancement de la société, et aujourd'hui nous sommes la franchise numéro 1 du marché des food trucks en Europe occidentale.") ?>
                                 </p>
-                                <div class="swin-btn-wrap center"><a href="#" class="swin-btn center form-submit btn-transparent"> <span>	Nos évènements et promotions</span></a></div>
+                                <div class="swin-btn-wrap center"><a href="#" class="swin-btn center form-submit btn-transparent"> <span>	<?= \Core\Language::get('our_events_and_promotions') ?></span></a></div>
                             </div>
                         </div>
                     </div>
@@ -43,8 +43,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="swin-sc swin-sc-title">
-                                    <p class="top-title"><span>Ce que nous pouvons vous proposer</span></p>
-                                    <h3 class="title">Des choses délicieuses et à bas prix</h3>
+                                    <p class="top-title"><span><?= \Core\Language::get('Ce que nous pouvons vous proposer') ?></span></p>
+                                    <h3 class="title"><?= \Core\Language::get('Des choses délicieuses et à bas prix') ?></h3>
                                 </div>
                                 <div class="swin-sc swin-sc-product products-01 style-02 woocommerce">
                                     <div class="row">
@@ -52,29 +52,30 @@
                                         <div data-slide-toshow="5" class="cat-wrapper-02 main-slider col-md-8">
                                             <div class="item">
                                                 <div class="cat-icons"><i class="icons swin-icon-pasta"></i>
-                                                    <h5 class="cat-title">Petit déjeuner</h5>
+                                                    <h5 class="cat-title"><?= \Core\Language::get('Petit déjeuner') ?></h5>
                                                 </div>
                                             </div>
                                             <div class="item">
                                                 <div class="cat-icons"><i class="icons swin-icon-fish"></i>
-                                                    <h5 class="cat-title">Déjeuner</h5>
+                                                    <h5 class="cat-title"><?= \Core\Language::get('Déjeuner') ?></h5>
                                                 </div>
                                             </div>
                                             <div class="item">
                                                 <div class="cat-icons"><i class="icons swin-icon-meat"></i></div>
-                                                <h5 class="cat-title">Dînner</h5>
+                                                <h5 class="cat-title"><?= \Core\Language::get('Dînner') ?></h5>
                                             </div>
                                             <div class="item">
                                                 <div class="cat-icons"><i class="icons swin-icon-ice-cream"></i></div>
-                                                <h5 class="cat-title">Dessert</h5>
+                                                <h5 class="cat-title"><?= \Core\Language::get('Dessert') ?></h5>
                                             </div>
                                             <div class="item">
                                                 <div class="cat-icons"><i class="icons swin-icon-dinner"></i></div>
-                                                <h5 class="cat-title">Boissons</h5>
+                                                <h5 class="cat-title"><?= \Core\Language::get('Boissons') ?></h5>
                                             </div>
                                         </div>
                                         <div class="col-md-2"></div>
                                     </div>
+                                    <?php /*
                                     <div class="row">
                                         <div class="nav-slider">
                                             <div class="tab-content">
@@ -87,8 +88,8 @@
                                                     <div class="products">
                                                         <div class="item product-01">
                                                             <div class="item-left">
-                                                                <h5 class="title">Omelette sur lit de bacon grillé</h5>
-                                                                <div class="des">Car on aime tous petit déjeuner à l'anglaise </div>
+                                                                <h5 class="title"><?= \Core\Language::get('Omelette sur un lit de bacon grillé') ?></h5>
+                                                                <div class="des"><?= \Core\Language::get("Car on aime tous petit déjeuner à l'anglaise") ?> </div>
                                                             </div>
                                                             <div class="item-right"><span class="price woocommerce-Price-amount amount"><span class="price-symbol">€</span>10.0</span></div>
                                                         </div>
@@ -105,8 +106,8 @@
                                                     <div class="products">
                                                         <div class="item product-01">
                                                             <div class="item-left">
-                                                                <h5 class="title">Riz en barquette, sauce champignons</h5>
-                                                                <div class="des">Car ça ne coûte pas bien plus cher de bien manger </div>
+                                                                <h5 class="title"><?= \Core\Language::get('Riz en barquette, sauce champignons') ?></h5>
+                                                                <div class="des"><?= \Core\Language::get('Car ça ne coûte pas bien plus cher de bien manger') ?> </div>
                                                             </div>
                                                             <div class="item-right"><span class="price woocommerce-Price-amount amount"><span class="price-symbol">€</span>10.0</span></div>
                                                         </div>
@@ -123,8 +124,8 @@
                                                     <div class="products">
                                                         <div class="item product-01">
                                                             <div class="item-left">
-                                                                <h5 class="title">Riz en barquette, sauce champignons du soir</h5>
-                                                                <div class="des">Car ça ne coûte toujours pas bien plus cher de bien manger </div>
+                                                                <h5 class="title"><?= \Core\Language::get('Riz en barquette, sauce champignons du soir') ?></h5>
+                                                                <div class="des"><?= \Core\Language::get('Car ça ne coûte toujours pas bien plus cher de bien manger') ?> </div>
                                                             </div>
                                                             <div class="item-right"><span class="price woocommerce-Price-amount amount"><span class="price-symbol">€</span>10.0</span></div>
                                                         </div>
@@ -141,8 +142,8 @@
                                                     <div class="products">
                                                         <div class="item product-01">
                                                             <div class="item-left">
-                                                                <h5 class="title">Glace au coulis de chocolat au napage de chocolat sur un lit de chocolat à la base de chocolat au chocolat</h5>
-                                                                <div class="des">Car même si ça ne coûte pas bien plus cher de bien manger, il faut savoir se faire plaisir </div>
+                                                                <h5 class="title"><?= \Core\Language::get("Glace au coulis de chocolat au napage de chocolat sur un lit de chocolat à la base de chocolat au chocolat") ?></h5>
+                                                                <div class="des"><?= \Core\Language::get('Car même si ça ne coûte pas bien plus cher de bien manger, il faut savoir se faire plaisir') ?> </div>
                                                             </div>
                                                             <div class="item-right"><span class="price woocommerce-Price-amount amount"><span class="price-symbol">€</span>7.0</span></div>
                                                         </div>
@@ -160,7 +161,7 @@
                                                         <div class="item product-01">
                                                             <div class="item-left">
                                                                 <h5 class="title">Coca-Cola</h5>
-                                                                <div class="des">Un classique qu'on ne peut oublier</div>
+                                                                <div class="des"><?= \Core\Language::get("Un classique qu'on ne peut oublier") ?></div>
                                                             </div>
                                                             <div class="item-right"><span class="price woocommerce-Price-amount amount"><span class="price-symbol">€</span>4.0</span></div>
                                                         </div>
@@ -168,7 +169,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> <!-- ROW -->
+                                    */?>
                                 </div>
                             </div>
                         </div>
@@ -179,8 +181,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="swin-sc swin-sc-title">
-                                    <p class="top-title"><span>Témoignage</span></p>
-                                    <h3 class="title white-color">Ils parlent de nous</h3>
+                                    <p class="top-title"><span><?= \Core\Language::get('testimonial') ?></span></p>
+                                    <h3 class="title white-color"><?= \Core\Language::get('Ils parlent de nous') ?></h3>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-10 col-md-offset-1">
@@ -189,21 +191,21 @@
                                                 <div class="slides">
                                                     <div class="testi-item item"><i class="testi-icon fa fa-quote-left"></i>
                                                         <div class="testi-content">
-                                                            <p>De passage sur Paris, il me fallait un repas goûtu rapidemment, pour pas très cher sans pour autant y laisser la qualité, je me suis donc tourné vers un Food Truck de Driv'n'Cook, et j'ai été ravi.</p>
+                                                            <p><?= \Core\Language::get("De passage sur Paris, il me fallait un repas goûtu rapidemment, pour pas très cher sans pour autant y laisser la qualité, je me suis donc tourné vers un Food Truck de Driv'n'Cook, et j'ai été ravi.") ?></p>
                                                         </div>
-                                                        <div class="testi-info"><span class="name">Kamal Hennou</span> <span class="position">Client</span></div>
+                                                        <div class="testi-info"><span class="name">Kamal Hennou</span> <span class="position"><?= \Core\Language::get('customer') ?></span></div>
                                                     </div>
                                                     <div class="testi-item item"><i class="testi-icon fa fa-quote-left"></i>
                                                         <div class="testi-content">
-                                                            <p>Devenir un franchisé Driv'n'Cook m'a fait évoluer de 870% en 3 ans, la qualité des services et la reconnaissance de la marque nous permet d'assurer un équilibre dans nos vies d'indépendant.</p>
+                                                            <p><?= \Core\Language::get("Devenir un franchisé de Drinv'N'Cook a permis a mon entreprise de grandir grace a la qualité des services et la reconnaissance de la marque") ?></p>
                                                         </div>
-                                                        <div class="testi-info"><span class="name">Frédéric Sananes</span> <span class="position">Franchisé</span></div>
+                                                        <div class="testi-info"><span class="name">Frédéric Sananes</span> <span class="position"><?= \Core\Language::get('franchisee') ?></span></div>
                                                     </div>
                                                     <div class="testi-item item"><i class="testi-icon fa fa-quote-left"></i>
                                                         <div class="testi-content">
-                                                            <p>C'était bon.</p>
+                                                            <p><?= \Core\Language::get("C'était bon.") ?></p>
                                                         </div>
-                                                        <div class="testi-info"><span class="name">Dora SAADAN</span> <span class="position">Cliente</span></div>
+                                                        <div class="testi-info"><span class="name">Dora SAADAN</span> <span class="position"><?= \Core\Language::get('Cliente') ?></span></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -224,37 +226,37 @@
                 <section class="service-section-02 padding-top-100 padding-bottom-100">
                     <div class="container">
                         <div class="swin-sc swin-sc-title">
-                            <p class="top-title"><span>Nos services</span></p>
-                            <h3 class="title">Que proposons-nous</h3>
+                            <p class="top-title"><span><?= \Core\Language::get('our_services') ?></span></p>
+                            <h3 class="title"><?= \Core\Language::get('what_we_propose') ?></h3>
                         </div>
                         <div class="swin-sc swin-sc-iconbox">
                             <div class="row">
                                 <div class="col-md-3 col-sm-6 col-xs-12">
                                     <div class="item icon-box-02 wow fadeInUpShort">
                                         <div class="wrapper-icon"><i class="icons swin-icon-dish"></i><span class="number">1</span></div>
-                                        <h4 class="title">Un panel de choix</h4>
-                                        <div class="description">Chaque Food Truck Driv'n'Cook possède sa propre culture et cuisine ses propres repas, découvrez les variétés du monde.</div>
+                                        <h4 class="title"><?= \Core\Language::get('a_choice_panel') ?></h4>
+                                        <div class="description"><?= \Core\Language::get("Chaque Food Truck Driv'n'Cook possède sa propre culture et cuisine ses propres repas, découvrez les variétés du monde.") ?></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
                                     <div data-wow-delay="0.5s" class="item icon-box-02 wow fadeInUpShort">
                                         <div class="wrapper-icon"><i class="icons swin-icon-dinner-2"></i><span class="number">2</span></div>
-                                        <h4 class="title">Événements privés</h4>
-                                        <div class="description">Nous organisons régulièrement des événements pour nos franchisés et nos clients, inscrivez-vous à la newletters pour ne rien louper</div>
+                                        <h4 class="title"><?= \Core\Language::get('private_events') ?></h4>
+                                        <div class="description"><?= \Core\Language::get('Nous organisons régulièrement des événements pour nos franchisés et nos clients, inscrivez-vous à la newletters pour ne rien louper') ?></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
                                     <div data-wow-delay="1s" class="item icon-box-02 wow fadeInUpShort">
                                         <div class="wrapper-icon"><i class="icons swin-icon-browser"></i><span class="number">3</span></div>
-                                        <h4 class="title">Suivi en ligne</h4>
-                                        <div class="description">Nos infrastructures sont multi-supports, suivez n'importe quelle de vos actions sur nos services en ligne</div>
+                                        <h4 class="title"><?= \Core\Language::get('follow_up_online') ?></h4>
+                                        <div class="description"><?= \Core\Language::get("Nos infrastructures sont multi-supports, suivez n'importe quelle de vos actions sur nos services en ligne") ?></div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-6 col-xs-12">
                                     <div data-wow-delay="1.5s" class="item icon-box-02 wow fadeInUpShort">
                                         <div class="wrapper-icon"><i class="icons swin-icon-delivery"></i><span class="number">4</span></div>
-                                        <h4 class="title">Location de camions</h4>
-                                        <div class="description">Driv'n'Cook vous prête un food trucks totalement aménagé et personnalisable.</div>
+                                        <h4 class="title"><?= \Core\Language::get('truck_rentals') ?></h4>
+                                        <div class="description"><?= \Core\Language::get("Driv'n'Cook vous prête un food trucks totalement aménagé et personnalisable.") ?></div>
                                     </div>
                                 </div>
                             </div>
@@ -263,8 +265,8 @@
                 </section>
                 <section class="gallery-section-01 padding-top-100">
                     <div class="swin-sc swin-sc-title">
-                        <p class="top-title"><span>Notre gallerie</span></p>
-                        <h3 class="title white-color">Photos des Food Trucks Driv'n'Cook</h3>
+                        <p class="top-title"><span><?= \Core\Language::get('our_gallery') ?></span></p>
+                        <h3 class="title white-color"><?= \Core\Language::get("Photos des Food Trucks Driv'n'Cook") ?></h3>
                     </div>
                     <div class="swin-sc swin-sc-isotope">
                         <div class="grid">
@@ -307,8 +309,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="swin-sc swin-sc-title">
-                                    <p class="top-title"><span>Événement & Promotions</span></p>
-                                    <h3 class="title">Nos prochains événements</h3>
+                                    <p class="top-title"><span><?= \Core\Language::get('Événement & Promotions') ?></span></p>
+                                    <h3 class="title"><?= \Core\Language::get('our_future_events') ?></h3>
                                 </div>
                                 <div class="swin-sc swin-sc-blog-grid"></div>
                             </div>
@@ -320,9 +322,9 @@
                                                 <div class="blog-featured-img"><img src="/assets/images/blog/blog-grid-1.jpg" alt="drivncook" class="img img-responsive"></div>
                                                 <div class="blog-content">
                                                     <div class="blog-date"><span class="day">09</span><span class="month">Jui</span></div>
-                                                    <h3 class="blog-title"><a href="javascript:void(0)" class="swin-transition">Le projet annuel</a></h3>
-                                                    <p class="blog-description">Cette fameuse étape à passer, inscrivez-vous à l'événement pour ne rien louper.</p>
-                                                    <div class="blog-readmore"><a href="javascript:void(0)" class="swin-transition">En savoir plus <i class="fa fa-angle-double-right"></i></a></div>
+                                                    <h3 class="blog-title"><a href="javascript:void(0)" class="swin-transition"><?= \Core\Language::get('Le projet annuel') ?></a></h3>
+                                                    <p class="blog-description"><?= \Core\Language::get("Cette fameuse étape à passer, inscrivez-vous à l'événement pour ne rien louper.") ?></p>
+                                                    <div class="blog-readmore"><a href="javascript:void(0)" class="swin-transition"><?= \Core\Language::get('more_information') ?> <i class="fa fa-angle-double-right"></i></a></div>
                                                 </div>
                                             </div>
                                         </div>
