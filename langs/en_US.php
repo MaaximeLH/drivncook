@@ -41,6 +41,7 @@ return [
     "Marketing and Sales Director" => "Marketing and Sales Director",
     'dishes' => 'dishes',
     'customers' => 'customers',
+    'customer' => 'customer',
     'kitchen_hours' => 'kitchen hours',
 
     /* Contact page */
@@ -102,7 +103,7 @@ return [
     "more_information" => "More information",
     /* Event */
     "Venez au événements Driv'N'Cook" => "Come to Driv'N'Cook events",
-    "Retrouvez tous les événements Driv'N'Cook à venir" => "Retrouvez tous les événements Driv'N'Cook à venir",
+    "Retrouvez tous les événements Driv'N'Cook à venir" => "Find out all the upcoming Driv'N'Cook events",
     /* Camion */
     "trucks" => "Trucks",
     "Venez Voir les camion de la franchise Driv'N'Cook" => "Come see the trucks of the Driv'N'Cook franchise",
