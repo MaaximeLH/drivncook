@@ -64,9 +64,10 @@
                 <div class="form-group">
                     <label for="type">Type</label>
                     <select class="form-control" name="type" id="type">
-                        <option <?= \Core\View::set_select('type', 'invite-only') ?> value="invite-only">invite-only</option>
-                        <option <?= \Core\View::set_select('type', 'public', 'default') ?> value="public">public</option>
-                        <option <?= \Core\View::set_select('type', 'with-VIP') ?> value="with-VIP">with-VIP</option>
+                        <?php $selected = @$event->getType(); ?>
+                        <option <?= (isset($selected) && $selected == 'invite-only')  ? 'selected="selected' : \Core\View::set_select('type', 'invite-only') ?> value="invite-only">invite-only</option>
+                        <option <?= (isset($selected) && $selected == 'public') ? 'selected="selected' : \Core\View::set_select('type', 'public', TRUE) ?> value="public">public</option>
+                        <option <?= (isset($selected) && $selected == 'with-VIP') ? 'selected="selected' : \Core\View::set_select('type', 'with-VIP') ?> value="with-VIP">with-VIP</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-block btn-warning"

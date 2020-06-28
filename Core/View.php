@@ -40,13 +40,12 @@ class View
 	public static function set_select(string $field = '', string $value = '', bool $default = FALSE)
 	{
 		if (!isset($_POST[$field])) {
-			return ($default === TRUE && count($_POST[$field]) === 0) ? ' selected="selected"' : '';
+			return ($default === TRUE && count($_POST) === 0) ? ' selected="selected"' : '';
 		}
 
 		$field = $_POST[$field];
 		$value = (string) $value;
-		if (is_array($field))
-		{
+		if (is_array($field)) {
 			// Note: in_array('', array(0)) returns TRUE, do not use it
 			foreach ($field as &$v) {
 				if ($value === $v) {
