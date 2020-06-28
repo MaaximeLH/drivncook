@@ -6,6 +6,9 @@ use App\Config;
 
 class Language {
 
+    public static function lang() {
+        return $_COOKIE['language'] ?? Config::DEFAULT_LANGUAGE;
+    }
 
     public static function get($key, $args = []) {
         $lang = $_COOKIE['language'] ?? Config::DEFAULT_LANGUAGE;

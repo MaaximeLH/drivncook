@@ -16,10 +16,6 @@ class Home extends Controller {
         return View::render('Home/about', ['page' => 'about']);
     }
 
-    public function eventsAction() {
-        return View::render('Home/events', ['page' => 'events']);
-    }
-
     public function contactAction() {
         return View::render('Home/contact', ['page' => 'contact']);
     }

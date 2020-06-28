@@ -130,6 +130,13 @@ class Event
     private $image;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -423,6 +430,30 @@ class Event
     public function setTitleEmailFR($titleEmailFR)
     {
         $this->titleEmailFR = $titleEmailFR;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of type
+     *
+     * @return  string|null
+     */ 
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set the value of type
+     *
+     * @param  string|null  $type
+     *
+     * @return  self
+     */ 
+    public function setType($type)
+    {
+        $this->type = $type;
 
         return $this;
     }

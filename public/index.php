@@ -13,11 +13,13 @@ $router = new Core\Router();
 /**
  * Routes
  */
+// Home
 $router->add('', ['controller' => 'Home', 'action' => 'index', 'namespace' => 'Home']);
 $router->add('about', ['controller' => 'Home', 'action' => 'about', 'namespace' => 'Home']);
-$router->add('events', ['controller' => 'Home', 'action' => 'events', 'namespace' => 'Home']);
 $router->add('contact', ['controller' => 'Home', 'action' => 'contact', 'namespace' => 'Home']);
 $router->add('lang/pref/{lang:(?:[\w\-](?<!_))+}', ['controller' => 'Home', 'action' => 'lang', 'namespace' => 'Home']);
+// Events
+$router->add('events', ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Home']);
 
 /**
  * Administration
@@ -82,7 +84,6 @@ $router->add("administration/event/{event:\d+}/preview/{customer:\d+}", ['contro
 $router->add("administration/event/{id:\d+}/send_invitation", ['controller' => 'Events', 'action' => 'sendInvitation', 'namespace' => 'Admin']);
 $router->add("administration/event/{event:\d+}/resend/{customer:\d+}", ['controller' => 'Events', 'action' => 'sendInvitation', 'namespace' => 'Admin']);
 
-// Customer
 $router->add("administration/customer", ['controller' => 'Customers', 'action' => 'index', 'namespace' => 'Admin']);
 $router->add("administration/customer/add", ['controller' => 'Customers', 'action' => 'add', 'namespace' => 'Admin']);
 $router->add("administration/customer/edit/{id:\d+}", ['controller' => 'Customers', 'action' => 'edit', 'namespace' => 'Admin']);

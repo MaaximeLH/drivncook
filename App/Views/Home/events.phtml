@@ -20,24 +20,28 @@
                     <div class="container">
                         <div class="row">
                             <div class="page-main col-md-8">
+                                
                                 <div class="blog-wrapper swin-sc-blog-list">
                                     <div class="swin-sc-blog-slider style-02">
                                         <div class="main-slider">
                                             <div class="slides">
-                                                <div class="blog-item swin-transition">
-                                                    <div class="blog-featured-img">
-                                                        <div class="quote-format"><img src="assets/images/blog/blog-slider-6.jpg" alt="drivncook" class="img img-responsive">
-                                                            <div class="quote-text"><i class="fa fa-quote-left quote-icon"></i>Le projet annuel, meilleur projet de l'année.</div>
+                                                <?php foreach ($events as $event) : ?>
+                                                    <?php if ($event->getType() == 'invite-only') continue; ?>
+                                                    <div class="blog-item swin-transition" data-event="<?= $event->getId() ?>" id="event-<?= $event->getId() ?>">
+                                                        <div class="blog-featured-img">
+                                                            <div class="quote-format"><img src="<?= '/dist/uploads/event/' . $event->getId() . '/' . $event->getImage() ?>" alt="Image event <?= $event->getId() ?>" class="img img-responsive">
+                                                                <div class="quote-text"><i class="fa fa-quote-left quote-icon"></i><?= $event->getType() ?></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="blog-content">
+                                                            <div class="blog-date"><span class="day"><?= $event->getStartAt()->format("d") ?></span><span class="month"><?= $event->getStartAt()->format("M") ?></span></div>
+                                                            <h3 class="blog-title"><a href="#" class="swin-transition"><?= $event->getName() ?></a></h3>
+                                                            <p class="blog-description"><?= \Core\Language::lang() == 'fr_FR' ? $event->getTextFr() : $event->getTextEn() ?></p>
+
+                                                            <div class="blog-readmore"><a href="#" class="swin-transition"><?= \Core\Language::get("more_information") ?> <i class="fa fa-angle-double-right"></i></a></div>
                                                         </div>
                                                     </div>
-                                                    <div class="blog-content">
-                                                        <div class="blog-date"><span class="day">09</span><span class="month">Jui</span></div>
-                                                        <h3 class="blog-title"><a href="#" class="swin-transition">Projet annuel.</a></h3>
-                                                        <p class="blog-description">Cette fameuse étape à passer, inscrivez-vous à l'événement pour ne rien louper.</p>
-
-                                                        <div class="blog-readmore"><a href="#" class="swin-transition">En savoir plus <i class="fa fa-angle-double-right"></i></a></div>
-                                                    </div>
-                                                </div>
+                                                <?php endforeach ?>
                                             </div>
                                         </div>
                                     </div>
@@ -47,8 +51,8 @@
                                 <!-- search-->
                                 <div class="swin-widget widget-search">
                                     <div class="title-widget">
-                                        <form accept-charset="utf-8" method="POST" class="search-form">
-                                            <input type="search" placeholder="Rechercher" name="s" value="" class="search-input"><span class="search-submit"><i class="fa fa-search"></i></span>
+                                        <form accept-charset="utf-8" id="search-form-event" class="search-form">
+                                            <input type="search" placeholder="Rechercher" id="search-event" value="" class="search-input"><span class="search-submit"><i class="fa fa-search"></i></span>
                                         </form>
                                     </div>
                                 </div>
@@ -63,6 +67,24 @@
     </div>
     <?php require "assets/loader.phtml"; ?>
 </div>
+<script>
+    const eventNames = {<?php foreach($events as $event) {echo '"' .  $event->getName() . '":"' . $event->getId() . '",';} ?>};
+    const form = document.getElementById("search-form-event");
+    form.addEventListener('submit', e => e.preventDefault());
+    const search = document.getElementById('search-event');
+    search.addEventListener('keyup', e => {
+        const result = Object.keys(eventNames).map(name => {
+            lowerCaseName = name.toLowerCase();
+            event = document.querySelector(`[data-event="${eventNames[name]}"]`)
+            if (!event) return;
+            if (lowerCaseName.indexOf(e.target.value.toLowerCase()) > -1) {
+                event.style.display = 'block';
+            } else {
+                event.style.display = 'none';
+            }
+        });
+    });
+</script>
 <?php require "assets/dependancies.phtml"; ?>
 </body>
 </html>
