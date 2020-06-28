@@ -103,4 +103,8 @@ return [
     /* Event */
     "Venez au événements Driv'N'Cook" => "Come to Driv'N'Cook events",
     "Retrouvez tous les événements Driv'N'Cook à venir" => "Retrouvez tous les événements Driv'N'Cook à venir",
+    /* Camion */
+    "trucks" => "Trucks",
+    "Venez Voir les camion de la franchise Driv'N'Cook" => "Come see the trucks of the Driv'N'Cook franchise",
+    'our_food_truck' => 'Our Food Trucks',
 ];

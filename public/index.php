@@ -21,6 +21,8 @@ $router->add('lang/pref/{lang:(?:[\w\-](?<!_))+}', ['controller' => 'Home', 'act
 // Events
 $router->add('events', ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Home']);
 $router->add('events/detail/{id:\d+}', ['controller' => 'Events', 'action' => 'detail', 'namespace' => 'Home']);
+// Trucks
+$router->add('trucks', ['controller' => 'Trucks', 'action' => 'index', 'namespace' => 'Home']);
 
 /**
  * Administration

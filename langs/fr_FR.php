@@ -440,4 +440,8 @@ return [
     /* Event */
     "Venez au événements Driv'N'Cook" => "Venez au événements Driv'N'Cook",
     "Retrouvez tous les événements Driv'N'Cook à venir" => "Find out all the upcoming Driv'N'Cook events",
+    /* Camion */
+    "trucks" => "Camions",
+    "Venez Voir les camion de la franchise Driv'N'Cook" => "Venez Voir les camion de la franchise Driv'N'Cook",
+    'our_food_truck' => 'Nos Food Trucks',
 ];
