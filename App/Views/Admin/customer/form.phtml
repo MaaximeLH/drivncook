@@ -10,17 +10,17 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="emailInput"><?= \Core\Language::get('email') ?></label>
-                                <input type="email" class="form-control <?= (isset($fields['email'])) ? 'is-invalid' : ''; ?>" id="emailInput" placeholder="<?= \Core\Language::get("email") ?>" name="email" value="<?= \Core\View::set_values('email', @$customer->getEmail()) ?>">
+                                <input type="email" class="form-control <?= (isset($fields['email'])) ? 'is-invalid' : ''; ?>" id="emailInput" placeholder="<?= \Core\Language::get("email") ?>" name="email" value="<?= \Core\View::set_values('email', isset($customer) ? $customer->getEmail() : NULL) ?>">
                             </div>
 
                             <div class="form-group">
                                 <label for="firstnameInput"><?= \Core\Language::get('firstname') ?></label>
-                                <input type="text" class="form-control <?= (isset($fields['firstname'])) ? 'is-invalid' : ''; ?>" id="firstnameInput" placeholder="<?= \Core\Language::get('firstname') ?>" name="firstname" value="<?= \Core\View::set_values('firstname', @$customer->getFirstname()) ?>">
+                                <input type="text" class="form-control <?= (isset($fields['firstname'])) ? 'is-invalid' : ''; ?>" id="firstnameInput" placeholder="<?= \Core\Language::get('firstname') ?>" name="firstname" value="<?= \Core\View::set_values('firstname',isset($customer) ? $customer->getFirstname() : NULL) ?>">
                             </div>
 
                             <div class="form-group">
                                 <label for="lastnameInput"><?= \Core\Language::get('lastname') ?></label>
-                                <input type="text" class="form-control <?= (isset($fields['lastname'])) ? 'is-invalid' : ''; ?>" id="lastnameInput" placeholder="<?= \Core\Language::get('lastname') ?>" name="lastname" value="<?= \Core\View::set_values('lastname', @$customer->getLastname()) ?>">
+                                <input type="text" class="form-control <?= (isset($fields['lastname'])) ? 'is-invalid' : ''; ?>" id="lastnameInput" placeholder="<?= \Core\Language::get('lastname') ?>" name="lastname" value="<?= \Core\View::set_values('lastname', isset($customer) ? $customer->getLastname() : NULL) ?>">
                             </div>
 
                             <hr>

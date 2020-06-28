@@ -19,7 +19,7 @@ class View
         return true;
     }
 
-    public static function set_values($name, $value)
+    public static function set_values($name, $value = NULL)
     {
         if (!empty($_POST[$name])) {
             return $_POST[$name];
