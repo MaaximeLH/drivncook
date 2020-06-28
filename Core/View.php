@@ -29,4 +29,37 @@ class View
         }
         return '';
     }
+
+    /**
+	 * Set Select
+	 *
+	 * Enables pull-down lists to be set to the value the user
+	 * selected in the event of an error
+	 * @return	string
+	 */
+	public static function set_select(string $field = '', string $value = '', bool $default = FALSE)
+	{
+		if (!isset($_POST[$field])) {
+			return ($default === TRUE && count($_POST[$field]) === 0) ? ' selected="selected"' : '';
+		}
+
+		$field = $_POST[$field];
+		$value = (string) $value;
+		if (is_array($field))
+		{
+			// Note: in_array('', array(0)) returns TRUE, do not use it
+			foreach ($field as &$v) {
+				if ($value === $v) {
+					return ' selected="selected"';
+				}
+			}
+
+			return '';
+		}
+		elseif (($field === '' OR $value === '') OR ($field !== $value)) {
+			return '';
+		}
+
+		return ' selected="selected"';
+	}
 }

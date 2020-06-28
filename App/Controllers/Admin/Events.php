@@ -93,6 +93,15 @@ class Events extends Controller
             $params = Request::getAllParams();
             $event->setName($params['name']);
             $event->setDescription($params['description']);
+
+            $event->setStartAt(\DateTime::createFromFormat('Y-m-d H:i', $params['date_start'] . ' ' . $params['time_start']));
+            $event->setEndAt(\DateTime::createFromFormat('Y-m-d H:i', $params['date_end'] . ' ' . $params['time_end']));
+            $event->setBeginRegisterAt(\DateTime::createFromFormat('Y-m-d H:i', $params['date_begin_register_at'] . ' ' . $params['time_begin_register_at']));
+            
+            if (in_array($params['type'], ['invite-only', 'public', 'with-VIP'])) {
+                $event->setType($params['type']);
+            }
+            $this->em->flush();
         }
         CSRF::generate();
 
@@ -148,8 +157,6 @@ class Events extends Controller
             CSRF::validate();
             $error = [];
             $params = Request::getAllParams();
-            // echo '<pre>' . htmlentities(print_r($params, true)) . '</pre>';
-            // die();
             if (empty($params['titleEmailFR'])) {
                 $error[] = \Core\Language::get('titleEmailFR');
             } else {
@@ -182,7 +189,6 @@ class Events extends Controller
             }
 
             $file = Request::getFile('img');
-            // var_dump($file);die();
             if (!empty($file['tmp_name'])) {
                 $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                 if (!Validator::isValidFileExtension($extension)) {
