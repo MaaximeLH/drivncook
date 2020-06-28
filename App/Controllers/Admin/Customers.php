@@ -45,7 +45,7 @@ class Customers extends Controller
         $data['admin'] = $this->admin;
         $data['customers'] = $customers;
         $data['admin'] = $this->admin;
-        $data['page'] = \Core\Language::get('listing_customer');
+        $data['page'] = 'customer';
         $this->load_view('Admin/customer/listing', $data);
     }
 
@@ -53,6 +53,8 @@ class Customers extends Controller
     {
 
         CSRF::generate();
+        $data['admin'] = $this->admin;
+        $data['page'] = 'add_customer';
 
         if (Request::isPost()) {
             CSRF::validate();
@@ -89,8 +91,6 @@ class Customers extends Controller
 
             if (!empty($fields)) {
                 $data['fields'] = $fields;
-                $data['admin'] = $this->admin;
-                $data['page'] = 'add_customer';
                 $this->load_view('Admin/customer/form', $data);
                 return;
             }
@@ -99,8 +99,7 @@ class Customers extends Controller
             $this->em->flush();
             return $this->redirectTo('/administration/customer/edit/' . $customer->getId());
         }
-        $data['admin'] = $this->admin;
-        $data['page'] = 'add_customer';
+
         $this->load_view('Admin/customer/form', $data);
     }
 
