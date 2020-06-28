@@ -30,7 +30,7 @@ class Events extends Controller
         parent::__construct($routes);
         $em = Entity::getEntityManager();
 
-        $this->em = Entity::getEntityManager();
+        $this->em = $em;
         $this->layout = 'Admin/assets/layout.phtml';
 
         $userId = Session::get('admin_id');

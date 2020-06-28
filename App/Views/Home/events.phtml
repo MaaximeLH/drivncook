@@ -38,7 +38,7 @@
                                                             <h3 class="blog-title"><a href="#" class="swin-transition"><?= $event->getName() ?></a></h3>
                                                             <p class="blog-description"><?= \Core\Language::lang() == 'fr_FR' ? $event->getTextFr() : $event->getTextEn() ?></p>
 
-                                                            <div class="blog-readmore"><a href="#" class="swin-transition"><?= \Core\Language::get("more_information") ?> <i class="fa fa-angle-double-right"></i></a></div>
+                                                            <div class="blog-readmore"><a href="/events/detail/<?= $event->getId() ?>" class="swin-transition"><?= \Core\Language::get("more_information") ?> <i class="fa fa-angle-double-right"></i></a></div>
                                                         </div>
                                                     </div>
                                                 <?php endforeach ?>

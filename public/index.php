@@ -20,6 +20,7 @@ $router->add('contact', ['controller' => 'Home', 'action' => 'contact', 'namespa
 $router->add('lang/pref/{lang:(?:[\w\-](?<!_))+}', ['controller' => 'Home', 'action' => 'lang', 'namespace' => 'Home']);
 // Events
 $router->add('events', ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Home']);
+$router->add('events/detail/{id:\d+}', ['controller' => 'Events', 'action' => 'detail', 'namespace' => 'Home']);
 
 /**
  * Administration

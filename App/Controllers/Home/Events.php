@@ -11,16 +11,27 @@ use App\Entity\Event;
 
 class Events extends Controller {
 
+    private $em;
+    private $eventRepository;
+
     public function __construct($routes)
     {
         parent::__construct($routes);
-        $em = Entity::getEntityManager();
         $this->em = Entity::getEntityManager();
         $this->eventRepository = $this->em->getRepository(Event::class);
 
     }
+
     public function indexAction() {
         $events = $this->eventRepository->findAll();
         return View::render('Home/events', ['page' => 'events', 'events' => $events]);
+    }
+
+    public function detailAction() {
+        $eventId = $this->getRouteParameter('id');
+        if (!$eventId) return $this->redirectTo('/events');
+
+        $event = $this->eventRepository->find($eventId);
+        return View::render('Home/eventDetail', ['page' => 'eventDetail', 'event' => $event]);
     }
 }
