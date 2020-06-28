@@ -100,5 +100,7 @@ return [
     "Le projet annuel" => 'The annual project',
     "Cette fameuse étape à passer, inscrivez-vous à l'événement pour ne rien louper." => "This famous step to pass, register for the event so you don't miss anything.",
     "more_information" => "More information",
-
+    /* Event */
+    "Venez au événements Driv'N'Cook" => "Come to Driv'N'Cook events",
+    "Retrouvez tous les événements Driv'N'Cook à venir" => "Retrouvez tous les événements Driv'N'Cook à venir",
 ];

@@ -437,4 +437,7 @@ return [
     'Le projet annuel' => 'Le projet annuel',
     "Cette fameuse étape à passer, inscrivez-vous à l'événement pour ne rien louper." => "Cette fameuse étape à passer, inscrivez-vous à l'événement pour ne rien louper.",
     'more_information' => 'En savoir plus',
+    /* Event */
+    "Venez au événements Driv'N'Cook" => "Venez au événements Driv'N'Cook",
+    "Retrouvez tous les événements Driv'N'Cook à venir" => "Find out all the upcoming Driv'N'Cook events",
 ];
