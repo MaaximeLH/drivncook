@@ -22,6 +22,33 @@
                             <h1 class="title"><span><?= \Core\Language::get('our_food_truck') ?></span></h1>
                         </div>
                       <div id="map" style="height: 450px"></div>
+                        <br>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nom du food trucks</th>
+                                    <th>Localisation</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($trucks as $truck): ?>
+                                    <tr>
+                                        <td><?= $truck->user->getSocietyName(); ?></td>
+                                        <td>
+                                            <!-- Si coordonnées valides -->
+                                            <?php if(is_float($truck->getLatitude()) && is_float($truck->getLongitude())){ ?>
+                                                <!-- Lien vers l'API Google Map -->
+                                                <a class="btn btn-info" target="_blank" href="https://www.google.com/maps/search/?api=1&query=<?= $truck->getLatitude(); ?>,<?= $truck->getLongitude(); ?>">Localiser</a>
+                                            <?php } ?>
+                                        </td>
+
+                                        <td><a href="/trucks/<?= $truck->getId(); ?>" class="btn btn-primary">Commander</a></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+
                     </div>
                 </section>
             </div>

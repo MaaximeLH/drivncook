@@ -23,6 +23,16 @@ $router->add('events', ['controller' => 'Events', 'action' => 'index', 'namespac
 $router->add('events/detail/{id:\d+}', ['controller' => 'Events', 'action' => 'detail', 'namespace' => 'Home']);
 // Trucks
 $router->add('trucks', ['controller' => 'Trucks', 'action' => 'index', 'namespace' => 'Home']);
+$router->add('trucks/{id:\d+}', ['controller' => 'Trucks', 'action' => 'commands', 'namespace' => 'Home']);
+
+/**
+ * Customers
+ */
+$router->add('customers', ['controller' => 'Customers', 'action' => 'index', 'namespace' => 'Customer']);
+$router->add('customers/login', ['controller' => 'Home', 'action' => 'login', 'namespace' => 'Customer']);
+$router->add('customers/register', ['controller' => 'Home', 'action' => 'register', 'namespace' => 'Customer']);
+$router->add('customers/logout', ['controller' => 'Home', 'action' => 'logout', 'namespace' => 'Customer']);
+
 
 /**
  * Administration

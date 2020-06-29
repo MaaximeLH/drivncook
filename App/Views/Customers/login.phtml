@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Driv'n'Cook - <?= \Core\Language::get('login'); ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <a href="/">Driv<b>'n'</b>Cook</a>
+    </div>
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Connexion à mon compte client</p>
+            <?php if(isset($loginError)){ ?>
+                <div class="alert alert-danger" role="alert">
+                    <?= \Core\Language::get('account_not_found'); ?>
+                </div>
+            <?php } ?>
+            <form method="POST">
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" autocomplete="autocomplete" name="email" placeholder="<?= \Core\Language::get('email'); ?>">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" autocomplete="autocomplete" name="password" placeholder="<?= \Core\Language::get('password'); ?>">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <?= \Core\CSRF::fields(); ?>
+                    <button type="submit" class="btn btn-primary btn-block"><?= \Core\Language::get('login'); ?></button>
+                </div>
+
+                <div class="row" style="margin-top: 10px">
+                    <a href="/customers/register">Pas de compte ? Je m'inscris !</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+
+</body>
+</html>

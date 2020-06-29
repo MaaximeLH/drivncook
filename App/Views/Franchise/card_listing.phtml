@@ -51,14 +51,12 @@
                                 <table id="cards" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
                                             <th><?= \Core\Language::get('name') ?></th>
                                             <th>Action</th>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($cards as $card) : ?>
                                             <tr>
-                                                <td><?= $card->getId() ?></td>
                                                 <td><?= $card->getName() ?></td>
                                                 <td>
                                                     <a class="btn btn-sm btn-info mr-4" href="<?= '/panel/card/edit/' . $card->getId() ?>">Editer</a>

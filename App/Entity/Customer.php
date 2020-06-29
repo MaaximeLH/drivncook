@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Customer
 {
@@ -204,17 +205,13 @@ class Customer
     }
 
     /**
-     * Set the value of createdAt
-     *
-     * @param  \DateTime|null  $createdAt
-     *
-     * @return  self
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
+     * Gets triggered only on insert
 
-        return $this;
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime("now");
     }
 
     /**

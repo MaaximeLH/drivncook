@@ -19,10 +19,10 @@
                         </ul>
                     </div>
                     <div class="item">
-                        <div class="wg-social"><i class="fa fa-user-plus"></i><span><?= \Core\Language::get('my_franchised_account') ?></span></div>
+                        <div class="wg-social"><i class="fa fa-user-plus"></i><a href="/panel"><span><?= \Core\Language::get('my_franchised_account') ?></span></a></div>
                     </div>
                     <div class="item">
-                        <div class="wg-social"><i class="fa fa-user"></i><span><?= \Core\Language::get('my_customer_account') ?></span></div>
+                        <div class="wg-social"><i class="fa fa-user"></i><a href="/customers"><span><?= \Core\Language::get('my_customer_account') ?></span></a></div>
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     <ul id="main-nav" class="nav nav-pills">
                         <li class="<?= (isset($page) && $page == "home") ? 'current-menu-item' : ''; ?>"><a href="/"><?= \Core\Language::get('home') ?></a></li>
                         <li class="<?= (isset($page) && $page == "about") ? 'current-menu-item' : ''; ?>"><a href="/about"><?= \Core\Language::get('about') ?></a></li>
-                        <li><a href="/trucks">Nos food trucks</a></li>
+                        <li class="<?= (isset($page) && $page == "trucks") ? 'current-menu-item' : ''; ?>"><a href="/trucks">Nos food trucks</a></li>
                         <li class="<?= (isset($page) && $page == "events") ? 'current-menu-item' : ''; ?>"><a href="/events"><?= \Core\Language::get('event') ?></a></li>
                         <li><a href="#">Franchise</a></li>
                         <li class="<?= (isset($page) && $page == "contact") ? 'current-menu-item' : ''; ?>"><a href="/contact"><?= \Core\Language::get('contact') ?></a></li>
