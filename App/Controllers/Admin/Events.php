@@ -142,10 +142,10 @@ class Events extends Controller
 
         $customerRepository = $this->em->getRepository(Customer::class);
         $event = $this->eventRepository->find($this->getRouteParameter('event'));
-        $cusotmer = $customerRepository->find($this->getRouteParameter('customer'));
+        $customer = $customerRepository->find($this->getRouteParameter('customer'));
 
         $data['event'] = $event;
-        $data['cusotmer'] = $cusotmer;
+        $data['customer'] = $customer;
         $this->load_view('Admin/event/invitation', $data);
     }
 

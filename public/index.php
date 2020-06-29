@@ -95,7 +95,7 @@ $router->add("administration/event/delete/{id:\d+}", ['controller' => 'Events', 
 $router->add("administration/event/{event:\d+}/remove/{franchise:\d+}", ['controller' => 'Events', 'action' => 'removeFranchise', 'namespace' => 'Admin']);
 $router->add("administration/event/{event:\d+}/preview/{customer:\d+}", ['controller' => 'Events', 'action' => 'previewInvitation', 'namespace' => 'Admin']);
 $router->add("administration/event/{id:\d+}/send_invitation", ['controller' => 'Events', 'action' => 'sendInvitation', 'namespace' => 'Admin']);
-$router->add("administration/event/{event:\d+}/resend/{customer:\d+}", ['controller' => 'Events', 'action' => 'sendInvitation', 'namespace' => 'Admin']);
+$router->add("administration/event/{event:\d+}/resend/{customer:\d+}", ['controller' => 'Events', 'action' => 'resendInvitation', 'namespace' => 'Admin']);
 
 $router->add("administration/customer", ['controller' => 'Customers', 'action' => 'index', 'namespace' => 'Admin']);
 $router->add("administration/customer/add", ['controller' => 'Customers', 'action' => 'add', 'namespace' => 'Admin']);
