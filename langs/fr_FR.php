@@ -307,13 +307,10 @@ return [
     'do_you_really_want_delete_franchise' => 'Voulez-vous vraiment supprimer ce franchisé ? Attention ! Cette action est irréversible !',
     'do_you_really_want_to_block_franchise_account' => "Voulez-vous vraiment bloquer le compte de ce franchisé ?",
     'unblock_franchise_account' => "Débloquer le compte du franchisé ?",
-    'add_menu' => 'Ajouter un menu',
-    'event' => 'Event',
     'start_at' => 'Date de début',
     'end_at' => 'Date de fin',
     'begin_register_at' => 'Date d\'ouverture des inscrpitions',
     'description' => 'description',
-    'created_at' => 'Date de création',
     'event_list' => 'Listes des events',
     'add_event' => 'Ajouter un event',
 
@@ -344,7 +341,6 @@ return [
     
     /*  FRONT  */
     /* Header */
-    'home' => 'Acceuil',
     'event' => "Événement",
     'contact' => 'Contact',
     'my_franchised_account' => 'Mon espace franchisé',
@@ -441,7 +437,6 @@ return [
     "Venez au événements Driv'N'Cook" => "Venez au événements Driv'N'Cook",
     "Retrouvez tous les événements Driv'N'Cook à venir" => "Find out all the upcoming Driv'N'Cook events",
     /* Camion */
-    "trucks" => "Camions",
     "Venez Voir les camion de la franchise Driv'N'Cook" => "Venez Voir les camion de la franchise Driv'N'Cook",
     'our_food_truck' => 'Nos Food Trucks',
 ];
