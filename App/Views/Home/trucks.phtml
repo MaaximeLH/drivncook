@@ -28,7 +28,6 @@
                                 <tr>
                                     <th>Nom du food trucks</th>
                                     <th>Localisation</th>
-                                    <th>Action</th>
                                     <th>Menu</th>
                                 </tr>
                             </thead>
@@ -44,8 +43,7 @@
                                             <?php } ?>
                                         </td>
 
-                                        <td><a href="/trucks/<?= $truck->getId(); ?>" class="btn btn-primary">Commander</a></td>
-                                        <td><a href="/trucks/menu/<?= $truck->getId(); ?>" class="btn btn-primary">Menu</a></td>
+                                        <td><a href="/trucks/menu/<?= $truck->getId(); ?>" class="btn btn-primary">Voir le menu</a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

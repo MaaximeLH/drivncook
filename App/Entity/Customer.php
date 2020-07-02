@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Customer
  *
  * @ORM\Table(name="customer")
- * @ORM\Entity(repositoryClass="App\Repository\CustomerRepository")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
 class Customer
@@ -73,11 +73,8 @@ class Customer
         $this->address = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
-     * Get the value of id
-     *
-     * @return  int
+     * @return int
      */
     public function getId()
     {
@@ -85,23 +82,7 @@ class Customer
     }
 
     /**
-     * Set the value of id
-     *
-     * @param  int  $id
-     *
-     * @return  self
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of firstName
-     *
-     * @return  string|null
+     * @return string|null
      */
     public function getFirstName()
     {
@@ -109,23 +90,15 @@ class Customer
     }
 
     /**
-     * Set the value of firstName
-     *
-     * @param  string|null  $firstName
-     *
-     * @return  self
+     * @param string|null $firstName
      */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-
-        return $this;
     }
 
     /**
-     * Get the value of lastName
-     *
-     * @return  string|null
+     * @return string|null
      */
     public function getLastName()
     {
@@ -133,23 +106,15 @@ class Customer
     }
 
     /**
-     * Set the value of lastName
-     *
-     * @param  string|null  $lastName
-     *
-     * @return  self
+     * @param string|null $lastName
      */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-
-        return $this;
     }
 
     /**
-     * Get the value of email
-     *
-     * @return  string|null
+     * @return string|null
      */
     public function getEmail()
     {
@@ -157,23 +122,15 @@ class Customer
     }
 
     /**
-     * Set the value of email
-     *
-     * @param  string|null  $email
-     *
-     * @return  self
+     * @param string|null $email
      */
     public function setEmail($email)
     {
         $this->email = $email;
-
-        return $this;
     }
 
     /**
-     * Get the value of password
-     *
-     * @return  string|null
+     * @return string|null
      */
     public function getPassword()
     {
@@ -181,23 +138,15 @@ class Customer
     }
 
     /**
-     * Set the value of password
-     *
-     * @param  string|null  $password
-     *
-     * @return  self
+     * @param string|null $password
      */
     public function setPassword($password)
     {
         $this->password = $password;
-
-        return $this;
     }
 
     /**
-     * Get the value of createdAt
-     *
-     * @return  \DateTime|null
+     * @return \DateTime|null
      */
     public function getCreatedAt()
     {
@@ -215,9 +164,7 @@ class Customer
     }
 
     /**
-     * Get the value of address
-     *
-     * @return  \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAddress()
     {
@@ -225,16 +172,12 @@ class Customer
     }
 
     /**
-     * Set the value of address
-     *
-     * @param  \Doctrine\Common\Collections\Collection  $address
-     *
-     * @return  self
+     * @param \Doctrine\Common\Collections\Collection $address
      */
-    public function setAddress(\Doctrine\Common\Collections\Collection $address)
+    public function setAddress($address)
     {
         $this->address = $address;
-
-        return $this;
     }
+
+
 }

@@ -22,18 +22,54 @@
                             <h1 class="title"><span>Passer commande chez <b><?= htmlspecialchars(trim($truck->user->getSocietyName())); ?></b></span></h1>
                         </div>
 
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Catégorie</th>
+                                    <th>Produit</th>
+                                    <th>Prix (en €)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $total = 0; foreach ($items as $item): $total += $item['card_item_price']; ?>
+                                    <tr>
+                                        <td><?= $item['card_category_name']; ?></td>
+                                        <td><?= $item['card_item_name']; ?></td>
+                                        <td><?= number_format($item['card_item_price'], 2); ?>€</td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Catégorie</th>
+                                <th>Produit</th>
+                                <th>Prix (en €)</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+
+                        <h4 class="pull-right" style="font-weight: bold">Prix total : <?= number_format($total, 2) ?>€</h4>
+
+                        <br><br>
+
                         <form method="POST">
-                            <div class="form-group">
-                                <input type="text" name="lastname" placeholder="Votre nom" class="form-control">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <input type="text" value="<?= $customer->getLastname(); ?>" disabled placeholder="Votre nom" class="form-control">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <input type="text" value="<?= $customer->getFirstname(); ?>" disabled placeholder="Votre prénom" class="form-control">
+                                </div>
                             </div>
                             <div class="form-group">
-                                <input type="text" name="lastname" placeholder="Votre prénom" class="form-control">
+                                <input type="text" value="<?= $customer->getEmail(); ?>" disabled placeholder="Votre email" class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" name="email" placeholder="Votre email" class="form-control">
+                                <label for="datetime_input" style="<?= (isset($datetime_error) && !is_null($datetime_error)) ? 'color:red' : ''; ?>">Récupérer ma commande le :</label>
+                                <input type="datetime-local" id="datetime_input" value="<?= (isset($datetime_error) && !is_null($datetime_error)) ? $params['datetime'] : ''; ?>" name="datetime" class="form-control is-invalid">
                             </div>
                             <div class="form-group">
-                                <textarea name="description" placeholder="Ajouter une description pour votre commande" class="form-control" cols="30" rows="10"></textarea>
+                                <textarea name="description" placeholder="Ajouter une description pour votre commande (allergies, préférence, changement dans le menu)" class="form-control" cols="30" rows="10"><?= (isset($datetime_error) && !is_null($datetime_error)) ? htmlspecialchars(trim($params['description'])) : ''; ?></textarea>
                             </div>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-block btn-primary">
@@ -45,5 +81,6 @@
         </div>
     </div>
 </div>
+<?php require "assets/footer.phtml"; ?>
 </body>
 </html>

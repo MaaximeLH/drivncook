@@ -1,7 +1,7 @@
 <?php
 
-
 namespace App\Entity;
+
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="card_category", indexes={@ORM\Index(name="IDX_BF7DD742161498D3", columns={"card"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class CardCategory
 {
@@ -48,9 +49,7 @@ class CardCategory
     private $card;
 
     /**
-     * Get the value of id
-     *
-     * @return  int
+     * @return int
      */
     public function getId()
     {
@@ -58,23 +57,7 @@ class CardCategory
     }
 
     /**
-     * Set the value of id
-     *
-     * @param  int  $id
-     *
-     * @return  self
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of name
-     *
-     * @return  string|null
+     * @return string|null
      */
     public function getName()
     {
@@ -82,23 +65,15 @@ class CardCategory
     }
 
     /**
-     * Set the value of name
-     *
-     * @param  string|null  $name
-     *
-     * @return  self
+     * @param string|null $name
      */
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
     }
 
     /**
-     * Get the value of createdAt
-     *
-     * @return  \DateTime|null
+     * @return \DateTime|null
      */
     public function getCreatedAt()
     {
@@ -106,23 +81,17 @@ class CardCategory
     }
 
     /**
-     * Set the value of createdAt
-     *
-     * @param  \DateTime|null  $createdAt
-     *
-     * @return  self
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
+     * Gets triggered only on insert
 
-        return $this;
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime("now");
     }
 
     /**
-     * Get the value of card
-     *
-     * @return  \Card
+     * @return \Card
      */
     public function getCard()
     {
@@ -130,16 +99,12 @@ class CardCategory
     }
 
     /**
-     * Set the value of card
-     *
-     * @param  \Card  $card
-     *
-     * @return  self
+     * @param \Card $card
      */
-    public function setCard(Card $card)
+    public function setCard($card)
     {
         $this->card = $card;
-
-        return $this;
     }
+
+
 }

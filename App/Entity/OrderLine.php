@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -44,7 +44,7 @@ class OrderLine
     private $price;
 
     /**
-     * @var \Orders
+     * @var Orders
      *
      * @ORM\ManyToOne(targetEntity="Orders")
      * @ORM\JoinColumns({
@@ -53,5 +53,75 @@ class OrderLine
      */
     private $order;
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * @return string|null
+     */
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param string|null $text
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param int|null $quantity
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param float|null $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return Orders
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param Orders $order
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
 }

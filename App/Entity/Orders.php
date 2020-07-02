@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="orders", indexes={@ORM\Index(name="IDX_E52FFDEE9395C3F3", columns={"customer_id"}), @ORM\Index(name="IDX_E52FFDEEA76ED395", columns={"user_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Orders
 {
@@ -30,7 +31,7 @@ class Orders
     private $createdAt;
 
     /**
-     * @var \Customer
+     * @var Customer
      *
      * @ORM\ManyToOne(targetEntity="Customer")
      * @ORM\JoinColumns({
@@ -40,7 +41,7 @@ class Orders
     private $customer;
 
     /**
-     * @var \Users
+     * @var Users
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
@@ -48,6 +49,64 @@ class Orders
      * })
      */
     private $user;
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Gets triggered only on insert
+
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param Customer $customer
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
+    }
+
+    /**
+     * @return Users
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param Users $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
 
 
 }

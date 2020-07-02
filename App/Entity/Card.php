@@ -6,10 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Card
- ***
- * @ORM\Entity(repositoryClass="App\Repository\CardRepository")
  *
- * @ORM\Table(name="card", indexes={@ORM\Index(name="IDX_161498D3A76ED395", columns={"user_id"})})
+ * @ORM\Table(name="card", indexes={@ORM\Index(name="IDX_161498D3A76ED395", columns={"user_id"})},)
+ * @ORM\Entity(repositoryClass="App\Repository\CardRepository")
  */
 class Card
 {
@@ -31,7 +30,7 @@ class Card
     private $name;
 
     /**
-     * @var Users
+     * @var \Users
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
@@ -41,58 +40,7 @@ class Card
     private $user;
 
     /**
-     * Get the value of name
-     *
-     * @return  string|null
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the value of name
-     *
-     * @param  string|null  $name
-     *
-     * @return  self
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-
-    /**
-     * Get the value of user
-     *
-     * @return  \Users
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Set the value of user
-     *
-     * @param  \Users  $user
-     *
-     * @return  self
-     */
-    public function setUser(Users $user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of id
-     *
-     * @return  int
+     * @return int
      */
     public function getId()
     {
@@ -100,16 +48,34 @@ class Card
     }
 
     /**
-     * Set the value of id
-     *
-     * @param  int  $id
-     *
-     * @return  self
+     * @return string|null
      */
-    public function setId(int $id)
+    public function getName()
     {
-        $this->id = $id;
+        return $this->name;
+    }
 
-        return $this;
+    /**
+     * @param string|null $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return \Users
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param \Users $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 }

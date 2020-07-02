@@ -1,7 +1,7 @@
 <?php
 
-
 namespace App\Entity;
+
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="card_item", indexes={@ORM\Index(name="IDX_F32827BC12469DE2", columns={"category_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class CardItem
 {
@@ -55,9 +56,7 @@ class CardItem
     private $category;
 
     /**
-     * Get the value of id
-     *
-     * @return  int
+     * @return int
      */
     public function getId()
     {
@@ -65,23 +64,7 @@ class CardItem
     }
 
     /**
-     * Set the value of id
-     *
-     * @param  int  $id
-     *
-     * @return  self
-     */
-    public function setId(int $id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of name
-     *
-     * @return  string|null
+     * @return string|null
      */
     public function getName()
     {
@@ -89,23 +72,15 @@ class CardItem
     }
 
     /**
-     * Set the value of name
-     *
-     * @param  string|null  $name
-     *
-     * @return  self
+     * @param string|null $name
      */
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
     }
 
     /**
-     * Get the value of price
-     *
-     * @return  float|null
+     * @return float|null
      */
     public function getPrice()
     {
@@ -113,23 +88,15 @@ class CardItem
     }
 
     /**
-     * Set the value of price
-     *
-     * @param  float|null  $price
-     *
-     * @return  self
+     * @param float|null $price
      */
     public function setPrice($price)
     {
         $this->price = $price;
-
-        return $this;
     }
 
     /**
-     * Get the value of createdAt
-     *
-     * @return  \DateTime|null
+     * @return \DateTime|null
      */
     public function getCreatedAt()
     {
@@ -137,23 +104,7 @@ class CardItem
     }
 
     /**
-     * Set the value of createdAt
-     *
-     * @param  \DateTime|null  $createdAt
-     *
-     * @return  self
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of category
-     *
-     * @return  \CardCategory
+     * @return \CardCategory
      */
     public function getCategory()
     {
@@ -161,16 +112,20 @@ class CardItem
     }
 
     /**
-     * Set the value of category
-     *
-     * @param  \CardCategory  $category
-     *
-     * @return  self
+     * @param \CardCategory $category
      */
-    public function setCategory(CardCategory $category)
+    public function setCategory($category)
     {
         $this->category = $category;
+    }
 
-        return $this;
+    /**
+     * Gets triggered only on insert
+
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime("now");
     }
 }
