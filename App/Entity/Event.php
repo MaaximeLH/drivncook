@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Event
  *
  * @ORM\Table(name="event")
- * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
 class Event
@@ -66,61 +66,46 @@ class Event
     private $createdAt;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var string|null
      *
-     * @ORM\ManyToMany(targetEntity="Users", inversedBy="event")
-     * @ORM\JoinTable(name="event_user",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="event_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     *   }
-     * )
+     * @ORM\Column(name="title_email_fr", type="string", length=255, nullable=true)
      */
-    private $user;
+    private $titleEmailFr;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="title_Email_FR", type="string", length=255, nullable=true)
+     * @ORM\Column(name="text_email_fr", type="text", nullable=true)
      */
-    private $titleEmailFR;
+    private $textEmailFr;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="text_Email_FR", type="text", nullable=true)
+     * @ORM\Column(name="text_fr", type="text", nullable=true)
      */
-    private $textEmailFR;
+    private $textFr;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="text_FR", type="text", nullable=true)
+     * @ORM\Column(name="title_email_en", type="string", length=255, nullable=true)
      */
-    private $textFR;
+    private $titleEmailEn;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="title_Email_EN", type="string", length=255, nullable=true)
+     * @ORM\Column(name="text_email_en", type="text", nullable=true)
      */
-    private $titleEmailEN;
+    private $textEmailEn;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="text_Email_EN", type="text", nullable=true)
+     * @ORM\Column(name="text_en", type="text", nullable=true)
      */
-    private $textEmailEN;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="text_EN", type="text", nullable=true)
-     */
-    private $textEN;
+    private $textEn;
 
     /**
      * @var string|null
@@ -135,6 +120,21 @@ class Event
      * @ORM\Column(name="type", type="string", length=255, nullable=true)
      */
     private $type;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Users", inversedBy="event")
+     * @ORM\JoinTable(name="event_user",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="event_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $user;
 
     /**
      * Constructor
@@ -241,22 +241,6 @@ class Event
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-    }
-
-    /**
      * Gets triggered only on insert
 
      * @ORM\PrePersist
@@ -267,9 +251,103 @@ class Event
     }
 
     /**
-     * Get the value of image
-     *
-     * @return  string|null
+     * @return string|null
+     */
+    public function getTitleEmailFr()
+    {
+        return $this->titleEmailFr;
+    }
+
+    /**
+     * @param string|null $titleEmailFr
+     */
+    public function setTitleEmailFr($titleEmailFr)
+    {
+        $this->titleEmailFr = $titleEmailFr;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTextEmailFr()
+    {
+        return $this->textEmailFr;
+    }
+
+    /**
+     * @param string|null $textEmailFr
+     */
+    public function setTextEmailFr($textEmailFr)
+    {
+        $this->textEmailFr = $textEmailFr;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTextFr()
+    {
+        return $this->textFr;
+    }
+
+    /**
+     * @param string|null $textFr
+     */
+    public function setTextFr($textFr)
+    {
+        $this->textFr = $textFr;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitleEmailEn()
+    {
+        return $this->titleEmailEn;
+    }
+
+    /**
+     * @param string|null $titleEmailEn
+     */
+    public function setTitleEmailEn($titleEmailEn)
+    {
+        $this->titleEmailEn = $titleEmailEn;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTextEmailEn()
+    {
+        return $this->textEmailEn;
+    }
+
+    /**
+     * @param string|null $textEmailEn
+     */
+    public function setTextEmailEn($textEmailEn)
+    {
+        $this->textEmailEn = $textEmailEn;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTextEn()
+    {
+        return $this->textEn;
+    }
+
+    /**
+     * @param string|null $textEn
+     */
+    public function setTextEn($textEn)
+    {
+        $this->textEn = $textEn;
+    }
+
+    /**
+     * @return string|null
      */
     public function getImage()
     {
@@ -277,184 +355,42 @@ class Event
     }
 
     /**
-     * Set the value of image
-     *
-     * @param  string|null  $image
-     *
-     * @return  self
+     * @param string|null $image
      */
     public function setImage($image)
     {
         $this->image = $image;
-
-        return $this;
     }
 
     /**
-     * Get the value of textEmailEN
-     *
-     * @return  string|null
+     * @return string|null
      */
-    public function getTextEmailEN()
-    {
-        return $this->textEmailEN;
-    }
-
-    /**
-     * Set the value of textEmailEN
-     *
-     * @param  string|null  $textEmailEN
-     *
-     * @return  self
-     */
-    public function setTextEmailEN($textEmailEN)
-    {
-        $this->textEmailEN = $textEmailEN;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of textEN
-     *
-     * @return  string|null
-     */
-    public function getTextEN()
-    {
-        return $this->textEN;
-    }
-
-    /**
-     * Set the value of textEN
-     *
-     * @param  string|null  $textEN
-     *
-     * @return  self
-     */
-    public function setTextEN($textEN)
-    {
-        $this->textEN = $textEN;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of titleEmailEN
-     *
-     * @return  string|null
-     */
-    public function getTitleEmailEN()
-    {
-        return $this->titleEmailEN;
-    }
-
-    /**
-     * Set the value of titleEmailEN
-     *
-     * @param  string|null  $titleEmailEN
-     *
-     * @return  self
-     */
-    public function setTitleEmailEN($titleEmailEN)
-    {
-        $this->titleEmailEN = $titleEmailEN;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of textFR
-     *
-     * @return  string|null
-     */
-    public function getTextFR()
-    {
-        return $this->textFR;
-    }
-
-    /**
-     * Set the value of textFR
-     *
-     * @param  string|null  $textFR
-     *
-     * @return  self
-     */
-    public function setTextFR($textFR)
-    {
-        $this->textFR = $textFR;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of textEmailFR
-     *
-     * @return  string|null
-     */
-    public function getTextEmailFR()
-    {
-        return $this->textEmailFR;
-    }
-
-    /**
-     * Set the value of textEmailFR
-     *
-     * @param  string|null  $textEmailFR
-     *
-     * @return  self
-     */
-    public function setTextEmailFR($textEmailFR)
-    {
-        $this->textEmailFR = $textEmailFR;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of titleEmailFR
-     *
-     * @return  string|null
-     */
-    public function getTitleEmailFR()
-    {
-        return $this->titleEmailFR;
-    }
-
-    /**
-     * Set the value of titleEmailFR
-     *
-     * @param  string|null  $titleEmailFR
-     *
-     * @return  self
-     */
-    public function setTitleEmailFR($titleEmailFR)
-    {
-        $this->titleEmailFR = $titleEmailFR;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of type
-     *
-     * @return  string|null
-     */ 
     public function getType()
     {
         return $this->type;
     }
 
     /**
-     * Set the value of type
-     *
-     * @param  string|null  $type
-     *
-     * @return  self
-     */ 
+     * @param string|null $type
+     */
     public function setType($type)
     {
         $this->type = $type;
+    }
 
-        return $this;
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 }

@@ -92,7 +92,6 @@ create table if not exists users
     is_active boolean default true,
     created_at timestamp
 );
-
 create table if not exists customer
 (
     id         serial not null
@@ -211,14 +210,15 @@ create table if not exists event
 );
 create table if not exists event_user
 (
+    id                serial not null
+        constraint event_user_pkey
+            primary key,
     event_id integer not null
         constraint event_user_event_id_fkey
             references event,
     user_id  integer not null
         constraint event_user_user_id_fkey
-            references users,
-    constraint event_user_pkey
-        primary key (event_id, user_id)
+            references users
 );
 create table if not exists promotion
 (
@@ -305,14 +305,35 @@ create table if not exists order_line
     quantity integer,
     price    double precision
 );
-
+create table if not exists event_customer
+(
+    id             serial not null
+        constraint event_customer_pkey
+            primary key,
+    id_event integer constraint event_event_customer_id_fkey
+            references event,
+    id_customer integer constraint customer_event_customer_id_fkey
+            references customer,
+    statut varchar(255),
+    code      varchar(255),
+    created_at    timestamp
+);
+ALTER TABLE event
+    ADD COLUMN title_Email_FR varchar(255) NULL,
+    ADD COLUMN text_Email_FR TEXT NULL,
+    ADD COLUMN text_FR TEXT NULL,
+    ADD COLUMN title_Email_EN varchar(255) NULL,
+    ADD COLUMN text_Email_EN TEXT NULL,
+    ADD COLUMN text_EN TEXT NULL,
+    ADD COLUMN image varchar(255) NULL,
+    ADD COLUMN "type" varchar(255) NULL;
 -- Auto seed
 INSERT INTO admin
         VALUES (1,'Maxime', 'LE HENAFF', 'maxime@lehenaff.pro', '$2y$10$DjAyq7IHAONyaqbc.VaaGea6G2WbMV4AACvU9HE07PsU.8CWy4xiC', '2020-04-18 10:10:10.0000000');
-
+INSERT INTO admin
+        VALUES (2,'Swann', 'HERRERA', 'swann@herrera.pro', '$2y$10$DjAyq7IHAONyaqbc.VaaGea6G2WbMV4AACvU9HE07PsU.8CWy4xiC', '2020-04-18 10:10:10.0000000');
 INSERT INTO truck
         VALUES(1, 'AA-000-AA', 0.00, 0.00, 1, '2020-04-18 10:10:10.0000000');
-
 INSERT INTO users
         VALUES (1, 1, 'Maxime', 'LE HENAFF', 'Massimo Trucks', '12345678', '242 rue du faubourg', 'France', '75012', 'Paris', 'Ile-de-France', '01111222', 'maxime@lehenaff.pro',
                 '$2y$10$DjAyq7IHAONyaqbc.VaaGea6G2WbMV4AACvU9HE07PsU.8CWy4xiC', '', '', true, '2020-04-18 10:10:10.0000000');
