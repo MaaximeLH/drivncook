@@ -89,13 +89,19 @@ class Trucks extends Controller {
             $datetime = new \DateTime($params['datetime']);
             $datetime = $datetime->getTimestamp();
 
-            if($datetime <= time()) {
+            $date = new \DateTime();
+            $diff = $date->diff(new \DateTime(date('Y-m-d H:i:s', $datetime)));
+
+            if($datetime <= time() || $diff->days > 5) {
                 return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'datetime_error' => true, 'params' => $params]);
             }
 
             $order = new Orders();
             $order->setCustomer($customer);
             $order->setUser($user);
+            $order->setStatus(1);
+            $order->setDescription(htmlspecialchars(trim($params['description'])));
+            $order->setRecuperationDate($datetime);
 
             $this->em->persist($order);
             $this->em->flush();
@@ -134,7 +140,7 @@ class Trucks extends Controller {
             $this->em->persist($invoiceLine);
             $this->em->flush();
 
-            return $this->redirectTo("/customers/commands/" . $order->getId());
+            return $this->redirectTo("/customers/commands");
         }
 
         return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items]);

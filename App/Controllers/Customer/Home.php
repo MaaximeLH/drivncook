@@ -13,7 +13,6 @@ use Core\View;
 
 class Home extends Controller {
 
-
     public function loginAction() {
         if (Session::get('customer_id') !== false) {
             return $this->redirectTo('/customers/logout');

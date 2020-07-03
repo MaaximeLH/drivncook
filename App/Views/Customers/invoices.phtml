@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/dist/css/adminlte.css">
+    <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
@@ -42,7 +43,7 @@
 
                         <div class="card">
                             <div class="card-header border-transparent">
-                                <h3 class="card-title">Mes dernières commandes</h3>
+                                <h3 class="card-title">Mes factures</h3>
 
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -53,45 +54,47 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- /.card-header -->
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table m-0">
-                                        <thead>
-                                        <tr>
-                                            <th>Numéro de commande</th>
-                                            <th>Food Truck</th>
-                                            <th>Status</th>
-                                            <th>Prix TTC</th>
-                                            <th>Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td><a href="#">DNV8874</a></td>
-                                            <td>MASSIMO TRUCKS</td>
-                                            <td><span class="badge badge-success">Récupérée</span></td>
-                                            <td>
-                                                58.65 €
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-sm btn-info" href="#">Plus d'informations</a>
-                                                <a href="#" class="btn btn-sm btn-success">Localiser le food truck</a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.table-responsive -->
+                            <div class="card-body">
+                                <table id="invoices" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Food truck</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($invoices as $invoice): ?>
+                                            <tr>
+                                                <td>DVN-<?= $invoice->getId(); ?></td>
+                                                <td><?= $invoice->getUser()->getSocietyName(); ?></td>
+                                                <td>
+                                                    <?php if($invoice->getStatus()){ ?>
+                                                        <span class="badge bg-success"><?= \Core\Language::get('payed') ?></span>
+                                                    <?php } else { ?>
+                                                        <span class="badge bg-danger"><?= \Core\Language::get('not_payed') ?></span>
+                                                    <?php } ?>
+                                                </td>
+                                                <td>
+                                                    <a href="/customers/invoices/details/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info">
+                                                        <i class="fa fa-info-circle"></i> Voir
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Food truck</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
                             </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer clearfix">
-                                <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Passer une nouvelle commande</a>
-                                <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">Voir toutes mes commandes</a>
-                            </div>
-                            <!-- /.card-footer -->
                         </div>
-                        <!-- /.card -->
                     </div>
 
                 </div>
@@ -114,6 +117,17 @@
 
 <script src="/plugins/jquery/jquery.min.js"></script>
 <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/datatables/jquery.dataTables.js"></script>
+<script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script src="/dist/js/adminlte.js"></script>
+<script>
+    $(function() {
+        $("#invoices").DataTable({
+            language: {
+                url: '<?= \Core\Language::get("datatable_trad_link") ?>'
+            }
+        });
+    });
+</script>
 </body>
 </html>
