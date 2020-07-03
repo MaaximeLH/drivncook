@@ -87,7 +87,7 @@ class Events extends Controller
     {
         $event = $this->eventRepository->find($this->getRouteParameter('id'));
         $eventCustomerRepository = $this->em->getRepository(EventCustomer::class);
-        $eventCustomers = $eventCustomerRepository->findBy(['event' => $event]);
+        $eventCustomers = $eventCustomerRepository->findBy(['idEvent' => $event->getId()]);
         if (Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
