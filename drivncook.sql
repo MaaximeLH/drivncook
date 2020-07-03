@@ -293,6 +293,7 @@ create table if not exists orders
     user_id     integer
         constraint orders_user_id_fkey
             references users,
+    status integer default 1,
     created_at  timestamp
 );
 create table if not exists order_line

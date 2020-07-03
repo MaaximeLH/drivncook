@@ -51,6 +51,27 @@ class Orders
     private $user;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="status", type="integer", nullable=true, options={"default": 1})
+     */
+    private $status;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="recuperation_date", type="integer", nullable=false)
+     */
+    private $recuperationDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", nullable=true)
+     */
+    private $description;
+
+    /**
      * @return int
      */
     public function getId()
@@ -108,5 +129,51 @@ class Orders
         $this->user = $user;
     }
 
+    /**
+     * @return int
+     */
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
 
+    /**
+     * @param int $status
+     */
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRecuperationDate(): int
+    {
+        return $this->recuperationDate;
+    }
+
+    /**
+     * @param int $recuperationDate
+     */
+    public function setRecuperationDate(int $recuperationDate): void
+    {
+        $this->recuperationDate = $recuperationDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
 }

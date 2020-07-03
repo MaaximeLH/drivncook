@@ -30,7 +30,8 @@ $router->add('trucks/menu/{id:\d+}/commands/{card:\d+}', ['controller' => 'Truck
 /**
  * Customers
  */
-$router->add('customers', ['controller' => 'Customers', 'action' => 'index', 'namespace' => 'Customer']);
+$router->add('customers', ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Customer']);
+$router->add('customers/commands', ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Customer']);
 $router->add('customers/login', ['controller' => 'Home', 'action' => 'login', 'namespace' => 'Customer']);
 $router->add('customers/register', ['controller' => 'Home', 'action' => 'register', 'namespace' => 'Customer']);
 $router->add('customers/logout', ['controller' => 'Home', 'action' => 'logout', 'namespace' => 'Customer']);

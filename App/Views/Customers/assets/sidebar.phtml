@@ -4,7 +4,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/customers" class="nav-link <?= (isset($page) && $page == "index") ? 'active' : ''; ?>">Espace client</a>
+            <a href="/customers" class="nav-link <?= (isset($page) && $page == "commands") ? 'active' : ''; ?>">Espace client</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="customers/my-account" class="nav-link"><?= \Core\Language::get('my_account'); ?></a>
@@ -62,15 +62,6 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="/customers" class="nav-link <?= (isset($page) && $page == "index") ? 'active' : ''; ?>">
-                        <i class="nav-icon fa fa-user"></i>
-                        <p>
-                            Espace client
-                        </p>
-                    </a>
-                </li>
-
                 <li class="nav-header">MON ESPACE CLIENT</li>
 
                 <li class="nav-item">
@@ -83,7 +74,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="/customers/commands" class="nav-link <?= (isset($page) && $page == "commands") ? 'active' : ''; ?>">
+                    <a href="/customers/invoices" class="nav-link <?= (isset($page) && $page == "invoice") ? 'active' : ''; ?>">
                         <i class="nav-icon fa fa-file-invoice"></i>
                         <p>
                             Mes factures
