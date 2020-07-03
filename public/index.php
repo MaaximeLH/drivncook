@@ -98,11 +98,14 @@ $router->add("administration/event/{event:\d+}/remove/{franchise:\d+}", ['contro
 $router->add("administration/event/{event:\d+}/preview/{customer:\d+}", ['controller' => 'Events', 'action' => 'previewInvitation', 'namespace' => 'Admin']);
 $router->add("administration/event/{id:\d+}/send_invitation", ['controller' => 'Events', 'action' => 'sendInvitation', 'namespace' => 'Admin']);
 $router->add("administration/event/{event:\d+}/resend/{customer:\d+}", ['controller' => 'Events', 'action' => 'resendInvitation', 'namespace' => 'Admin']);
-
+// Customer
 $router->add("administration/customer", ['controller' => 'Customers', 'action' => 'index', 'namespace' => 'Admin']);
 $router->add("administration/customer/add", ['controller' => 'Customers', 'action' => 'add', 'namespace' => 'Admin']);
 $router->add("administration/customer/edit/{id:\d+}", ['controller' => 'Customers', 'action' => 'edit', 'namespace' => 'Admin']);
 $router->add("administration/customer/search", ['controller' => 'Customers', 'action' => 'search', 'namespace' => 'Admin']);
+// Statistics
+$router->add("administration/statistics", ['controller' => 'Statistics', 'action' => 'index', 'namespace' => 'Admin']);
+
 
 /**
  * Panel franchisé

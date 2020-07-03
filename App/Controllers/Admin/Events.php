@@ -242,8 +242,8 @@ class Events extends Controller
 
                 $eventCustomer = new eventCustomer();
                 
-                $eventCustomer->setEvent($event);
-                $eventCustomer->setCustomer($customer);
+                $eventCustomer->setIdEvent($event);
+                $eventCustomer->setIdCustomer($customer);
                 $eventCustomer->setStatut('Invité');
                 $this->em->persist($eventCustomer);
                 $this->em->flush();

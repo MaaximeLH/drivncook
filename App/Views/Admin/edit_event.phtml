@@ -30,20 +30,20 @@
                 <div class="form-row form-group">
                     <div class="col-8">
                         <input type="date" name="date_start" id="date_start" class="form-control" 
-                        value="<?= $event->getBeginRegisterAt()->format('Y-m-d') ?>">
+                        value="<?= $event->getStartAt()->format('Y-m-d') ?>">
                     </div>
                     <div class="col-4">
                         <input type="time" name="time_start" id="time_start" class="form-control" 
-                        value="<?= $event->getBeginRegisterAt()->format('H:i') ?>">
+                        value="<?= $event->getStartAt()->format('H:i') ?>">
                     </div>
                 </div>
                 <label for="status"><?= \Core\Language::get("begin_register_at") ?></label>
                 <div class="form-row form-group">
                     <div class="col-8">
-                        <input type="date" name="date_begin_register_at" id="date_begin_register_at" class="form-control" value="<?= $event->getStartAt()->format('Y-m-d') ?>">
+                        <input type="date" name="date_begin_register_at" id="date_begin_register_at" class="form-control" value="<?= $event->getBeginRegisterAt()->format('Y-m-d') ?>">
                     </div>
                     <div class="col-4">
-                        <input type="time" name="time_begin_register_at" id="time_begin_register_at" class="form-control" value="<?= $event->getStartAt()->format('H:i') ?>">
+                        <input type="time" name="time_begin_register_at" id="time_begin_register_at" class="form-control" value="<?= $event->getBeginRegisterAt()->format('H:i') ?>">
                     </div>
                 </div>
                 <label for="status"><?= \Core\Language::get("end_at") ?></label>
@@ -146,7 +146,7 @@
                     </thead>
                     <tbody>
                         <?php foreach ($eventCustomers as $eventCustomer) : ?>
-                            <?php $customer = $eventCustomer->getCustomer() ?>
+                            <?php $customer = $eventCustomer->getIdCustomer() ?>
                             <tr>
                                 <td><?= $customer->getId(); ?><input type="hidden" value="<?= $customer->getId(); ?>"></td>
                                 <td><?= $customer->getFirstName() ?></td>
@@ -186,7 +186,7 @@
                     <tr>
                         <?php if (!empty($user->getTruck())) : ?>
                             <td class="text-center">
-                                <a href="<?= "/administration/trucks/" . $user->getTruck()->getId() . "/information" ?>" class="btn btn-info btn-sm"><i class="fas fa-truck"></i></a>
+                                <a href="<?= "/administration/trucks/" . $user->getTruck()->getId() . "/informations" ?>" class="btn btn-info btn-sm"><i class="fas fa-truck"></i></a>
                             </td>
                         <?php else : ?>
                             <td class="text-danger">No trucks</td>
