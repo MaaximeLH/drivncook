@@ -10,7 +10,7 @@ class Config
     const DB_NAME = 'drivncook';
     const DB_USER = 'drivncook';
     const DB_PASSWORD = 'drivncook';
-    const DB_CHARSET = 'utf8';
+    const DB_CHARSET = 'UTF-8';
     const SHOW_ERRORS = true;
     const STRIPE_PUB_KEY = 'pk_test_gdlpAM5By6xB9dlhN2T2ztEB00okYDUNYT';
     const STRIPE_PRIV_KEY = 'sk_test_g4MdZMZM22Z9RH3lD6LLXfG900k3UT7S9c';
