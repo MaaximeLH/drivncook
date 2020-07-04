@@ -1,9 +1,85 @@
 <h1>Stat</h1>
 <pre>
 <?php 
-var_dump($eventByNextMonth);
-var_dump($newCustomerByDay);
-var_dump($incommingMoneyFromOrdersByDay);
-var_dump($usageProducts);
+// var_dump($eventByNextMonth);
+// var_dump($newCustomerByDay);
+// var_dump($incommingMoneyFromOrdersByDay);
+// var_dump($usageProducts);
 ?>
+<div class="row">
+    <div class="col-md-4">
+        <canvas id="eventByNextMonth" width="400" height="400"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="newCustomerByDay" width="400" height="400"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="incommingMoneyFromOrdersByDay" width="400" height="400"></canvas>
+    </div>
+    <div class="col-md-4">
+        <canvas id="usageProducts" width="400" height="400"></canvas>
+    </div>
+</div>
 </pre>
+<script>
+    const eventByNextMonth = document.getElementById('eventByNextMonth').getContext('2d');
+    
+    const chartEventByNextMonth = new Chart(eventByNextMonth, {
+        type: 'bar',
+        data: {
+            labels: [<?php foreach($eventByNextMonth as $e) { echo '"' . $e['month'].'",'; }?>],
+            datasets: [{
+                label: 'Event planned for the coming months',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: [<?php foreach($eventByNextMonth as $e) {echo $e['nb_event'].',';}?>],
+            }],
+        }
+    });
+
+    const newCustomerByDay = document.getElementById('newCustomerByDay').getContext('2d');
+
+    const chartNewCustomerByDay = new Chart(newCustomerByDay, {
+        type: 'bar',
+        data: {
+            labels: [<?php foreach($newCustomerByDay as $v) { echo '"' . $v['day'].'",'; }?>],
+            datasets: [{
+                label: 'New customer by day',
+                backgroundColor: 'rgb(75, 192, 192)',
+                borderColor: 'rgb(75, 192, 192)',
+                data: [<?php foreach($newCustomerByDay as $v) {echo $v['nb_customer'] . ',';}?>],
+            }],
+        }
+    });
+
+    const incommingMoneyFromOrdersByDay = document.getElementById('incommingMoneyFromOrdersByDay').getContext('2d');
+
+    const chartIncommingMoneyFromOrdersByDay = new Chart(incommingMoneyFromOrdersByDay, {
+        type: 'line',
+        data: {
+            labels: [<?php foreach($incommingMoneyFromOrdersByDay as $v) { echo '"' . $v['day'].'",'; }?>],
+            datasets: [{
+                label: 'New customer by day',
+                backgroundColor: 'rgb(75, 192, 192)',
+                borderColor: 'rgb(75, 192, 192)',
+                data: [<?php foreach($incommingMoneyFromOrdersByDay as $v) {echo $v['sum'] . ',';}?>],
+            }],
+        }
+    });
+
+    const usageProducts = document.getElementById('usageProducts').getContext('2d');
+
+    const chartUsageProducts = new Chart(usageProducts, {
+        type: 'radar',
+        data: {
+            labels: [<?php foreach($usageProducts as $v) { echo '"' . $v['text'].'",'; }?>],
+            datasets: [{
+                label: 'New customer by day',
+                backgroundColor: 'rgb(75, 192, 192)',
+                borderColor: 'rgb(75, 192, 192)',
+                data: [<?php foreach($usageProducts as $v) {echo $v['count'] . ',';}?>],
+            }],
+        }
+    });
+
+</script>

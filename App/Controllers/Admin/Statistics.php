@@ -28,6 +28,7 @@ class Statistics extends Controller
     }
     public function indexAction()
     {
+        $data['head'] = '<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>';
         $data['eventByNextMonth'] = $this->statisticsModel->getEventByNextMonth();
         $data['newCustomerByDay'] = $this->statisticsModel->getNewCustomerByDay();
         $data['incommingMoneyFromOrdersByDay'] = $this->statisticsModel->getIncommingMoneyFromOrdersByDay();
