@@ -254,13 +254,15 @@ class Events extends Controller
         }
     }
 
-    public function resendInvitation()
+    public function resendInvitationAction()
     {
         $event_id = $this->getRouteParameter('event');
         $customer_id = $this->getRouteParameter('customer');
         if (!$event_id || !$customer_id) {
             $this->redirectTo('/administration/event/edit/' . $event_id);
         }
+        var_dump($customer_id, $event_id);
+        die();
         $customerRepository = $this->em->getRepository(Customer::class);
         $event = $this->eventRepository->find($event_id);
         $customer = $customerRepository->find($customer_id);
@@ -282,9 +284,9 @@ class Events extends Controller
         $headers .= 'X-Mailer: PHP/' . phpversion();
         $headers .= "Return-Path: contact@drivncook.store\n"; // Return path for errors
         $headers .= "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/plain; charset=UTF-8\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\n";
         $subject = "Invitation évenement - Driv'n'Cook";
-
+        die(var_dump($message));
         if (!mail($to, $subject, $message, $headers)) {
             echo "Email error";
             die();
