@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <?php require "assets/head.phtml"; ?>
+<style>
+    .blog-item.swin-transition {
+        margin-bottom:30px;
+        -webkit-box-shadow: 15px 29px 54px -26px rgba(0,0,0,0.5);
+        -moz-box-shadow: 15px 29px 54px -26px rgba(0,0,0,0.5);
+        box-shadow: 15px 29px 54px -26px rgba(0,0,0,0.5);
+    }
+    .swin-sc-blog-slider.style-02 {
+        padding-bottom: 20px;
+    }
+</style>
 <body>
 <div id="pagewrap" class="pagewrap">
     <div id="html-content" class="wrapper-content">
@@ -23,16 +34,18 @@
                                 <div class="blog-wrapper swin-sc-blog-list">
                                     <div class="swin-sc-blog-slider style-02">
                                         <div class="main-slider">
-                                            <div class="slides">
+                                            <div class="slides" >
                                                 <?php foreach ($events as $event) : ?>
                                                     <?php if ($event->getType() == 'invite-only') continue; ?>
-                                                    <div class="blog-item swin-transition" data-event="<?= $event->getId() ?>" id="event-<?= $event->getId() ?>">
+                                                    <div 
+                                                    class="blog-item swin-transition" 
+                                                    data-event="<?= $event->getId() ?>" id="event-<?= $event->getId() ?>">
                                                         <div class="blog-featured-img">
                                                             <div class="quote-format"><img src="<?= '/dist/uploads/event/' . $event->getId() . '/' . $event->getImage() ?>" alt="Image event <?= $event->getId() ?>" class="img img-responsive">
                                                                 <div class="quote-text"><i class="fa fa-quote-left quote-icon"></i><?= $event->getType() ?></div>
                                                             </div>
                                                         </div>
-                                                        <div class="blog-content">
+                                                        <div class="blog-content" style="padding: 0 20px">
                                                             <div class="blog-date"><span class="day"><?= $event->getStartAt()->format("d") ?></span><span class="month"><?= $event->getStartAt()->format("M") ?></span></div>
                                                             <h3 class="blog-title"><a href="#" class="swin-transition"><?= $event->getName() ?></a></h3>
                                                             <p class="blog-description"><?= \Core\Language::lang() == 'fr_FR' ? $event->getTextFr() : $event->getTextEn() ?></p>
