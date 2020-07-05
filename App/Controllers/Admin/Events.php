@@ -275,11 +275,19 @@ class Events extends Controller
                 require(VIEWPATH . 'Admin/event/invitation.phtml');
         $message = ob_get_clean();
 
-        $from = "norepley@drivncook.store";
         $to = $customer->getEmail();
-        $header = 'Content-Type: text/html';
-        if (mail($from, $to, $message, $header)) {
-            die("Email sent");
+
+        $headers  = "From: Driv'n'Cook < contact@drivncook.store >\n";
+        $headers .= "X-Sender: Driv'n'Cook < contact@drivncook.store >\n";
+        $headers .= 'X-Mailer: PHP/' . phpversion();
+        $headers .= "Return-Path: contact@drivncook.store\n"; // Return path for errors
+        $headers .= "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/plain; charset=UTF-8\n";
+        $subject = "Invitation évenement - Driv'n'Cook";
+
+        if (!mail($to, $subject, $message, $headers)) {
+            echo "Email error";
+            die();
         }
     }
 }
