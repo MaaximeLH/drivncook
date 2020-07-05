@@ -258,13 +258,9 @@ class Events extends Controller
     {
         $event_id = $this->getRouteParameter('event');
         $customer_id = $this->getRouteParameter('customer');
-        var_dump($customer_id, $event_id);
-        die();
         if (!$event_id || !$customer_id) {
             $this->redirectTo('/administration/event/edit/' . $event_id);
         }
-        var_dump($customer_id, $event_id);
-        die();
         $customerRepository = $this->em->getRepository(Customer::class);
         $event = $this->eventRepository->find($event_id);
         $customer = $customerRepository->find($customer_id);
@@ -275,6 +271,7 @@ class Events extends Controller
 
     private function sendInvitaitonEmail($event, $customer)
     {
+        die('die in sendInvitaitonEmail');
         ob_start();
                 require(VIEWPATH . 'Admin/event/invitation.phtml');
         $message = ob_get_clean();
