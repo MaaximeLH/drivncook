@@ -271,12 +271,12 @@ class Events extends Controller
 
     private function sendInvitaitonEmail($event, $customer)
     {
-        die('die in sendInvitaitonEmail');
         ob_start();
-                require(VIEWPATH . 'Admin/event/invitation.phtml');
+        require(VIEWPATH . 'Admin/event/invitation.phtml');
         $message = ob_get_clean();
-
+        
         $to = $customer->getEmail();
+        
 
         $headers  = "From: Driv'n'Cook < contact@drivncook.store >\n";
         $headers .= "X-Sender: Driv'n'Cook < contact@drivncook.store >\n";
@@ -285,10 +285,11 @@ class Events extends Controller
         $headers .= "MIME-Version: 1.0\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\n";
         $subject = "Invitation évenement - Driv'n'Cook";
-        die(var_dump($message));
         if (!mail($to, $subject, $message, $headers)) {
             echo "Email error";
             die();
+        } else {
+            die('Email send');
         }
     }
 }
