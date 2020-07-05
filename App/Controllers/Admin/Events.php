@@ -254,7 +254,7 @@ class Events extends Controller
         }
     }
 
-    public function resendInvitation()
+    public function resendInvitationAction()
     {
         $event_id = $this->getRouteParameter('event');
         $customer_id = $this->getRouteParameter('customer');
@@ -263,6 +263,8 @@ class Events extends Controller
         if (!$event_id || !$customer_id) {
             $this->redirectTo('/administration/event/edit/' . $event_id);
         }
+        var_dump($customer_id, $event_id);
+        die();
         $customerRepository = $this->em->getRepository(Customer::class);
         $event = $this->eventRepository->find($event_id);
         $customer = $customerRepository->find($customer_id);
