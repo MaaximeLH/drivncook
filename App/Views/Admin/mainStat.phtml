@@ -1,26 +1,21 @@
-<h1>Stat</h1>
-<pre>
-<?php 
-// var_dump($eventByNextMonth);
-// var_dump($newCustomerByDay);
-// var_dump($incommingMoneyFromOrdersByDay);
-// var_dump($usageProducts);
-?>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6 mb-5">
+        <h2>Evenement prévu sur les prochains mois</h2>
         <canvas id="eventByNextMonth" width="400" height="400"></canvas>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6 mb-5">
+        <h2>Nouveau utilisateur par jours</h2>
         <canvas id="newCustomerByDay" width="400" height="400"></canvas>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6 mb-5">
+        <h2>Chiffres des affaires par jours sur les commandes</h2>
         <canvas id="incommingMoneyFromOrdersByDay" width="400" height="400"></canvas>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6 mb-5">
+        <h2>Répartition des produits sur les 100 derniers achat</h2>
         <canvas id="usageProducts" width="400" height="400"></canvas>
     </div>
 </div>
-</pre>
 <script>
     const eventByNextMonth = document.getElementById('eventByNextMonth').getContext('2d');
     
@@ -30,11 +25,13 @@
             labels: [<?php foreach($eventByNextMonth as $e) { echo '"' . $e['month'].'",'; }?>],
             datasets: [{
                 label: 'Event planned for the coming months',
-                backgroundColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgb(255, 99, 132, 0.2)',
                 borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 1,
                 data: [<?php foreach($eventByNextMonth as $e) {echo $e['nb_event'].',';}?>],
             }],
-        }
+        },
+        options:{scales:{yAxes:[{ticks:{beginAtZero:true}}]}},
     });
 
     const newCustomerByDay = document.getElementById('newCustomerByDay').getContext('2d');
@@ -45,11 +42,13 @@
             labels: [<?php foreach($newCustomerByDay as $v) { echo '"' . $v['day'].'",'; }?>],
             datasets: [{
                 label: 'New customer by day',
-                backgroundColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgb(75, 192, 192, 0.2)',
                 borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 1,
                 data: [<?php foreach($newCustomerByDay as $v) {echo $v['nb_customer'] . ',';}?>],
             }],
-        }
+        },
+        options:{scales:{yAxes:[{ticks:{beginAtZero:true}}]}},
     });
 
     const incommingMoneyFromOrdersByDay = document.getElementById('incommingMoneyFromOrdersByDay').getContext('2d');
@@ -59,12 +58,14 @@
         data: {
             labels: [<?php foreach($incommingMoneyFromOrdersByDay as $v) { echo '"' . $v['day'].'",'; }?>],
             datasets: [{
-                label: 'New customer by day',
-                backgroundColor: 'rgb(75, 192, 192)',
-                borderColor: 'rgb(75, 192, 192)',
+                label: 'Incomming money from orders by day',
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderColor: 'rgb(255, 159, 64)',
+                borderWidth: 1,
                 data: [<?php foreach($incommingMoneyFromOrdersByDay as $v) {echo $v['sum'] . ',';}?>],
             }],
-        }
+        },
+        options:{scales:{yAxes:[{ticks:{beginAtZero:true}}]}},
     });
 
     const usageProducts = document.getElementById('usageProducts').getContext('2d');
@@ -74,12 +75,13 @@
         data: {
             labels: [<?php foreach($usageProducts as $v) { echo '"' . $v['text'].'",'; }?>],
             datasets: [{
-                label: 'New customer by day',
-                backgroundColor: 'rgb(75, 192, 192)',
-                borderColor: 'rgb(75, 192, 192)',
+                label: 'Products usage',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgb(153, 102, 255)',
+                borderWidth: 1,
                 data: [<?php foreach($usageProducts as $v) {echo $v['count'] . ',';}?>],
             }],
-        }
+        },
+        options:{scales:{yAxes:[{ticks:{beginAtZero:true}}]}},
     });
-
 </script>

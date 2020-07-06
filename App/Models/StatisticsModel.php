@@ -27,8 +27,9 @@ class StatisticsModel extends Model
      */
     public function getNewCustomerByDay()
     {
-        $sql = "SELECT to_char(date_trunc('d', created_at), 'DDD') as day, count(*) as nb_customer FROM CUSTOMER";
-        $sql .= " GROUP BY day ORDER BY day ASC";
+        $sql = "SELECT to_char(date_trunc('d', created_at), 'DD Month') as day, count(*) as nb_customer FROM CUSTOMER
+        WHERE created_at > NOW() - INTERVAL '30 day'
+        GROUP BY day ORDER BY day ASC";
 
         $query = $this->database->prepare($sql);
         $query->execute();
@@ -42,10 +43,11 @@ class StatisticsModel extends Model
      */
     public function getIncommingMoneyFromOrdersByDay()
     {
-        $sql = "SELECT to_char(orders.created_at, 'DDD') as day, sum(order_line.price)";
-        $sql .= " FROM orders";
-        $sql .= " LEFT JOIN order_line ON order_line.order_id = orders.id";
-        $sql .= " GROUP BY day";
+        $sql = "SELECT to_char(orders.created_at, 'DD Month') as day, sum(order_line.price)
+        FROM orders
+        LEFT JOIN order_line ON order_line.order_id = orders.id
+        WHERE orders.created_at > NOW() - INTERVAL '30 day'
+        GROUP BY day";
 
         $query = $this->database->prepare($sql);
         $query->execute();
@@ -64,6 +66,7 @@ class StatisticsModel extends Model
         $sql = "SELECT order_line.text, count(*)";
         $sql .= " FROM order_line";
         $sql .= " GROUP BY order_line.text";
+        $sql .= " LIMIT 100";
 
         $query = $this->database->prepare($sql);
         $query->execute();
