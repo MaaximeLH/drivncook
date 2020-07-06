@@ -26,11 +26,12 @@
                     <?= \Core\Language::get('account_not_found'); ?>
                 </div>
             <?php } ?>
-            <?php if(\Core\Session::get('admin_id')) { ?>
+            <?php if(\Core\Session::get('inscription_confirmed')) : ?>
                 <div class="alert alert-success" role="alert">
-                    <?= \Core\Session::get('admin_id') ?>
+                    <?= \Core\Session::get('inscription_confirmed') ?>
+                    <?php \Core\Session::delete('inscription_confirmed') ?>
                 </div>
-            <?php } ?>
+            <?php endif ?>
             <form method="POST">
                 <div class="input-group mb-3">
                     <input type="email" class="form-control" autocomplete="autocomplete" name="email" placeholder="<?= \Core\Language::get('email'); ?>">
