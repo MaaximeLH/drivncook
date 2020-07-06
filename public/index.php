@@ -22,7 +22,7 @@ $router->add('lang/pref/{lang:(?:[\w\-](?<!_))+}', ['controller' => 'Home', 'act
 // Events
 $router->add('events', ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Home']);
 $router->add('events/detail/{id:\d+}', ['controller' => 'Events', 'action' => 'detail', 'namespace' => 'Home']);
-$router->add('events/detail/{code:(?:[\w\-](?<!_))+}', ['controller' => 'Events', 'action' => 'updateStatus', 'namespace' => 'Home']);
+$router->add('events/invitation/{code:(?:[\w\-](?<!_))+}', ['controller' => 'Events', 'action' => 'updateStatus', 'namespace' => 'Home']);
 // Trucks
 $router->add('trucks', ['controller' => 'Trucks', 'action' => 'index', 'namespace' => 'Home']);
 $router->add('trucks/{id:\d+}', ['controller' => 'Trucks', 'action' => 'commands', 'namespace' => 'Home']);
