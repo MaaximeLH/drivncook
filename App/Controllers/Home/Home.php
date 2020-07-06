@@ -2,14 +2,19 @@
 
 namespace App\Controllers\Home;
 
+use App\Entity\Event;
 use Core\Controller;
 use Core\Request;
+use Core\Entity;
 use Core\View;
 
 class Home extends Controller {
 
     public function indexAction() {
-        return View::render('Home/index', ['page' => 'home']);
+        $em = Entity::getEntityManager();
+        $eventRepository = $em->getRepository(Event::class);
+        $events = $eventRepository->get3LastPublicEvent();
+        return View::render('Home/index', ['page' => 'home', 'events' => $events]);
     }
 
     public function aboutAction() {

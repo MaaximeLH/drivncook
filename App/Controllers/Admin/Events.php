@@ -49,6 +49,7 @@ class Events extends Controller
         CSRF::generate();
         $data['admin'] = $this->admin;
         $data['page'] = 'event';
+        $data['breadcrumb'] = ['Event', 'listing'];
         $data['events'] = $events;
         $this->load_view('Admin/event_listing', $data);
     }
@@ -77,6 +78,7 @@ class Events extends Controller
         $event->setBeginRegisterAt($date_begin_register_at);
         $event->setStartAt($date_start);
         $event->setEndAt($date_end);
+        $event->setType('invite-only');
         $this->em->persist($event);
         $this->em->flush();
         echo '<div class="alert alert-success" role="alert">l\'event a bien été crée</div>';
@@ -106,6 +108,7 @@ class Events extends Controller
         CSRF::generate();
 
         $data['eventCustomers'] = $eventCustomers;
+        $data['breadcrumb'] = ['Event', 'edit'];
         $data['event'] = $event;
         $data['admin'] = $this->admin;
         $this->load_view('Admin/edit_event', $data);

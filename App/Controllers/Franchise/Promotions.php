@@ -34,6 +34,7 @@ class Promotions extends Controller
     {
         $data['user'] = $this->user;
         $data['promotions'] = $this->promotionRepository->findAll();
+        $data['breadcrumb'] = ['Promotion', 'liste'];
         $this->load_view('Franchise/promotion_listing', $data);
     }
 

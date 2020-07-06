@@ -45,6 +45,7 @@ class Events extends Controller
         $data['user'] = $this->user;
         $data['page'] = 'event';
         $data['events'] = $events;
+        $data['breadcrumb'] = ['Event'];
         $data['events_inscrit'] = $events_inscrit;
         $this->load_view('Franchise/event_listing', $data);
     }

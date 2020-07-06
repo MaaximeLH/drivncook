@@ -46,6 +46,7 @@ class Customers extends Controller
         $data['customers'] = $customers;
         $data['admin'] = $this->admin;
         $data['page'] = 'customer';
+        $data['breadcrumb'] = ['Customer', 'listing'];
         $this->load_view('Admin/customer/listing', $data);
     }
 
@@ -55,6 +56,7 @@ class Customers extends Controller
         CSRF::generate();
         $data['admin'] = $this->admin;
         $data['page'] = 'add_customer';
+        $data['breadcrumb'] = ['Customer', 'add'];
 
         if (Request::isPost()) {
             CSRF::validate();
@@ -149,6 +151,7 @@ class Customers extends Controller
 
             if (!empty($fields)) {
                 $data = ['admin' => $this->admin, 'customer' => $customer, 'page' => 'administrators', 'fields' => $fields];
+                $data['breadcrumbs'] = ['Customer', 'edit'];
                 $this->load_view('Admin/customer/form', $data);
                 return;
             }
@@ -157,6 +160,7 @@ class Customers extends Controller
 
         $data['admin'] = $this->admin;
         $data['customer'] = $customer;
+        $data['breadcrumbs'] = ['Customer', 'edit'];
         $data['page'] = 'edit_customer';
         $this->load_view('Admin/customer/form', $data);
     }

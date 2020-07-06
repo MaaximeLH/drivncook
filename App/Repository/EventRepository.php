@@ -28,4 +28,17 @@ class EventRepository extends EntityRepository
         }
         return $newtab;
     }
+
+    public function get3LastPublicEvent()
+    {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('event.id, event.name, event.textFr, event.image, event.startAt, event.textEn')
+            ->from('App\Entity\Event', 'event')
+            ->where("event.type != 'invite-only'")
+            ->orderBy('event.startAt', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
 }

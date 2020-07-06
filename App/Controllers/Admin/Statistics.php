@@ -34,6 +34,7 @@ class Statistics extends Controller
         $data['incommingMoneyFromOrdersByDay'] = $this->statisticsModel->getIncommingMoneyFromOrdersByDay();
         $data['usageProducts'] = $this->statisticsModel->getUsageProducts();
         $data['admin'] = $this->admin;
+        $data['breadcrumb'] = ['Statistics'];
         $data['page'] = 'Statistique';
         $this->load_view('Admin/mainStat', $data);
     }

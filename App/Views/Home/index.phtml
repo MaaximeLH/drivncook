@@ -313,19 +313,25 @@
                                 <div class="swin-sc swin-sc-blog-grid"></div>
                             </div>
                             <div class="col-md-12">
+                                <?php // var_dump($events) ?>
                                 <div class="swin-sc swin-sc-blog-grid">
                                     <div class="row">
-                                        <div class="col-md-4 col-sm-6 col-xs-12">
-                                            <div data-wow-delay="0s" class="blog-item swin-transition item wow fadeInUpShort">
-                                                <div class="blog-featured-img"><img src="/assets/images/blog/blog-grid-1.jpg" alt="drivncook" class="img img-responsive"></div>
-                                                <div class="blog-content">
-                                                    <div class="blog-date"><span class="day">09</span><span class="month">Jui</span></div>
-                                                    <h3 class="blog-title"><a href="javascript:void(0)" class="swin-transition"><?= \Core\Language::get('Le projet annuel') ?></a></h3>
-                                                    <p class="blog-description"><?= \Core\Language::get("Cette fameuse étape à passer, inscrivez-vous à l'événement pour ne rien louper.") ?></p>
-                                                    <div class="blog-readmore"><a href="javascript:void(0)" class="swin-transition"><?= \Core\Language::get('more_information') ?> <i class="fa fa-angle-double-right"></i></a></div>
+                                        <?php foreach ($events as $event) : ?>
+                                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                                <div data-wow-delay="0s" class="blog-item swin-transition item wow fadeInUpShort">
+                                                    <div class="blog-featured-img"><img src="<?= '/dist/uploads/event/' . $event['id'] . '/' . $event['image'] ?>" alt="drivncook" class="img img-responsive"></div>
+                                                    <div class="blog-content">
+                                                        <div class="blog-date">
+                                                            <span class="day"><?= date_format($event['startAt'], "d") ?></span>
+                                                            <span class="month"><?= date_format($event['startAt'], "M") ?></span>
+                                                        </div>
+                                                        <h3 class="blog-title"><a href="/events/detail/<?= $event['id'] ?>" class="swin-transition"><?= $event['name'] ?></a></h3>
+                                                        <p class="blog-description"><?= \Core\Language::lang() == 'fr_FR' ? $event['textFr'] : $event['textEn'] ?></p>
+                                                        <div class="blog-readmore"><a href="/events/detail/<?= $event['id'] ?>" class="swin-transition"><?= \Core\Language::get('more_information') ?> <i class="fa fa-angle-double-right"></i></a></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        <?php endforeach ?>
                                     </div>
                                 </div>
                             </div>
