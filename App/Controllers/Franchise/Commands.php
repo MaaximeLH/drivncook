@@ -48,4 +48,19 @@ class Commands extends Controller {
 
     }
 
+    public function updateAction() {
+        $em = Entity::getEntityManager();
+        $ordersRepository = $em->getRepository(Orders::class);
+
+        $order = $ordersRepository->find($this->getRouteParameter('id'));
+        $newStatus = intval(trim($this->getRouteParameter('status')));
+
+        if(is_null($order) || $order->getUser()->getId() != $this->user->getId() || !in_array($newStatus, [1,2,3])) {
+            return $this->redirectTo('/panel/commands');
+        }
+
+        $order->setStatus($newStatus);
+        $em->flush();
+        return $this->redirectTo('/panel/commands');
+    }
 }

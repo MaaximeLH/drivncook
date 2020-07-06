@@ -121,6 +121,7 @@ $router->add("panel/my-account", ['controller' => 'Franchise', 'action' => 'myAc
 $router->add("panel/online-payment", ['controller' => 'Franchise', 'action' => 'onlinePayment', 'namespace' => 'Franchise']);
 // Commandes
 $router->add("panel/commands", ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Franchise']);
+$router->add("panel/commands/{id:\d+}/update/{status:\d+}", ['controller' => 'Commands', 'action' => 'update', 'namespace' => 'Franchise']);
 // Camion
 $router->add("panel/truck", ['controller' => 'Trucks', 'action' => 'index', 'namespace' => 'Franchise']);
 $router->add("panel/truck/maintenance/{id:\d+}", ['controller' => 'Trucks', 'action' => 'maintenance', 'namespace' => 'Franchise']);
