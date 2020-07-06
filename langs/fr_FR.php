@@ -325,7 +325,7 @@ return [
     'edit_customer' => 'Edité un client',
     'invitation_drivncook' => 'Invitation Drivncook',
     'read_in_browser' => 'Lire dans votre navigateur',
-    'You_are_invited_to_our_event' => 'Nous vous invitons a notre événement',
+    'You_are_invited_to_our_event' => 'Nous vous invitons à notre événement',
     'image_event' => 'Image de l\'événement',
 
     'titleEmailFR' => 'Le champ titre Email Français est vide',

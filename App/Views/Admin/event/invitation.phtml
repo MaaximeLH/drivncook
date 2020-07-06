@@ -1,7 +1,6 @@
 <?php
 $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . '://' . $_SERVER["HTTP_HOST"];
 
-
 $orange = "#EF6E00";
 $orange_clair = "#FFB300";
 $rouge = "#EC2801";
@@ -114,7 +113,7 @@ $vars = [
                 <table id="banniere" width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
                     <tr>
                         <td align="center" style="padding-left:0; padding-right:0; padding-top:1px; padding-bottom:10px;">
-                            <img alt="Banner" src="<?= '/dist/uploads/event/' . $event->getId() . '/' . $event->getImage() ?>" width="100%" style="margin: 0; border: 0; padding: 0; display: block;">
+                            <img alt="Banner" src="<?= $url . '/dist/uploads/event/' . $event->getId() . '/' . $event->getImage() ?>" width="100%" style="margin: 0; border: 0; padding: 0; display: block;">
                         </td>
                     </tr>
                 </table>
@@ -154,7 +153,7 @@ $vars = [
                                     <table width="340" cellpadding="0" cellspacing="0" border="0" class="w320">
                                         <tr>
                                             <td style="padding-left:20px; padding-right:20px; padding-top:0px;padding-bottom:25px;">
-                                               <a href="#"><img src="/dist/img/invit.jpg" width="100%" style="margin: 0; border: 0; padding: 0; display: block;" alt="Invitation card"></a>
+                                               <a href="#"><img src="<?= $url; ?>/dist/img/invit.jpg" width="100%" style="margin: 0; border: 0; padding: 0; display: block;" alt="Invitation card"></a>
                                             </td>
                                         </tr>
                                     </table>
@@ -166,7 +165,7 @@ $vars = [
                 <table  width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
                     <tr>
                         <td class="full" style="margin: 10px; text-align: center; padding: 20px;">
-                            Clicker sur le l'image ce dessus pour recupéré votre invitation
+                            Clickez sur l'image ci-dessous pour recupérer votre invitation
                         </td>
                     </tr>
                 </table>
@@ -180,7 +179,7 @@ $vars = [
                     </tr>
                     <tr>
                         <td align="center" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:15px; <?= $style_texte_prefooter ?>">
-                            Notre équipe support est joignable par email : contact@drivncook.store
+                            Notre support est joignable par email : <a href="mailto:contact@drivncook.store">contact@drivncook.store</a>
                         </td>
                     </tr>
                 </table>
@@ -189,7 +188,7 @@ $vars = [
                 <table id="footer" width="680" cellpadding="0" cellspacing="0" border="0" bgcolor="<?= $noir ?>" class="full">
                     <tr>
                         <td align="left" style="<?= $style_gutter ?> padding-top:20px; padding-bottom:10px; <?= $style_titre_footer ?>">
-                            DrivnCook EST RESPECTUEUX DES DONNÉES PRIVÉES
+                            Driv'N'Cook est respectueux des données privées
                         </td>
                     </tr>
                     <tr>
