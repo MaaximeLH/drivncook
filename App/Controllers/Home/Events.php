@@ -44,9 +44,9 @@ class Events extends Controller {
         if (is_null($eventCustomer)) {
             $this->redirectTo('/');
         }
-        $eventCustomer->setStatus('inscrit');
+        $eventCustomer->setStatut('inscrit');
         $this->em->flush();
-        
+
         Session::set('inscription_confirmed', \Core\Language::get('inscription_success'));
         $this->redirectTo('/customers');
     }
