@@ -7,7 +7,7 @@
             <a href="/customers" class="nav-link <?= (isset($page) && $page == "commands") ? 'active' : ''; ?>">Espace client</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="customers/my-account" class="nav-link"><?= \Core\Language::get('my_account'); ?></a>
+            <a href="/customers/my-account" class="nav-link <?= (isset($page) && $page == "account") ? 'active' : ''; ?>"><?= \Core\Language::get('my_account'); ?></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/customers/logout" class="nav-link"><?= \Core\Language::get('logout'); ?></a>

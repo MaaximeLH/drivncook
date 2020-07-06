@@ -31,6 +31,7 @@ $router->add('trucks/menu/{id:\d+}/commands/{card:\d+}', ['controller' => 'Truck
  * Customers
  */
 $router->add('customers', ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Customer']);
+$router->add('customers/my-account', ['controller' => 'Customers', 'action' => 'account', 'namespace' => 'Customer']);
 $router->add('customers/commands', ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Customer']);
 $router->add('customers/invoices', ['controller' => 'Invoice', 'action' => 'index', 'namespace' => 'Customer']);
 $router->add('customers/invoices/details/{id:\d+}', ['controller' => 'Invoice', 'action' => 'details', 'namespace' => 'Customer']);

@@ -24,7 +24,7 @@ class Commands extends \Core\Controller {
         $customerRepository = $em->getRepository(Customer::class);
         $customer = $customerRepository->find($customerId);
 
-        if($customer === false) {
+        if(is_null($customer)) {
             return $this->redirectTo('/customers/login');
         }
 
