@@ -30,7 +30,7 @@ class Card
     private $name;
 
     /**
-     * @var \Users
+     * @var Users
      *
      * @ORM\ManyToOne(targetEntity="Users")
      * @ORM\JoinColumns({
@@ -64,7 +64,7 @@ class Card
     }
 
     /**
-     * @return \Users
+     * @return Users
      */
     public function getUser()
     {
@@ -72,7 +72,7 @@ class Card
     }
 
     /**
-     * @param \Users $user
+     * @param Users $user
      */
     public function setUser($user)
     {

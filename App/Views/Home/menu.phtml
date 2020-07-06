@@ -65,6 +65,7 @@
                             <h1 class="title"><span>Voir la carte de <?= $user->getSocietyName(); ?></span></h1>
                         </div>
 
+
                         <?php if($customer == false) { ?>
 
                             <div class="alert alert-info">
@@ -72,6 +73,10 @@
                                 <a href="/customers/login">Cliquez-ici pour vous connecter.</a>
                             </div>
 
+                        <?php } else { ?>
+                            <div class="alert alert-info">
+                                Vous souhaitez commander un produit à l'unité ? <a href="/trucks/menu/<?= $truck->getId(); ?>/find">Cliquez-ici</a>.
+                            </div>
                         <?php } ?>
 
                         <div class="row">

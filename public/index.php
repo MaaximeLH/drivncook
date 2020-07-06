@@ -26,6 +26,7 @@ $router->add('events/detail/{id:\d+}', ['controller' => 'Events', 'action' => 'd
 $router->add('trucks', ['controller' => 'Trucks', 'action' => 'index', 'namespace' => 'Home']);
 $router->add('trucks/{id:\d+}', ['controller' => 'Trucks', 'action' => 'commands', 'namespace' => 'Home']);
 $router->add('trucks/menu/{id:\d+}', ['controller' => 'Trucks', 'action' => 'menu', 'namespace' => 'Home']);
+$router->add('trucks/menu/{id:\d+}/find', ['controller' => 'Trucks', 'action' => 'find', 'namespace' => 'Home']);
 $router->add('trucks/menu/{id:\d+}/commands/{card:\d+}', ['controller' => 'Trucks', 'action' => 'commands', 'namespace' => 'Home']);
 
 /**

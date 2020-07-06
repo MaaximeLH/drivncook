@@ -181,4 +181,100 @@ class Trucks extends Controller {
         return View::render('Home/menu', $data);
 
     }
+
+    public function findAction() {
+        CSRF::generate();
+
+        $truck = $this->truckRepository->find($this->getRouteParameter('id'));
+        if(is_null($truck)) {
+            return $this->redirectTo('/trucks');
+        }
+
+
+        $usersRepository = $this->em->getRepository(Users::class);
+        if(is_null($user = $usersRepository->findOneByTruck($truck))) {
+            return $this->redirectTo('/trucks');
+        }
+
+        $truck->user = $user;
+
+        $customer = Session::get('customer_id');
+        $customerRepository = $this->em->getRepository(Customer::class);
+        $customer = $customerRepository->find($customer);
+        if($customer == false){
+            return $this->redirectTo('/trucks');
+        }
+
+        $cardRepository = $this->em->getRepository(Card::class);
+        $cardItemRepository = $this->em->getRepository(CardItem::class);
+        $items = $cardRepository->getAllItemsOfUser($user->getId());
+
+        if(Request::isPost()) {
+            CSRF::validate();
+            $params = Request::getAllParams();
+
+            $datetime = new \DateTime($params['datetime']);
+            $datetime = $datetime->getTimestamp();
+
+            $date = new \DateTime();
+            $diff = $date->diff(new \DateTime(date('Y-m-d H:i:s', $datetime)));
+
+            if($datetime <= time() || $diff->days > 5) {
+                return View::render('Home/find', ['page' => 'trucks', 'truck' => $truck, 'user' => $user, 'customer' => $customer, 'items' => $items, 'datetime_error' => true, 'params' => $params]);
+            }
+
+            $items = [];
+            foreach ($params['items'] as $item) {
+                $items[] = $cardItemRepository->find($item);
+            }
+
+            $order = new Orders();
+            $order->setCustomer($customer);
+            $order->setUser($user);
+            $order->setStatus(1);
+            $order->setDescription(htmlspecialchars(trim($params['description'])));
+            $order->setRecuperationDate($datetime);
+
+            $this->em->persist($order);
+            $this->em->flush();
+
+            foreach ($items as $item) {
+                $orderLine = new OrderLine();
+                $orderLine->setOrder($order);
+                $orderLine->setText($item->getName());
+                $orderLine->setQuantity(1);
+                $orderLine->setPrice($item->getPrice());
+
+                $this->em->persist($orderLine);
+                $this->em->flush();
+            }
+
+            $invoice = new Invoice();
+            $invoice->setUser($user);
+            $invoice->setCustomer($customer);
+            $invoice->setRecipient($customer->getLastName() . " " . $customer->getFirstName());
+            $invoice->setOwner($user->getSocietyName());
+            $invoice->setOwnerAddressLine($user->getAddressLine());
+            $invoice->setOwnerCity($user->getAddressCity());
+            $invoice->setOwnerPostalCode($user->getPostalCode());
+            $invoice->setStatus(false);
+
+            $this->em->persist($invoice);
+            $this->em->flush();
+
+            $invoiceLine = new InvoiceLine();
+            $invoiceLine->setInvoice($invoice);
+            $invoiceLine->setText($item->getName());
+            $invoiceLine->setQuantity(1);
+            $invoiceLine->setPrice($item->getPrice());
+            $invoiceLine->setTva(20.00);
+
+            $this->em->persist($invoiceLine);
+            $this->em->flush();
+
+            return $this->redirectTo("/customers/commands");
+        }
+
+        return View::render('Home/find', ['page' => 'trucks', 'truck' => $truck, 'user' => $user, 'customer' => $customer, 'items' => $items]);
+    }
 }

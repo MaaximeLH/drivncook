@@ -37,6 +37,7 @@ class Commands extends \Core\Controller {
         $orders = $ordersRepository->findByCustomer($this->customer);
 
         foreach ($orders as $key => $order) {
+            $orders[$key]->lines = $orderLineRepository->findByOrder($order);
             $lines = $orderLineRepository->findByOrder($order);
             $total = 0;
             foreach ($lines as $line) {
