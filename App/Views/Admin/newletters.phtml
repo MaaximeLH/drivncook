@@ -50,6 +50,12 @@
                                 </div>
                             <?php } ?>
 
+                            <?php if(isset($success)){ ?>
+                                <div class="alert alert-success">
+                                    L'envoie de la newletters s'est déroulé avec succès, les emails sont en cours d'envoie.
+                                </div>
+                            <?php } ?>
+
                             <form method="POST">
                                 <div class="form-group">
                                     <label for="title">Sujet de l'email</label>
@@ -69,11 +75,6 @@
                                         <div class="form-group">
                                             <input type="checkbox" name="send_all_users" onclick="updateFiltersStatusUsers(this)" value="1" id="send_all_users">
                                             <label for="send_all_users">Envoyer la newletters à tous les franchisés</label>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="users_min_customers">Nombre minimum de clients par franchisé nécessaire pour recevoir l'email</label>
-                                            <input type="number" id="users_min_customers" class="form-control" readonly name="users_min_customers" value="0">
                                         </div>
 
                                         <div class="form-group">
@@ -128,16 +129,13 @@
     });
 
     function updateFiltersStatusUsers(obj) {
-        let users_min_customers = document.getElementById('users_min_customers'),
-            users_min_commands  = document.getElementById('users_min_commands');
+        let users_min_commands  = document.getElementById('users_min_commands');
 
         if(obj.checked) {
-            users_min_customers.removeAttribute('readonly');
             users_min_commands.removeAttribute('readonly');
             return true;
         }
 
-        users_min_customers.setAttribute('readonly', 'readonly');
         users_min_commands.setAttribute('readonly', 'readonly');
     }
 
