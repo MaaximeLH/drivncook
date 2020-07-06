@@ -112,7 +112,8 @@ $router->add("administration/customer/edit/{id:\d+}", ['controller' => 'Customer
 $router->add("administration/customer/search", ['controller' => 'Customers', 'action' => 'search', 'namespace' => 'Admin']);
 // Statistics
 $router->add("administration/statistics", ['controller' => 'Statistics', 'action' => 'index', 'namespace' => 'Admin']);
-
+// Newletters
+$router->add("administration/newletters", ['controller' => 'Newletters', 'action' => 'index', 'namespace' => 'Admin']);
 
 /**
  * Panel franchisé

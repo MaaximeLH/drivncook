@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration'); ?></title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
+    <link rel="stylesheet" href="/dist/css/trumbowyg.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><?= \Core\Language::get('home'); ?></li>
+                            <li class="breadcrumb-item active">Newletters</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Newsletter Driv'N'Cook</h3>
+                        </div>
+                        <div class="card-body">
+                            <?php if(isset($error)){ ?>
+                                <div class="alert alert-danger">
+                                    Une erreur est survenue, veuillez vérifier vos filtres et réessayer.
+                                </div>
+                            <?php } ?>
+
+                            <form method="POST">
+                                <div class="form-group">
+                                    <label for="title">Sujet de l'email</label>
+                                    <input type="text" class="form-control" value="<?= isset($params) ? htmlspecialchars(trim($params['title'])) : ''; ?>" id="title" placeholder="Sujet" name="title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="text_plain">Contenu au format texte de l'email (text/plain)</label>
+                                    <textarea type="text"  class="form-control" id="text_plain" placeholder="Texte" name="text_plain"><?= isset($params) ? htmlspecialchars(trim($params['text_plain'])) : ''; ?></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editor">Contenu au format HTML de l'email (text/html)</label>
+                                    <textarea id="editor" name="text_html"><?= isset($params) ? $params['text_html'] : ''; ?></textarea>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="checkbox" name="send_all_users" onclick="updateFiltersStatusUsers(this)" value="1" id="send_all_users">
+                                            <label for="send_all_users">Envoyer la newletters à tous les franchisés</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="users_min_customers">Nombre minimum de clients par franchisé nécessaire pour recevoir l'email</label>
+                                            <input type="number" id="users_min_customers" class="form-control" readonly name="users_min_customers" value="0">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="users_min_commands">Nombre minimum de commandes par franchisé nécessaire pour recevoir l'email</label>
+                                            <input type="number" id="users_min_commands" class="form-control" readonly name="users_min_commands" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input type="checkbox" name="send_all_customers" onclick="updateFiltersStatusCustomers(this)" value="1" id="send_all_customers">
+                                            <label for="send_all_customers">Envoyer la newletters à tous les clients Driv'N'Cook</label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="customers_min_commands">Nombre minimum de commandes passées nécessaire pour recevoir l'email</label>
+                                            <input type="number" id="customers_min_commands" class="form-control" readonly name="customers_min_commands" value="0">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="text-center">
+                                    <button type="submit" class="btn btn-warning btn-block">Envoyer la newletters</button>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <aside class="control-sidebar control-sidebar-dark">
+    </aside>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; <?= date('Y'); ?> Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/dist/js/adminlte.js"></script>
+<script defer src="/dist/js/trumbowyg.min.js"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        $('#editor').trumbowyg();
+    });
+
+    function updateFiltersStatusUsers(obj) {
+        let users_min_customers = document.getElementById('users_min_customers'),
+            users_min_commands  = document.getElementById('users_min_commands');
+
+        if(obj.checked) {
+            users_min_customers.removeAttribute('readonly');
+            users_min_commands.removeAttribute('readonly');
+            return true;
+        }
+
+        users_min_customers.setAttribute('readonly', 'readonly');
+        users_min_commands.setAttribute('readonly', 'readonly');
+    }
+
+    function updateFiltersStatusCustomers(obj) {
+        let customers_min_commands = document.getElementById('customers_min_commands');
+
+        if(obj.checked) {
+            customers_min_commands.removeAttribute('readonly');
+            return true;
+        }
+
+        customers_min_commands.setAttribute('readonly', 'readonly');
+    }
+</script>
+</body>
+</html>
