@@ -66,7 +66,6 @@ class Customers extends Controller
 
             $customer = new Customer();
 
-            $customer->setCreatedAt(new \DateTime());
             if (Validator::isValidEmail($params['email']) && !$this->customerRepository->findOneByEmail($params['email'])) {
                 $customer->setEmail(trim($params['email']));
             } else {
