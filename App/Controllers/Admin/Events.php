@@ -128,7 +128,6 @@ class Events extends Controller
     {
         $userRepository = $this->em->getRepository(Users::class);
 
-
         $franchise_id = $this->getRouteParameter('franchise');
         $event_id = $this->getRouteParameter('event');
         $event = $this->eventRepository->find($event_id);
@@ -287,6 +286,7 @@ class Events extends Controller
         $headers .= "MIME-Version: 1.0\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\n";
         $subject = "DrivNCook vous invite à un évènement";
+        $message = "Un message de Drivncook Pour Swannou";
         if (!mail($to, $subject, $message, $headers)) {
             echo "Email error";
             die();
