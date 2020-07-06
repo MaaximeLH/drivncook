@@ -15,6 +15,8 @@ use Core\Request;
 use Core\Session;
 use Core\Validator;
 use Core\View;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class Events extends Controller
 {
@@ -276,22 +278,31 @@ class Events extends Controller
         ob_start();
         require(VIEWPATH . 'Admin/event/invitation.phtml');
         $message = ob_get_clean();
-        
-        $to = trim($customer->getEmail());
-        
-        $headers  = "From: Driv'n'Cook < contact@drivncook.store >\n";
+
+        /*$headers  = "From: Driv'n'Cook < contact@drivncook.store >\n";
         $headers .= "X-Sender: Driv'n'Cook < contact@drivncook.store >\n";
         $headers .= 'X-Mailer: PHP/' . phpversion();
         $headers .= "Return-Path: contact@drivncook.store\n"; // Return path for errors
         $headers .= "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\n";*/
         $subject = "DrivNCook vous invite à un évènement";
-        $message = "Un message de Drivncook Pour Swannou";
-        if (!mail($to, $subject, $message, $headers)) {
-            echo "Email error";
-            die();
-        } else {
-            die('Email send');
-        }
+
+        $mail = new PHPMailer();
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+        $mail->isSMTP();                                            // Send using SMTP
+        $mail->CharSet = 'UTF-8';
+        //Recipients
+        $mail->setFrom('contact@drivncook.store', "Driv'N'Cook");
+        $mail->addAddress(trim($customer->getEmail()), trim($customer->getLastname() . ' ' . $customer->getLastname()));     // Add a recipient
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body    = $message;
+        $mail->AltBody = 'Plain text content test';
+
+        $mail->send();
+        die();
+        echo 'Message has been sent';
     }
 }
