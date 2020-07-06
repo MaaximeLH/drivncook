@@ -108,4 +108,6 @@ return [
     "trucks" => "Trucks",
     "Venez Voir les camion de la franchise Driv'N'Cook" => "Come see the trucks of the Driv'N'Cook franchise",
     'our_food_truck' => 'Our Food Trucks',
+
+    "inscription_success" => "Successful registration"
 ];

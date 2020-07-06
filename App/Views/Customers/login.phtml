@@ -26,6 +26,11 @@
                     <?= \Core\Language::get('account_not_found'); ?>
                 </div>
             <?php } ?>
+            <?php if(\Core\Session::get('admin_id')) { ?>
+                <div class="alert alert-success" role="alert">
+                    <?= \Core\Session::get('admin_id') ?>
+                </div>
+            <?php } ?>
             <form method="POST">
                 <div class="input-group mb-3">
                     <input type="email" class="form-control" autocomplete="autocomplete" name="email" placeholder="<?= \Core\Language::get('email'); ?>">

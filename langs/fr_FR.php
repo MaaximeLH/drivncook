@@ -439,4 +439,6 @@ return [
     /* Camion */
     "Venez Voir les camion de la franchise Driv'N'Cook" => "Venez Voir les camion de la franchise Driv'N'Cook",
     'our_food_truck' => 'Nos Food Trucks',
+
+    "inscription_success" => "Inscription réussi"
 ];

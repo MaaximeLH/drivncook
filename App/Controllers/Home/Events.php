@@ -5,9 +5,11 @@ namespace App\Controllers\Home;
 use Core\Controller;
 use Core\Request;
 use Core\View;
+use Core\Session;
 use Core\CSRF;
 use Core\Entity;
 use App\Entity\Event;
+use App\Entity\EventCustomer;
 
 class Events extends Controller {
 
@@ -33,5 +35,19 @@ class Events extends Controller {
 
         $event = $this->eventRepository->find($eventId);
         return View::render('Home/eventDetail', ['page' => 'eventDetail', 'event' => $event]);
+    }
+
+    public function updateStatusAction() {
+        $code = $this->getRouteParameter('code');
+        $eventCustomerRepository = $this->em->getRepository(EventCustomer::class);
+        $eventCustomer = $eventCustomerRepository->findOneBy(['code' => $code]);
+        if (is_null($eventCustomer)) {
+            $this->redirectTo('/');
+        }
+        $eventCustomer->setStatus('inscrit');
+        $this->em->flush();
+        
+        Session::set('inscription_confirmed', \Core\Language::get('inscription_success'));
+        $this->redirectTo('/customers');
     }
 }
