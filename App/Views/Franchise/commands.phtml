@@ -51,6 +51,7 @@
                                     <a class="nav-item nav-link active" id="nav-status-2-tab" data-toggle="tab" href="#nav-status-2" role="tab" aria-controls="nav-status-2" aria-selected="true">En traitement</a>
                                     <a class="nav-item nav-link" id="nav-status-1-tab" data-toggle="tab" href="#nav-status-1" role="tab" aria-controls="nav-status-1" aria-selected="false">Non traîtée</a>
                                     <a class="nav-item nav-link" id="nav-status-3-tab" data-toggle="tab" href="#nav-status-3" role="tab" aria-controls="nav-status-3" aria-selected="false">Terminée</a>
+                                    <a class="nav-item nav-link" id="nav-status-4-tab" data-toggle="tab" href="#nav-status-4" role="tab" aria-controls="nav-status-4" aria-selected="false">Annulée</a>
                                 </div>
                             </nav>
                             <div class="tab-content p-2" id="nav-tabContent">
@@ -175,6 +176,9 @@
                                                 <td><?= $order->getCreatedAt()->format('d/m/Y H:i'); ?></td>
                                                 <td><?= number_format($total, 2) ?>€</td>
                                                 <td>
+                                                    <?php if(($order->getRecuperationDate() - time()) >= 3600) { ?>
+                                                        <a href="/panel/commands/<?= $order->getId(); ?>/update/4" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Annuler la commande</a>
+                                                    <?php } ?>
                                                     <a href="/panel/commands/<?= $order->getId(); ?>/update/2" class="btn btn-sm btn-warning"><i class="fa fa-redo"></i> Commande en traitement</a>
                                                     <a href="/panel/commands/<?= $order->getId(); ?>/update/3" class="btn btn-sm btn-success"><i class="fa fa-check"></i> Commande terminée</a>
                                                     <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#orderInfo<?= $order->getId(); ?>"><i class="fa fa-info-circle"></i> Plus d'informations</a>
@@ -267,6 +271,76 @@
                                         </tfoot>
                                     </table>
                                 </div>
+                                <div class="tab-pane fade" id="nav-status-4" role="tabpanel" aria-labelledby="nav-status-4-tab">
+                                    <table id="commands_status_4" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Informations</th>
+                                            <th>Date de récupération souhaitée</th>
+                                            <th>Date de commande</th>
+                                            <th>Total à facturer</th>
+                                            <th><?= \Core\Language::get('action') ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($orders['status_4'] as $order) : $total = 0; ?>
+                                            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="orderInfo<?= $order->getId(); ?>" id="orderInfo<?= $order->getId(); ?>" aria-hidden="true">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Informations sur la commande DVN02<?= $order->getId() ?></h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <?= nl2br($order->getDescription()); ?>
+                                                            <hr>
+                                                            <h5>Contenu de la commande</h5>
+                                                            <ul class="list-group">
+                                                                <?php foreach ($order->lines as $line): $total += $line->getPrice(); ?>
+                                                                    <li class="list-group-item"><?= $line->getText(); ?> (<?= number_format($line->getPrice(), 2); ?>€)</li>
+                                                                <?php endforeach; ?>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <tr>
+                                                <td>DVN02<?= $order->getId() ?></td>
+                                                <td>
+                                                    <?= $order->getCustomer()->getLastname() . ' ' . $order->getCustomer()->getFirstname(); ?> <br>
+                                                    <small><a href="mailto:<?= $order->getCustomer()->getEmail(); ?>"><?= $order->getCustomer()->getEmail(); ?></a></small>
+                                                </td>
+                                                <td><?= date('d/m/Y H:i', $order->getRecuperationDate()); ?></td>
+                                                <td><?= $order->getCreatedAt()->format('d/m/Y H:i'); ?></td>
+                                                <td><?= number_format($total, 2) ?>€</td>
+                                                <td>
+                                                    <a href="#" class="btn btn-sm btn-info" data-toggle="modal" data-target="#orderInfo<?= $order->getId(); ?>"><i class="fa fa-info-circle"></i> Plus d'informations</a>
+                                                </td>
+                                            </tr>
+
+
+                                        <?php endforeach; ?>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Informations</th>
+                                            <th>Date de récupération souhaitée</th>
+                                            <th>Date de commande</th>
+                                            <th>Total à facturer</th>
+                                            <th><?= \Core\Language::get('action') ?></th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+
                             </div>
 
                         </div>
@@ -307,6 +381,12 @@
         });
 
         $("#commands_status_3").DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
+            }
+        });
+
+        $("#commands_status_4").DataTable({
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json'
             }

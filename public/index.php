@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 set_error_handler('Core\Error::errorHandler');
 set_exception_handler('Core\Error::exceptionHandler');
 define('VIEWPATH', dirname(__DIR__) . "/App/Views/");
+date_default_timezone_set('Europe/Paris');
 
 $router = new Core\Router();
 
