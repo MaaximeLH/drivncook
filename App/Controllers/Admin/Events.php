@@ -147,8 +147,13 @@ class Events extends Controller
         $customerRepository = $this->em->getRepository(Customer::class);
         $event = $this->eventRepository->find($this->getRouteParameter('event'));
         $customer = $customerRepository->find($this->getRouteParameter('customer'));
+        $eventCustomerRepository = $this->em->getRepository(EventCustomer::class);
+        $eventCustomer = $eventCustomerRepository->findOneBy(
+            ['idEvent' => $event->getId(), 'idCustomer' => $customer->getId()]
+        );
 
         $data['event'] = $event;
+        $data['eventCustomer'] = $eventCustomer;
         $data['customer'] = $customer;
         $this->load_view('Admin/event/invitation', $data);
     }
@@ -240,7 +245,6 @@ class Events extends Controller
         if (Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
-            var_dump($params);
             foreach ($params['id'] as $id) {
                 $customer = $customerRepository->find($id);
 
@@ -249,6 +253,7 @@ class Events extends Controller
                 $eventCustomer->setIdEvent($event);
                 $eventCustomer->setIdCustomer($customer);
                 $eventCustomer->setStatut('Invité');
+                $eventCustomer->setCode(sha1(bin2hex(random_bytes(32))));
                 $this->em->persist($eventCustomer);
                 $this->em->flush();
                 $this->sendInvitaitonEmail($event, $customer);
@@ -275,25 +280,21 @@ class Events extends Controller
 
     private function sendInvitaitonEmail($event, $customer)
     {
+        $eventCustomerRepository = $this->em->getRepository(EventCustomer::class);
+        $eventCustomer = $eventCustomerRepository->findOneBy(['idEvent' => $event->getId(), 'idCustomer' => $customer->getId()]);
         ob_start();
         require(VIEWPATH . 'Admin/event/invitation.phtml');
         $message = ob_get_clean();
 
-        /*$headers  = "From: Driv'n'Cook < contact@drivncook.store >\n";
-        $headers .= "X-Sender: Driv'n'Cook < contact@drivncook.store >\n";
-        $headers .= 'X-Mailer: PHP/' . phpversion();
-        $headers .= "Return-Path: contact@drivncook.store\n"; // Return path for errors
-        $headers .= "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\n";*/
         $subject = "DrivNCook vous invite à un évènement";
 
         $mail = new PHPMailer();
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-        $mail->isSMTP();                                            // Send using SMTP
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        $mail->isSMTP();
         $mail->CharSet = 'UTF-8';
         //Recipients
         $mail->setFrom('contact@drivncook.store', "Driv'N'Cook");
-        $mail->addAddress(trim($customer->getEmail()), trim($customer->getLastname() . ' ' . $customer->getLastname()));     // Add a recipient
+        $mail->addAddress(trim($customer->getEmail()), trim($customer->getLastname() . ' ' . $customer->getLastname()));
 
         // Content
         $mail->isHTML(true);
@@ -303,6 +304,5 @@ class Events extends Controller
 
         $mail->send();
         die();
-        echo 'Message has been sent';
     }
 }
