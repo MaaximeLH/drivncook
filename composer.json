@@ -6,6 +6,7 @@
         }
     },
     "require": {
-        "doctrine/orm": "^2.7"
+        "doctrine/orm": "^2.7",
+        "phpmailer/phpmailer": "^6.1"
     }
 }
