@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <?php require "assets/head.phtml"; ?>
+<link rel="stylesheet" href="/dist/css/jquery.datetimepicker.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+        crossorigin="anonymous"></script>
+<script defer src="/dist/js/jquery.datetimepicker.full.min.js"></script>
 <body>
 <div id="pagewrap" class="pagewrap">
     <div id="html-content" class="wrapper-content">
@@ -65,8 +70,11 @@
                                 <input type="text" value="<?= $customer->getEmail(); ?>" disabled placeholder="Votre email" class="form-control">
                             </div>
                             <div class="form-group">
-                                <label for="datetime_input" style="<?= (isset($datetime_error) && !is_null($datetime_error)) ? 'color:red' : ''; ?>">Récupérer ma commande le :</label>
-                                <input type="datetime-local" id="datetime_input" value="<?= (isset($datetime_error) && !is_null($datetime_error)) ? $params['datetime'] : ''; ?>" name="datetime" class="form-control is-invalid">
+                                <div>
+                                    <label for="datetime_input" style="<?= (isset($datetime_error) && !is_null($datetime_error)) ? 'color:red' : ''; ?>">Récupérer ma commande le :</label>
+                                    <input type="datetime-local" id="datetime_input" value="<?= (isset($datetime_error) && !is_null($datetime_error)) ? $params['datetime'] : ''; ?>" name="datetime" class="form-control is-invalid">
+                                </div>
+                                <small class="form-text text-muted"><?= \Core\Language::get('La date doit être superieur a la date actuel et inférieure a 5 jours dans le future') ?></small>
                             </div>
                             <div class="form-group">
                                 <textarea name="description" placeholder="Ajouter une description pour votre commande (allergies, préférence, changement dans le menu)" class="form-control" cols="30" rows="10"><?= (isset($datetime_error) && !is_null($datetime_error)) ? htmlspecialchars(trim($params['description'])) : ''; ?></textarea>
@@ -82,5 +90,12 @@
     </div>
 </div>
 <?php require "assets/footer.phtml"; ?>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        $('#datetime_input').datetimepicker({
+            inline:true,
+        });
+    });
+</script>
 </body>
 </html>

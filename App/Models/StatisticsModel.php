@@ -18,10 +18,6 @@ class StatisticsModel extends Model
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // "SELECT to_char(date_trunc('month', start_at), 'Month') as month, count(*) as nb_event FROM EVENT 
-    // WHERE date_trunc('month', start_at) > (date_trunc('month', current_date - interval '1' month))
-    // GROUP BY month ORDER BY month ASC;"
-
     /**
      * Get new customer by day
      */
@@ -35,8 +31,6 @@ class StatisticsModel extends Model
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-    // 
-    // 
 
     /**
      * get incomming money from orders by day
@@ -53,10 +47,6 @@ class StatisticsModel extends Model
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
-    // SELECT to_char(orders.created_at, 'DDD') as day, sum(order_line.price)
-    // FROM orders
-    // LEFT JOIN order_line ON order_line.order_id = orders.id
-    // GROUP BY day
 
     /**
      * Get usage products
@@ -70,6 +60,36 @@ class StatisticsModel extends Model
 
         $query = $this->database->prepare($sql);
         $query->execute();
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Franchise
+
+    /**
+     * Get number order by month for user
+     */
+    public function getCountOrderForUserByMonth($user_id)
+    {
+        $sql = "SELECT to_char(date_trunc('month', created_at), 'Month') AS Month, count(*)
+        FROM orders WHERE user_id = :user_id
+        GROUP BY Month";
+
+        $query = $this->database->prepare($sql);
+        $query->execute([':user_id' => $user_id]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // chiffre d'affaire TTC
+    public function getIncommingMoneyFromOrdersByMonthForUser($user_id)
+    {
+        $sql = "SELECT to_char(orders.created_at, 'Month') AS Month, sum(order_line.price)
+        FROM orders
+        LEFT JOIN order_line ON orders.id = order_line.order_id
+        WHERE orders.user_id = :user_id
+        GROUP BY Month";
+
+        $query = $this->database->prepare($sql);
+        $query->execute([':user_id' => $user_id]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 }

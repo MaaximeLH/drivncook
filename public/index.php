@@ -153,6 +153,8 @@ $router->add("panel/event/subscribe/{id:\d+}", ['controller' => 'Events', 'actio
 
 // Promotion
 $router->add("panel/promotion", ['controller' => 'Promotions', 'action' => 'index', 'namespace' => 'Franchise']);
+// statistics
+$router->add("panel/statistics", ['controller' => 'Statistics', 'action' => 'index', 'namespace' => 'Franchise']);
 
 
 $router->dispatch($_SERVER['QUERY_STRING']);
