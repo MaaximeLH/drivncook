@@ -258,6 +258,34 @@
                     </ul>
                 </li>
 
+                <li class="nav-item has-treeview <?= (isset($page) && in_array($page, ['unread', 'read'])) ? 'menu-open' : ''; ?>">
+                    <a href="#" class="nav-link <?= (isset($page) && in_array($page, ['unread', 'read'])) ? 'active' : ''; ?>">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Contact
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/administration/contact/unread" class="nav-link <?= (isset($page) && $page == "unread") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Voir les messages non lus
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/administration/contact/read" class="nav-link <?= (isset($page) && $page == "read") ? 'active' : ''; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Voir les messages lus
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a href="/administration/event" class="nav-link">
                         <i class="nav-icon fas fa-calendar-week"></i>

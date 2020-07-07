@@ -52,6 +52,10 @@ $router->add('customers/logout', ['controller' => 'Home', 'action' => 'logout', 
  */
 $router->add("administration", ['controller' => 'Home', 'action' => 'index', 'namespace' => 'Admin']);
 $router->add("administration/login", ['controller' => 'Home', 'action' => 'login', 'namespace' => 'Admin']);
+$router->add("administration/contact/unread", ['controller' => 'Contact', 'action' => 'unread', 'namespace' => 'Admin']);
+$router->add("administration/contact/read", ['controller' => 'Contact', 'action' => 'read', 'namespace' => 'Admin']);
+$router->add("administration/contact/{id:\d+}/status/{status:\d+}", ['controller' => 'Contact', 'action' => 'update', 'namespace' => 'Admin']);
+// Contact
 $router->add("administration/logout", ['controller' => 'Home', 'action' => 'logout', 'namespace' => 'Admin']);
 // Admin management
 $router->add("administration/administrators", ['controller' => 'Admins', 'action' => 'administrators', 'namespace' => 'Admin']);
