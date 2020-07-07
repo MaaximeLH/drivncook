@@ -12,13 +12,12 @@ class Customers extends Controller {
 
     public function loginAction() {
 
-        $params = Request::getAllParams();
-        if(empty($params['email']) || empty($params['password'])) {
+        if(empty($_GET['email']) || empty($_GET['password'])) {
             die('false');
         }
 
-        $email = htmlspecialchars(trim($params['email']));
-        $password = htmlspecialchars(trim($params['password']));
+        $email = htmlspecialchars(trim($_GET['email']));
+        $password = htmlspecialchars(trim($_GET['password']));
 
         $em = Entity::getEntityManager();
         $customersRepository = $em->getRepository(Customer::class);
