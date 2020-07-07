@@ -7,7 +7,14 @@ class Router
     protected $routes = [];
     protected $params = [];
 
-    public function add($route, $params = []) {
+    public function add($route, $params = [], $fix = false) {
+
+        /**
+         * FIX TEMPORAIRE POUR AJOUTER LE SLASH A LA FIN DE CHAQUE ROUTE
+         */
+
+        if(!$fix) $this->add($route . "/", $params, true);
+
         $route = preg_replace('/\//', '\\/', $route);
         $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
         $route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
