@@ -30,6 +30,10 @@ $router->add('trucks/menu/{id:\d+}', ['controller' => 'Trucks', 'action' => 'men
 $router->add('trucks/menu/{id:\d+}/find', ['controller' => 'Trucks', 'action' => 'find', 'namespace' => 'Home']);
 $router->add('trucks/menu/{id:\d+}/commands/{card:\d+}', ['controller' => 'Trucks', 'action' => 'commands', 'namespace' => 'Home']);
 
+// API
+$router->add('api/login', ['controller' => 'Customers', 'action' => 'login', 'namespace' => 'Api']);
+
+
 /**
  * Customers
  */

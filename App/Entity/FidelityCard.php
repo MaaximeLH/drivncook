@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="fidelity_card")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class FidelityCard
 {
@@ -32,7 +33,7 @@ class FidelityCard
     private $createdAt;
 
     /**
-     * @var \Customer
+     * @var Customer
      *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
@@ -43,5 +44,69 @@ class FidelityCard
      */
     private $customer;
 
+    /**
+     * Gets triggered only on insert
 
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNbPoint(): int
+    {
+        return $this->nbPoint;
+    }
+
+    /**
+     * @param int|null $nbPoint
+     */
+    public function setNbPoint(int $nbPoint)
+    {
+        $this->nbPoint = $nbPoint;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getEndAt(): \DateTime
+    {
+        return $this->endAt;
+    }
+
+    /**
+     * @param \DateTime|null $endAt
+     */
+    public function setEndAt(\DateTime $endAt)
+    {
+        $this->endAt = $endAt;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return Customer
+     */
+    public function getCustomer(): Customer
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param Customer $customer
+     */
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer = $customer;
+    }
 }
