@@ -109,5 +109,6 @@ return [
     "Venez Voir les camion de la franchise Driv'N'Cook" => "Come see the trucks of the Driv'N'Cook franchise",
     'our_food_truck' => 'Our Food Trucks',
 
-    "inscription_success" => "Successful registration"
+    "inscription_success" => "Successful registration",
+    "La date doit être superieur a la date actuel et inférieure a 5 jours dans le future" => "The date must be greater than the current date and less than 5 days in the future",
 ];
