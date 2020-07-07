@@ -12,6 +12,8 @@ use Core\Entity;
 use Core\Request;
 use Core\Session;
 use Core\View;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class Newletters extends Controller {
 
@@ -52,13 +54,13 @@ class Newletters extends Controller {
             $ordersRepository = $em->getRepository(Orders::class);
             $customersRepository = $em->getRepository(Customer::class);
 
-            $emails = [];
+            $infos = [];
 
             if($usersFilter) {
                 foreach ($usersRepository->findAll() as $user) {
                     $total = count($ordersRepository->findByUser($user));
                     if($total > $usersMinCommandFilter) {
-                        $emails[] = $user->getEmail();
+                        $infos[] = ['email' => trim($user->getEmail()), 'lastname' => htmlspecialchars(trim($user->getLastname())), 'firstname' => htmlspecialchars(trim($user->getFirstname()))];
                     }
                 }
             }
@@ -67,14 +69,35 @@ class Newletters extends Controller {
                 foreach ($customersRepository->findAll() as $customer) {
                     $total = count($ordersRepository->findByCustomer($customer));
                     if($total > $customersMinCommandFilter) {
-                        $emails[] = $customer->getEmail();
+                        $infos[] = ['email' => $customer->getEmail(), 'lastname' => $customer->getLastname(), 'firstname' => $customer->getFirstname()];
                     }
                 }
             }
 
-            $emails = implode(', ', $emails);
+            $subject = htmlspecialchars(trim($params['title']));
 
-            //TODO: Envoie de l'email avec le contenu etc...
+            ob_start();
+            require(VIEWPATH . 'Admin/newletters/email.phtml');
+            $message = ob_get_clean();
+
+            foreach ($infos as $info) {
+                $mail = new PHPMailer();
+                $mail->isSMTP();
+                $mail->CharSet = 'UTF-8';
+
+                //Recipients
+                $mail->setFrom('contact@drivncook.store', "Driv'N'Cook");
+                $mail->addAddress($info['email'], $info['lastname'] . ' ' . $info['firstname']);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $message;
+                $mail->AltBody = htmlspecialchars(trim($params['text_plain']));
+
+                $mail->send();
+            }
+
             return View::render('Admin/newletters', ['admin' => $this->admin, 'page' => 'newletters', 'success' => true, 'params' => $params]);
 
         }

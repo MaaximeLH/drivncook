@@ -1,0 +1,179 @@
+<?php
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . '://' . $_SERVER["HTTP_HOST"];
+
+$orange = "#EF6E00";
+$orange_clair = "#FFB300";
+$rouge = "#EC2801";
+$noir = "#020102";
+
+$textColor = "#4A4A4A";
+
+$style_header = "text-align:center; font-family:arial; font-size:14px; line-height:20px; font-weight:bold; color:#FFFFFF;";
+
+$style_titre_noir = "text-align:center; font-family:arial; font-size:26px; line-height:26px; font-weight:bold; color:$noir;";
+$style_titre_orange = "text-align:left; font-family:arial; font-size:18px; line-height:18px";
+$style_titre_rouge = "text-align:left; font-family:arial; font-size:12px; line-height:13px; font-weight:bold; color:$rouge;";
+
+$style_titre_puce = "text-align:left; font-family:arial; font-size:14px; line-height:16px; color:$textColor; font-weight:bold; padding:0; margin-top:0; margin-bottom:5px;";
+$style_texte = "text-align:left; font-family:arial; font-size:14px; line-height:16px; color:$textColor;";
+$style_small = "text-align:left; font-family:arial; font-size:12px; line-height:12px; color:$textColor;";
+$style_link = "text-align:left; font-family:arial; font-size:14px; line-height:16px; color:$textColor; font-style:italic; text-decoration:none;";
+
+$style_titre_prefooter = "text-align:center; font-family:arial; font-size:17px; line-height:19px; color:#FFFFFF; font-weight:bold";
+$style_texte_prefooter = "text-align:center; font-family:arial; font-size:14px; line-height:15px; color:#FFFFFF;";
+
+$style_titre_footer = "text-align:left; font-family:arial; font-size:11px; line-height:12px; color:#B3B3B3; font-weight:bold";
+$style_texte_footer = "text-align:left; font-family:arial; font-size:11px; line-height:12px; color:#B3B3B3;";
+
+
+$style_gutter = "padding-left:20px; padding-right:20px;";
+
+function spacer($w, $h)
+{
+    global $url;
+    global $code;
+    return '<img src="' . $url . '/img/spacer.gif" alt="" style="display:block; width:' . $w . 'px; height:' . $h . 'px;" border="0" width="' . $w . '" height="' . $h . '" />';
+}
+
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title><?= $subject; ?></title>
+
+    <style type="text/css">
+        @media only screen and (max-width: 679px) {
+
+            /* for gmail mobile */
+            .full {
+                min-width: 100% !important;
+                width: 100% !important;
+                min-height: 1px !important;
+                height: auto !important;
+            }
+            .w320 {
+                width: 320px !important;
+            }
+
+            /* for others */
+            table[class="full"],
+            td[class="full"],
+            img[class="full"],
+            span[class="full"] {
+                min-width: 100% !important;
+                width: 100% !important;
+                min-height: 1px !important;
+                height: auto !important;
+            }
+
+        }
+
+        @media (max-width: 699px) {
+            table[class="full"], td[class="full"] {
+                width:340px !important;
+                min-height:1px !important;
+            }
+            td[class="f30"] {
+                font-size:20px !important;
+                line-height:22px !important;
+            }
+        }
+    </style>
+
+</head>
+
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; font-family:arial; background-color:white;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:white;">
+    <tr>
+        <td align="center" valign="top">
+
+            <table id="header" width="560" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                <tr>
+                    <td align="center" style="padding-top:0px; padding-bottom:0px;">
+                        <a href="<?= $url ?>"><img src="<?= $url ?>/dist/img/banniereDrivnCook.png" width="560" height="212" class="full" style="display:block; border:0;" alt="Logo DrivnCook" /></a>
+                    </td>
+                </tr>
+            </table>
+
+            <table id="titre" width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                <tr>
+                    <td align="center" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:15px; <?= $style_titre_noir ?>">
+                        <?= $subject; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:20px;">
+                        <img src="<?= $url ?>/dist/img/red_bar.jpg" width="50" height="5" alt="" />
+                    </td>
+                </tr>
+            </table>
+
+            <table width="680" cellpadding="0" cellspacing="0" border="0" class="full" bgcolor="#FFFFFF" style="max-width:680px; width:100%;">
+                <tr>
+                    <td align="center" valign="top">
+                        <div style="display:inline-block; vertical-align: top; min-width:50%;">
+                            <table width="340" cellpadding="0" cellspacing="0" border="0" class="w320">
+                                <tr>
+                                    <td style="padding-left:20px; padding-right:20px; padding-top:0px;padding-bottom:25px;<?= $style_titre_orange ?>">
+                                        <?= $params['text_html']; ?>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <table  width="680" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" align="center" class="full">
+                <tr>
+                    <td class="full" style="margin: 10px; text-align: center; padding: 20px;">
+                        Cette email a été rédigé à la main par un gérant de la société Driv'N'Cook.
+                    </td>
+                </tr>
+            </table>
+
+
+            <table id="prefooter" width="680" cellpadding="0" cellspacing="0" border="0" bgcolor="<?= $orange_clair ?>" class="full">
+                <tr>
+                    <td align="center" style="<?= $style_gutter ?> padding-top:15px; padding-bottom:5px; <?= $style_titre_prefooter ?>">
+                        UNE QUESTION, DES REMARQUES ?
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:15px; <?= $style_texte_prefooter ?>">
+                        Notre support est joignable par email : <a href="mailto:contact@drivncook.store">contact@drivncook.store</a>
+                    </td>
+                </tr>
+            </table>
+
+
+            <table id="footer" width="680" cellpadding="0" cellspacing="0" border="0" bgcolor="<?= $noir ?>" class="full">
+                <tr>
+                    <td align="left" style="<?= $style_gutter ?> padding-top:20px; padding-bottom:10px; <?= $style_titre_footer ?>">
+                        Driv'N'Cook est respectueux des données privées
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" style="<?= $style_gutter ?> padding-top:0px; padding-bottom:20px; <?= $style_texte_footer ?>">
+                        Vous recevez cet emailing car vous nous avez donné votre consentement dans l'un de nos précédents messages ou lors de votre achat sur notre site https://drivncook.store.
+                        Le service de routage de ce message est français et respectueux du RGPD.
+                        Les bases de données qui stockent les informations qui vous concernent sont également en France.
+                        Aucune de ces informations n'a été et ne sera vendue ou confiée à un tiers à des fins commerciales.
+                        <br /><br />
+                        Pour arrêter de recevoir nos emails d'informations générales <a href="#" style="<?= $style_texte_footer ?>">cliquez-ici</a>.
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+    </tr>
+</table>
+
+</body>
+
+</html>
