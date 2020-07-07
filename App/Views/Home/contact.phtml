@@ -25,17 +25,27 @@
                                 </div>
                                 <div class="reservation-form style-02">
                                     <div class="swin-sc swin-sc-contact-form light mtl style-full">
-                                        <form>
+                                        <?php if(isset($error)) { ?>
+                                            <div class="alert alert-danger">
+                                                <strong>Erreur</strong> ! Veuillez vérifier vos informations et réessayer.
+                                            </div>
+                                        <?php } ?>
+                                        <?php if(isset($success)) { ?>
+                                            <div class="alert alert-success">
+                                                <strong>Succès</strong> ! Votre message a été envoyé, nous vous répondrons sous peu.
+                                            </div>
+                                        <?php } ?>
+                                        <form method="POST">
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                                    <input type="text" placeholder="Nom Prénom" class="form-control">
+                                                    <input type="text" name="name" value="<?= (isset($params['name'])) ? htmlspecialchars(trim($params['name'])) : ''; ?>" placeholder="Nom Prénom" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><i class="fa fa-envelope"></i></div>
-                                                    <input type="text" placeholder="Email" class="form-control">
+                                                    <input type="text" name="email" value="<?= (isset($params['email'])) ? htmlspecialchars(trim($params['email'])) : ''; ?>" placeholder="Email" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -43,14 +53,16 @@
                                                     <div class="input-group-addon">
                                                         <div class="fa fa-phone"></div>
                                                     </div>
-                                                    <input type="text" placeholder="Téléphone" class="form-control">
+                                                    <input type="text" name="phone" value="<?= (isset($params['phone'])) ? htmlspecialchars(trim($params['phone'])) : ''; ?>" placeholder="Téléphone" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <textarea placeholder="Message" class="form-control"></textarea>
+                                                <textarea placeholder="Message" name="message" class="form-control"><?= (isset($params['message'])) ? htmlspecialchars(trim($params['message'])) : ''; ?></textarea>
                                             </div>
                                             <div class="form-group">
-                                                <div class="swin-btn-wrap"><a href="#" class="swin-btn center form-submit"><span><?= \Core\Language::get('send') ?></span></a></div>
+                                                <div class="swin-btn-wrap">
+                                                    <button class="swin-btn center form-submit"><span><?= \Core\Language::get('send') ?></span></button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
