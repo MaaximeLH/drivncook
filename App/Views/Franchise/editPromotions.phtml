@@ -51,6 +51,11 @@
                             <form role="form" method="POST">
                                 <div class="card-body">
 
+                                    <div class="alert alert-info">
+                                        <strong><i class="fa fa-info-circle"></i> Informations !</strong><br>
+                                        Vous pouvez terminer une promotion en mettant la date de fin de promotion à maintenant !
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="name">Nom de la promotion</label>
                                         <input type="text" name="name" id="name" class="form-control <?= (isset($fields['name'])) ? (!$fields['name']) ? 'is-invalid' : 'is-valid' : ''; ?>" value="<?= htmlspecialchars(trim($promotion->getName())); ?>" placeholder="Nom">
