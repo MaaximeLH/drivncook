@@ -42,7 +42,12 @@ class Newletters extends Controller {
             $usersFilter = (isset($params['send_all_users']));
             $customersFilter = (isset($params['send_all_customers']));
 
-            if($usersFilter == false && $customersFilter == false) {
+            $sendSubscribers = false;
+            if(!empty($params['send_subscribers']) && $params['send_subscribers'] == 1) {
+                $sendSubscribers = true;
+            }
+
+            if(!$sendSubscribers && ($usersFilter == false && $customersFilter == false)) {
                 return View::render('Admin/newletters', ['admin' => $this->admin, 'page' => 'newletters', 'error' => true, 'params' => $params]);
             }
 
@@ -53,13 +58,14 @@ class Newletters extends Controller {
             $usersRepository = $em->getRepository(Users::class);
             $ordersRepository = $em->getRepository(Orders::class);
             $customersRepository = $em->getRepository(Customer::class);
+            $newlettersRepository = $em->getRepository(\App\Entity\Newletters::class);
 
             $infos = [];
 
             if($usersFilter) {
                 foreach ($usersRepository->findAll() as $user) {
                     $total = count($ordersRepository->findByUser($user));
-                    if($total > $usersMinCommandFilter) {
+                    if($total >= $usersMinCommandFilter) {
                         $infos[] = ['email' => trim($user->getEmail()), 'lastname' => htmlspecialchars(trim($user->getLastname())), 'firstname' => htmlspecialchars(trim($user->getFirstname()))];
                     }
                 }
@@ -68,9 +74,15 @@ class Newletters extends Controller {
             if($customersFilter) {
                 foreach ($customersRepository->findAll() as $customer) {
                     $total = count($ordersRepository->findByCustomer($customer));
-                    if($total > $customersMinCommandFilter) {
+                    if($total >= $customersMinCommandFilter) {
                         $infos[] = ['email' => $customer->getEmail(), 'lastname' => $customer->getLastname(), 'firstname' => $customer->getFirstname()];
                     }
+                }
+            }
+
+            if($sendSubscribers) {
+                foreach ($newlettersRepository->findAll() as $item) {
+                    $infos[] = ['email' => $item->getEmail(), 'lastname' => '', 'firstname' => ''];
                 }
             }
 

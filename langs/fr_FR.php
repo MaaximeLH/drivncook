@@ -440,6 +440,6 @@ return [
     "Venez Voir les camion de la franchise Driv'N'Cook" => "Venez Voir les camion de la franchise Driv'N'Cook",
     'our_food_truck' => 'Nos Food Trucks',
 
-    "inscription_success" => "Inscription réussi",
+    "inscription_success" => "Inscription réussie",
     "La date doit être superieur a la date actuel et inférieure a 5 jours dans le future" => "La date doit être superieur a la date actuel et inférieure a 5 jours dans le future",
 ];

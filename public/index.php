@@ -19,6 +19,10 @@ $router->add('', ['controller' => 'Home', 'action' => 'index', 'namespace' => 'H
 $router->add('about', ['controller' => 'Home', 'action' => 'about', 'namespace' => 'Home']);
 $router->add('contact', ['controller' => 'Home', 'action' => 'contact', 'namespace' => 'Home']);
 $router->add('lang/pref/{lang:(?:[\w\-](?<!_))+}', ['controller' => 'Home', 'action' => 'lang', 'namespace' => 'Home']);
+
+// Newletters
+$router->add('newletters/register', ['controller' => 'Home', 'action' => 'newletters', 'namespace' => 'Home']);
+
 // Events
 $router->add('events', ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Home']);
 $router->add('events/detail/{id:\d+}', ['controller' => 'Events', 'action' => 'detail', 'namespace' => 'Home']);
@@ -40,6 +44,8 @@ $router->add('api/login', ['controller' => 'Customers', 'action' => 'login', 'na
 $router->add('customers', ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Customer']);
 $router->add('customers/my-account', ['controller' => 'Customers', 'action' => 'account', 'namespace' => 'Customer']);
 $router->add('customers/commands', ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Customer']);
+$router->add('customers/events', ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Customer']);
+$router->add('customers/events/unsubscribe/{id:\d+}', ['controller' => 'Events', 'action' => 'unsubscribe', 'namespace' => 'Customer']);
 $router->add('customers/invoices', ['controller' => 'Invoice', 'action' => 'index', 'namespace' => 'Customer']);
 $router->add('customers/invoices/details/{id:\d+}', ['controller' => 'Invoice', 'action' => 'details', 'namespace' => 'Customer']);
 $router->add('customers/login', ['controller' => 'Home', 'action' => 'login', 'namespace' => 'Customer']);
@@ -134,8 +140,10 @@ $router->add("panel/my-account", ['controller' => 'Franchise', 'action' => 'myAc
 $router->add("panel/online-payment", ['controller' => 'Franchise', 'action' => 'onlinePayment', 'namespace' => 'Franchise']);
 // Promotions
 $router->add("panel/promotions", ['controller' => 'Promotions', 'action' => 'index', 'namespace' => 'Franchise']);
+$router->add("panel/promotions/archives", ['controller' => 'Promotions', 'action' => 'archives', 'namespace' => 'Franchise']);
 $router->add("panel/promotions/add", ['controller' => 'Promotions', 'action' => 'add', 'namespace' => 'Franchise']);
 $router->add('panel/promotion/edit/{id:\d+}', ['controller' => 'Promotions', 'action' => 'edit', 'namespace' => 'Franchise']);
+$router->add('panel/promotion/archive/{id:\d+}', ['controller' => 'Promotions', 'action' => 'archive', 'namespace' => 'Franchise']);
 // Commandes
 $router->add("panel/commands", ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Franchise']);
 $router->add("panel/commands/{id:\d+}/update/{status:\d+}", ['controller' => 'Commands', 'action' => 'update', 'namespace' => 'Franchise']);

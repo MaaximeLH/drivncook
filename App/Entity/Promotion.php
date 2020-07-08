@@ -83,6 +83,20 @@ class Promotion
     private $user;
 
     /**
+     * @var int|null
+     *
+     * @ORM\Column(name="max_commands", type="integer", nullable=true)
+     */
+    private $maxCommands;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="is_archived", type="integer", nullable=true, options={"default"="0"})
+     */
+    private $isArchived = '0';
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -218,5 +232,37 @@ class Promotion
     public function setUser(Users $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMaxCommands()
+    {
+        return $this->maxCommands;
+    }
+
+    /**
+     * @param int|null $maxCommands
+     */
+    public function setMaxCommands($maxCommands)
+    {
+        $this->maxCommands = $maxCommands;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getIsArchived()
+    {
+        return $this->isArchived;
+    }
+
+    /**
+     * @param int|null $isArchived
+     */
+    public function setIsArchived($isArchived)
+    {
+        $this->isArchived = $isArchived;
     }
 }

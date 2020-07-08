@@ -42,7 +42,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><?= \Core\Language::get('my_promotions') ?></h3>
+                            <h3 class="card-title">Mes promotions archivées</h3>
                         </div>
                         <div class="card-body">
                             <table id="invoices" class="table table-bordered table-striped">
@@ -52,9 +52,8 @@
                                     <th>Date de début</th>
                                     <th>Date de fin</th>
                                     <th>Fourchette de prix</th>
-                                    <th>Quotas de commandes</th>
+                                    <th>Quotas de commande</th>
                                     <th><?= \Core\Language::get('created_at') ?></th>
-                                    <th><?= \Core\Language::get('status') ?></th>
                                     <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </thead>
@@ -74,21 +73,8 @@
                                         </td>
                                         <td><?= $promotion->getCreatedAt()->format('d/m/Y H:i'); ?></td>
                                         <td>
-                                            <?php if($promotion->getEndAt()->getTimestamp() < time()) { ?>
-                                                <span class="badge badge-danger">Promotion terminée</span>
-                                            <?php } else if($promotion->getStartAt()->getTimestamp() > time()) { ?>
-                                                <span class="badge badge-info">Promotion non commencée</span>
-                                            <?php } else { ?>
-                                                <span class="badge badge-success">Promotion en cours</span>
-                                            <?php } ?>
-                                        </td>
-                                        <td>
-                                            <a href="/panel/promotion/edit/<?= $promotion->getId(); ?>" class="btn btn-sm btn-info">
-                                                <i class="fa fa-pencil-alt"></i> Editer
-                                            </a>
-
-                                            <a onclick="return confirm('Voulez-vous vraiment archiver cette promotion ?')" href="/panel/promotion/archive/<?= $promotion->getId(); ?>" class="btn btn-sm btn-danger">
-                                                <i class="fa fa-archive"></i> Archiver
+                                            <a onclick="return confirm('Voulez-vous vraiment dé-archiver cette promotion ?')" href="/panel/promotion/archive/<?= $promotion->getId(); ?>" class="btn btn-sm btn-danger">
+                                                <i class="fa fa-archive"></i> Sortir des archives
                                             </a>
                                         </td>
                                     </tr>
@@ -100,9 +86,8 @@
                                     <th>Date de début</th>
                                     <th>Date de fin</th>
                                     <th>Fourchette de prix</th>
-                                    <th>Quotas de commandes</th>
+                                    <th>Quotas de commande</th>
                                     <th><?= \Core\Language::get('created_at') ?></th>
-                                    <th><?= \Core\Language::get('status') ?></th>
                                     <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </tfoot>

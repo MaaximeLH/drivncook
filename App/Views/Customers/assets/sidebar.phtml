@@ -74,6 +74,15 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="/customers/events" class="nav-link <?= (isset($page) && $page == "events") ? 'active' : ''; ?>">
+                        <i class="nav-icon fa fa-calendar"></i>
+                        <p>
+                            Évènements
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="/customers/invoices" class="nav-link <?= (isset($page) && $page == "invoice") ? 'active' : ''; ?>">
                         <i class="nav-icon fa fa-file-invoice"></i>
                         <p>

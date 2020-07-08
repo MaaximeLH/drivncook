@@ -72,6 +72,17 @@ class Orders
     private $description;
 
     /**
+     * @var Promotion
+     *
+     * @ORM\ManyToOne(targetEntity="Promotion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="promotion_id", referencedColumnName="id")
+     * })
+     */
+
+    private $promotion;
+
+    /**
      * @return int
      */
     public function getId()
@@ -175,5 +186,21 @@ class Orders
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return Promotion
+     */
+    public function getPromotion()
+    {
+        return $this->promotion;
+    }
+
+    /**
+     * @param Promotion $promotion
+     */
+    public function setPromotion($promotion)
+    {
+        $this->promotion = $promotion;
     }
 }

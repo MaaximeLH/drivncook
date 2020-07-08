@@ -89,6 +89,11 @@
                                         <label for="reduc_percentage">Pourcentage de réduction à appliquer sur la commande (en %)</label>
                                         <input type="number" step="0.01" name="reduc_percentage" value="<?= doubleval(htmlspecialchars(trim($promotion->getReducPercentage()))); ?>" id="reduc_percentage" class="form-control <?= (isset($fields['reduc_percentage'])) ? (!$fields['reduc_percentage']) ? 'is-invalid' : 'is-valid' : ''; ?>">
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="max_commands">Nombre total de commande pouvant bénéficier de cette promotion (0 ou vide = sans limite) (Quotas actuel: <?= $promotion->usage; ?>)</label>
+                                        <input type="number" step="1" min="<?= $promotion->usage; ?>" name="max_commands" value="<?= intval(htmlspecialchars(trim($promotion->getMaxCommands()))); ?>" id="max_commands" class="form-control <?= (isset($fields['max_commands'])) ? (!$fields['max_commands']) ? 'is-invalid' : 'is-valid' : ''; ?>">
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <?= \Core\CSRF::fields(); ?>

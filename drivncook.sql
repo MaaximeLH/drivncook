@@ -234,6 +234,8 @@ create table if not exists promotion
     min_price double precision,
     max_price double precision,
     reduc_percentage double precision,
+    max_commands integer,
+    is_archived integer,
     created_at timestamp
 );
 
@@ -263,6 +265,9 @@ create table if not exists orders
     status integer default 1,
     recuperation_date integer not null,
     description varchar(255) default null,
+    promotion_id integer
+        constraint orders_promotion_id_fkey
+            references promotion,
     created_at  timestamp
 );
 create table if not exists order_line
@@ -301,6 +306,16 @@ create table if not exists contact
     is_read integer default 0,
     created_at timestamp
 );
+
+create table if not exists newletters
+(
+  id serial not null
+    constraint newletters_pkey
+        primary key,
+    email varchar(255),
+    created_at timestamp
+);
+
 
 ALTER TABLE event
     ADD COLUMN title_Email_FR varchar(255) NULL,
