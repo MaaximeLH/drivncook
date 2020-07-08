@@ -56,6 +56,31 @@
                         <br><br>
 
                         <form method="POST">
+
+                            <?php if(!empty($promotions)) { ?>
+
+                                <div class="alert alert-info">
+                                    <strong>Promotions en cours !</strong><br>
+                                    Bonjour <?= $customer->getLastname(); ?> <?= $customer->getFirstname(); ?>, votre commande est eligible à certaines promotions. Vous pouvez en bénéficier ou non en selectionnant la promotion que vous souhaitez.<br>
+                                    Celle-ci sera automatiquement appliquée à votre commande.
+                                </div>
+
+                                <label for="promotions" style="<?= (isset($promotion_error) && !is_null($promotion_error)) ? 'color:red' : ''; ?>">Selectionner une promotion :</label>
+                                <select onchange="updateTotalAfterPromo()" name="promotions" class="form-control" id="promotions">
+                                    <?php foreach ($promotions as $promotion): ?>
+                                        <option data-value="0" value="0">--- Je ne souhaite pas bénéficier de promotions pour ma commande ---</option>
+                                        <option data-value="<?= $promotion->getReducPercentage(); ?>" value="<?= $promotion->getId(); ?>">
+                                            <?= $promotion->getName(); ?> - <?= number_format($promotion->getReducPercentage(), 2) . '%'; ?> de réduction sur votre commande (eligible pour les commandes dont le prix varie entre <?= number_format($promotion->getMinPrice(), 2) . '€'; ?> et <?= number_format($promotion->getMaxPrice(), 2) . '€'; ?>)
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+
+                                <br>
+                                <h4 class="pull-right" style="font-weight: bold">Prix total après remise: <span id="new_price_reduc" data-total="<?= $total; ?>"><?= number_format($total, 2) ?>€</span></h4>
+
+                                <br><hr><br>
+                            <?php } ?>
+
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <input type="text" value="<?= $customer->getLastname(); ?>" disabled placeholder="Votre nom" class="form-control">
@@ -108,6 +133,22 @@
             }
         });
     });
+
+    <?php if(!empty($promotions)){ ?>
+    function updateTotalAfterPromo() {
+        let select = document.getElementById('promotions');
+        let reduc = select.options[select.selectedIndex].getAttribute('data-value');
+
+        let new_price_dom = document.getElementById('new_price_reduc');
+        let priceBeforePromo = new_price_dom.getAttribute('data-total');
+
+        let newPrice = priceBeforePromo - ((priceBeforePromo * reduc) / 100);
+
+        new_price_dom.innerHTML = newPrice.toFixed(2) + "€";
+    }
+
+    updateTotalAfterPromo();
+    <?php } ?>
 </script>
 </body>
 </html>

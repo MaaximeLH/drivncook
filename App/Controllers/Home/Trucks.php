@@ -7,6 +7,7 @@ use App\Entity\Invoice;
 use App\Entity\InvoiceLine;
 use App\Entity\OrderLine;
 use App\Entity\Orders;
+use App\Entity\Promotion;
 use App\Entity\Users;
 use App\Entity\Card;
 use App\Entity\CardCategory;
@@ -81,6 +82,28 @@ class Trucks extends Controller {
         }
 
         $items = $cardRepository->getCardWithCategoryAndItem($card->getId());
+        $total = 0;
+        foreach ($items as $item) {
+            $total += $item['card_item_price'];
+        }
+
+        $promotionRepository = $this->em->getRepository(Promotion::class);
+        $allPromotions = $promotionRepository->findByUser($user);
+
+        $promotions = [];
+        $promotionsCheck = [];
+
+        foreach ($allPromotions as $promotion) {
+            if(
+                $total >= $promotion->getMinPrice()
+                && $total <= $promotion->getMaxPrice()
+                && time() >= $promotion->getStartAt()->getTimestamp()
+                && time() <= $promotion->getEndAt()->getTimestamp()
+            ) {
+                $promotions[] = $promotion;
+                $promotionsCheck[] = $promotion->getId();
+            }
+        }
 
         if(Request::isPost()) {
             CSRF::validate();
@@ -93,8 +116,27 @@ class Trucks extends Controller {
             $date = new \DateTime();
             $diff = $date->diff(new \DateTime(date('Y-m-d H:i:s', $datetime)));
 
+            if(isset($params['promotions']) && $params['promotions'] > 0) {
+                $promotion = intval($params['promotions']);
+                $promotion = $promotionRepository->find($promotion);
+            } else {
+                $promotion = null;
+            }
+
             if($datetime <= time() || $diff->days > 5) {
-                return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'datetime_error' => true, 'params' => $params]);
+                return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'datetime_error' => true, 'params' => $params, 'promotions' => $promotions]);
+            }
+
+            if(isset($params['promotions']) && $params['promotions'] > 0) {
+                if(is_null($params['promotions']) || !in_array($params['promotions'], $promotionsCheck)) {
+                    return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'promotion_error' => true, 'params' => $params, 'promotions' => $promotions]);
+                }
+            }
+
+            if(is_null($promotion)) {
+                $delta = 1;
+            } else {
+                $delta = 1 - ($promotion->getReducPercentage() / 100);
             }
 
             $order = new Orders();
@@ -112,7 +154,7 @@ class Trucks extends Controller {
                 $orderLine->setOrder($order);
                 $orderLine->setText($item['card_item_name']);
                 $orderLine->setQuantity(1);
-                $orderLine->setPrice($item['card_item_price']);
+                $orderLine->setPrice($item['card_item_price'] * $delta);
 
                 $this->em->persist($orderLine);
                 $this->em->flush();
@@ -135,7 +177,7 @@ class Trucks extends Controller {
             $invoiceLine->setInvoice($invoice);
             $invoiceLine->setText($item['card_item_name']);
             $invoiceLine->setQuantity(1);
-            $invoiceLine->setPrice($item['card_item_price']);
+            $invoiceLine->setPrice($item['card_item_price'] * $delta);
             $invoiceLine->setTva(20.00);
 
             $this->em->persist($invoiceLine);
@@ -144,7 +186,7 @@ class Trucks extends Controller {
             return $this->redirectTo("/customers/commands");
         }
 
-        return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items]);
+        return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'promotions' => $promotions]);
 
     }
     public function menuAction()

@@ -74,6 +74,11 @@
                             </div>
 
                         <?php } else { ?>
+                            <div class="alert alert-warning">
+                                <strong><?= $user->getSocietyName() ?></strong> est susceptible de proposer des promotions sur ses menus, toutefois vous vous apprêtez à commander des produits à l'unité. <br>
+                                Veuillez vous rendre dans la page des menus pour éventuellement bénéficier d'une promotion.
+                            </div>
+
                             <div class="alert alert-info">
                                 Vous souhaitez commander un menu directement ? <a href="/trucks/menu/<?= $truck->getId(); ?>">Cliquez-ici</a>.
                             </div>
