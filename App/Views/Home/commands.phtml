@@ -91,8 +91,21 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const datetimepicker = document.getElementById('datetime_input');
+        let now = new Date();
         var picker = new Picker(datetimepicker, {
-            format: 'DD-MM-YYYY HH:mm',
+            format: 'YYYY-MM-DD HH:mm',
+            text: {
+                title: "Selectionnez une date de récupération (année / mois / jour / heure / minute)",
+                cancel: 'Fermer',
+                confirm: 'Ok',
+                year: 'Année',
+                month: 'Mois',
+                day: 'Jour',
+                hour: 'Heure',
+                minute: 'Minute',
+                second: 'Seconde',
+                millisecond: 'Milliseconde',
+            }
         });
     });
 </script>

@@ -86,7 +86,8 @@ class Trucks extends Controller {
             CSRF::validate();
             $params = Request::getAllParams();
 
-            $datetime = new \DateTime($params['datetime']);
+            $datetime = $params['datetime'];
+            $datetime = new \DateTime($datetime);
             $datetime = $datetime->getTimestamp();
 
             $date = new \DateTime();
