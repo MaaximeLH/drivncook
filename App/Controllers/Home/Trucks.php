@@ -88,12 +88,20 @@ class Trucks extends Controller {
         }
 
         $promotionRepository = $this->em->getRepository(Promotion::class);
-        $allPromotions = $promotionRepository->findByUser($user);
+        $ordersRepository = $this->em->getRepository(Orders::class);
+        $allPromotions = $promotionRepository->findBy(['user' => $user, 'isArchived' => 0]);
 
         $promotions = [];
         $promotionsCheck = [];
 
         foreach ($allPromotions as $promotion) {
+
+            $usage = $ordersRepository->count(['promotion' => $promotion]);
+
+            if(!is_null($promotion->getMaxCommands()) && $promotion->getMaxCommands() > 0 && $usage >= $promotion->getMaxCommands()) {
+                continue;
+            }
+
             if(
                 $total >= $promotion->getMinPrice()
                 && $total <= $promotion->getMaxPrice()
