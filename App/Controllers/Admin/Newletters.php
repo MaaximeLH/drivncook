@@ -65,7 +65,7 @@ class Newletters extends Controller {
             if($usersFilter) {
                 foreach ($usersRepository->findAll() as $user) {
                     $total = count($ordersRepository->findByUser($user));
-                    if($total > $usersMinCommandFilter) {
+                    if($total >= $usersMinCommandFilter) {
                         $infos[] = ['email' => trim($user->getEmail()), 'lastname' => htmlspecialchars(trim($user->getLastname())), 'firstname' => htmlspecialchars(trim($user->getFirstname()))];
                     }
                 }
@@ -74,7 +74,7 @@ class Newletters extends Controller {
             if($customersFilter) {
                 foreach ($customersRepository->findAll() as $customer) {
                     $total = count($ordersRepository->findByCustomer($customer));
-                    if($total > $customersMinCommandFilter) {
+                    if($total >= $customersMinCommandFilter) {
                         $infos[] = ['email' => $customer->getEmail(), 'lastname' => $customer->getLastname(), 'firstname' => $customer->getFirstname()];
                     }
                 }
