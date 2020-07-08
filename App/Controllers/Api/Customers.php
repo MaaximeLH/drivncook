@@ -12,29 +12,40 @@ class Customers extends Controller {
 
     public function loginAction() {
 
-        if(empty($_GET['email']) || empty($_GET['password'])) {
-            die('false');
+        Request::assertPostOnly();
+        $params = Request::getAllParams();
+        if(empty($params['email']) || empty($params['password'])) {
+            die(json_encode(['error' => 'true']));
         }
 
-        $email = htmlspecialchars(trim($_GET['email']));
-        $password = htmlspecialchars(trim($_GET['password']));
+        $email = htmlspecialchars(trim($params['email']));
+        $password = htmlspecialchars(trim($params['password']));
 
         $em = Entity::getEntityManager();
         $customersRepository = $em->getRepository(Customer::class);
 
         $customer = $customersRepository->findOneByEmail($email);
         if(is_null($customer) || !password_verify($password, $customer->getPassword())) {
-            die('false');
+            die(json_encode(['error' => 'true']));
         }
+
+        $response = [
+            'lastname' => $customer->getLastname(),
+            'firstname' => $customer->getFirstname(),
+            'email' => $customer->getEmail(),
+            'id' => $customer->getId(),
+            'point' => '0',
+            'error' => 'false'
+        ];
 
         $fidelityCardRepository = $em->getRepository(FidelityCard::class);
         $fidelity = $fidelityCardRepository->findOneByCustomer($customer);
         if(is_null($fidelity)){
-            die('0');
+            die(json_encode($response));
         }
 
-        echo intval(trim($fidelity->getNbPoint()));
-        die();
+        $response['point'] = intval(trim($fidelity->getNbPoint()));
+        die(json_encode($response));
     }
 
 }
