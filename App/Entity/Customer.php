@@ -59,13 +59,6 @@ class Customer
     private $createdAt;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Address", mappedBy="customer")
-     */
-    private $address;
-
-    /**
      * Constructor
      */
     public function __construct()

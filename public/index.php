@@ -132,6 +132,9 @@ $router->add("panel/logout", ['controller' => 'Home', 'action' => 'logout', 'nam
 // Gestion compte
 $router->add("panel/my-account", ['controller' => 'Franchise', 'action' => 'myAccount', 'namespace' => 'Franchise']);
 $router->add("panel/online-payment", ['controller' => 'Franchise', 'action' => 'onlinePayment', 'namespace' => 'Franchise']);
+// Promotions
+$router->add("panel/promotions", ['controller' => 'Promotions', 'action' => 'index', 'namespace' => 'Franchise']);
+$router->add("panel/promotions/add", ['controller' => 'Promotions', 'action' => 'add', 'namespace' => 'Franchise']);
 // Commandes
 $router->add("panel/commands", ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Franchise']);
 $router->add("panel/commands/{id:\d+}/update/{status:\d+}", ['controller' => 'Commands', 'action' => 'update', 'namespace' => 'Franchise']);
