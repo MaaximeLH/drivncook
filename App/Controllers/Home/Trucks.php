@@ -146,6 +146,12 @@ class Trucks extends Controller {
             $order->setDescription(htmlspecialchars(trim($params['description'])));
             $order->setRecuperationDate($datetime);
 
+            if(is_null($promotion)) {
+                $order->setPromotion(null);
+            } else {
+                $order->setPromotion($promotion);
+            }
+
             $this->em->persist($order);
             $this->em->flush();
 

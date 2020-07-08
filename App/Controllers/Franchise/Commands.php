@@ -4,6 +4,7 @@ namespace App\Controllers\Franchise;
 
 use App\Entity\OrderLine;
 use App\Entity\Orders;
+use App\Entity\Promotion;
 use App\Entity\Users;
 use Core\Controller;
 use Core\Entity;
@@ -46,7 +47,6 @@ class Commands extends Controller {
         }
 
         return View::render('Franchise/commands', ['user' => $this->user, 'page' => 'commands', 'orders' => $orders]);
-
     }
 
     public function updateAction() {

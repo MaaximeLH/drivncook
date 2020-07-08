@@ -263,6 +263,9 @@ create table if not exists orders
     status integer default 1,
     recuperation_date integer not null,
     description varchar(255) default null,
+    promotion_id integer
+        constraint orders_promotion_id_fkey
+            references promotion,
     created_at  timestamp
 );
 create table if not exists order_line
