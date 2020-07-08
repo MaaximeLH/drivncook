@@ -53,6 +53,7 @@
                                     <th>Date de fin</th>
                                     <th>Fourchette de prix</th>
                                     <th><?= \Core\Language::get('created_at') ?></th>
+                                    <th><?= \Core\Language::get('status') ?></th>
                                     <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </thead>
@@ -65,8 +66,15 @@
                                         <td><?= number_format($promotion->getMinPrice(), 2); ?>€ <=> <?= number_format($promotion->getMaxPrice(), 2); ?>€</td>
                                         <td><?= $promotion->getCreatedAt()->format('d/m/Y H:i'); ?></td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-info">
-                                                TODO
+                                            <?php if($promotion->getEndAt()->getTimestamp() < time()) { ?>
+                                                <span class="badge badge-danger">Promotion terminée</span>
+                                            <?php } else { ?>
+                                                <span class="badge badge-success">Promotion en cours</span>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <a href="/panel/promotion/edit/<?= $promotion->getId(); ?>" class="btn btn-sm btn-info">
+                                                <i class="fa fa-pencil-alt"></i> Editer
                                             </a>
                                         </td>
                                     </tr>
@@ -79,6 +87,7 @@
                                     <th>Date de fin</th>
                                     <th>Fourchette de prix</th>
                                     <th><?= \Core\Language::get('created_at') ?></th>
+                                    <th><?= \Core\Language::get('status') ?></th>
                                     <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
                                 </tfoot>

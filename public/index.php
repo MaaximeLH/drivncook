@@ -135,6 +135,7 @@ $router->add("panel/online-payment", ['controller' => 'Franchise', 'action' => '
 // Promotions
 $router->add("panel/promotions", ['controller' => 'Promotions', 'action' => 'index', 'namespace' => 'Franchise']);
 $router->add("panel/promotions/add", ['controller' => 'Promotions', 'action' => 'add', 'namespace' => 'Franchise']);
+$router->add('panel/promotion/edit/{id:\d+}', ['controller' => 'Promotions', 'action' => 'edit', 'namespace' => 'Franchise']);
 // Commandes
 $router->add("panel/commands", ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Franchise']);
 $router->add("panel/commands/{id:\d+}/update/{status:\d+}", ['controller' => 'Commands', 'action' => 'update', 'namespace' => 'Franchise']);

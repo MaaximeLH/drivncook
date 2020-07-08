@@ -14,11 +14,13 @@ use Core\View;
 
 class Promotions extends Controller
 {
+    private $user;
     private $em;
     private $promotionRepository;
 
-    public function __construct()
+    public function __construct($routes)
     {
+        parent::__construct($routes);
         $userId = Session::get('user_id');
 
         $this->em = Entity::getEntityManager();
@@ -56,7 +58,6 @@ class Promotions extends Controller
             }
 
             $startAt = new \DateTime($params['start_at']);
-
             $endAt = new \DateTime($params['end_at']);
 
             $priceMin = doubleval(htmlspecialchars(trim($params['price_min'])));
@@ -84,6 +85,89 @@ class Promotions extends Controller
         }
 
         return View::render('Franchise/addPromotions', ['page' => 'promotion_add', 'user' => $this->user]);
+    }
 
+    public function editAction(){
+        $promotion = $this->promotionRepository->find($this->getRouteParameter('id'));
+
+        if(is_null($promotion) || $promotion->getUser() != $this->user) {
+            $this->redirectTo('/panel/promotions');
+        }
+
+        CSRF::generate();
+        if(Request::isPost()) {
+            CSRF::validate();
+            $params = Request::getAllParams();
+            $fields = [];
+
+            $name = htmlspecialchars(trim($params['name']));
+            if($name != $promotion->getName()) {
+                if(!empty($name)) {
+                    $promotion->setName($name);
+                    $fields['name'] = true;
+                } else {
+                    $fields['name'] = false;
+                }
+            }
+
+            $startAt = new \DateTime($params['start_at']);
+            $endAt = new \DateTime($params['end_at']);
+
+            if($endAt->getTimestamp() <= $startAt->getTimestamp()) {
+                $startAt = $promotion->getStartAt();
+                $endAt = $promotion->getEndAt();
+                $fields['start_at'] = $fields['end_at'] = false;
+            } else {
+
+                if($startAt != $promotion->getStartAt()) {
+                    if($startAt->getTimestamp() >= time()) {
+                        $promotion->setStartAt($startAt);
+                        $fields['start_at'] = true;
+                    } else {
+                        $fields['start_at'] = false;
+                    }
+                }
+
+                if($endAt != $promotion->getEndAt()) {
+                    $promotion->setEndAt($endAt);
+                    $fields['end_at'] = true;
+                }
+            }
+
+            $priceMin = doubleval(htmlspecialchars(trim($params['price_min'])));
+            $priceMax = doubleval(htmlspecialchars(trim($params['price_max'])));
+
+            if($priceMin >= $priceMax) {
+                $priceMin = $promotion->getMinPrice();
+                $priceMax = $promotion->getMaxPrice();
+                $fields['price_min'] = $fields['price_max'] = false;
+            } else {
+
+                if($priceMin != $promotion->getMinPrice()) {
+                    $promotion->setMinPrice($priceMin);
+                    $fields['price_min'] = true;
+                }
+
+                if($priceMax != $promotion->getMaxPrice()) {
+                    $promotion->setMaxPrice($priceMax);
+                    $fields['price_max'] = true;
+                }
+            }
+
+            $reducPercentage = doubleval(htmlspecialchars(trim($params['reduc_percentage'])));
+            if($reducPercentage != $promotion->getReducPercentage()) {
+                if($reducPercentage > 0) {
+                    $promotion->setReducPercentage($reducPercentage);
+                    $fields['reduc_percentage'] = true;
+                } else {
+                    $fields['reduc_percentage'] = false;
+                }
+            }
+
+            $this->em->flush();
+            return View::render('Franchise/editPromotions', ['page' => 'promotions', 'user' => $this->user, 'promotion' => $promotion, 'fields' => $fields]);
+        }
+
+        return View::render('Franchise/editPromotions', ['page' => 'promotions', 'user' => $this->user, 'promotion' => $promotion]);
     }
 }
