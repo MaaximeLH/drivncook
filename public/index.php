@@ -44,6 +44,8 @@ $router->add('api/login', ['controller' => 'Customers', 'action' => 'login', 'na
 $router->add('customers', ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Customer']);
 $router->add('customers/my-account', ['controller' => 'Customers', 'action' => 'account', 'namespace' => 'Customer']);
 $router->add('customers/commands', ['controller' => 'Commands', 'action' => 'index', 'namespace' => 'Customer']);
+$router->add('customers/events', ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Customer']);
+$router->add('customers/events/unsubscribe/{id:\d+}', ['controller' => 'Events', 'action' => 'unsubscribe', 'namespace' => 'Customer']);
 $router->add('customers/invoices', ['controller' => 'Invoice', 'action' => 'index', 'namespace' => 'Customer']);
 $router->add('customers/invoices/details/{id:\d+}', ['controller' => 'Invoice', 'action' => 'details', 'namespace' => 'Customer']);
 $router->add('customers/login', ['controller' => 'Home', 'action' => 'login', 'namespace' => 'Customer']);
