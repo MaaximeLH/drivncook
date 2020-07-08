@@ -229,25 +229,14 @@ create table if not exists promotion
         constraint promotion_user_id_fkey
             references users,
     name       varchar(255),
-    code       varchar(255),
     start_at   timestamp,
     end_at     timestamp,
+    min_price double precision,
+    max_price double precision,
+    reduc_percentage double precision,
     created_at timestamp
 );
-create table if not exists promotion_target
-(
-    promotion_id  integer not null
-        constraint promotion_target_pkey
-            primary key
-        constraint promotion_target_promotion_id_fkey
-            references promotion,
-    card_item_id  integer
-        constraint promotion_target_card_item_id_fkey
-            references card_item,
-    card_category integer
-        constraint promotion_target_card_category_fkey
-            references card_category
-);
+
 create table if not exists address
 (
     id             serial not null
