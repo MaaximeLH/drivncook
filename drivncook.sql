@@ -237,29 +237,7 @@ create table if not exists promotion
     created_at timestamp
 );
 
-create table if not exists address
-(
-    id             serial not null
-        constraint address_pkey
-            primary key,
-    country        varchar(255),
-    city           varchar(255),
-    address_line_1 varchar(255),
-    address_line_2 varchar(255),
-    type           varchar(255),
-    created_at     timestamp
-);
-create table if not exists address_customer
-(
-    address_id  integer not null
-        constraint address_customer_address_id_fkey
-            references address,
-    customer_id integer not null
-        constraint address_customer_customer_id_fkey
-            references customer,
-    constraint address_customer_pkey
-        primary key (customer_id, address_id)
-);
+
 create table if not exists fidelity_card
 (
     customer_id integer not null
