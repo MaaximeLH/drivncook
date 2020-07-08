@@ -46,6 +46,11 @@ class Newletters extends Controller {
                 return View::render('Admin/newletters', ['admin' => $this->admin, 'page' => 'newletters', 'error' => true, 'params' => $params]);
             }
 
+            $sendSubscribers = false;
+            if(!empty($params['send_subscribers']) && $params['send_subscribers'] == 1) {
+                $sendSubscribers = true;
+            }
+
             $usersMinCommandFilter = (isset($params['users_min_commands'])) ? trim(intval($params['users_min_commands'])) : 0;
             $customersMinCommandFilter = (isset($params['customers_min_commands'])) ? trim(intval($params['customers_min_commands'])) : 0;
 
@@ -53,6 +58,7 @@ class Newletters extends Controller {
             $usersRepository = $em->getRepository(Users::class);
             $ordersRepository = $em->getRepository(Orders::class);
             $customersRepository = $em->getRepository(Customer::class);
+            $newlettersRepository = $em->getRepository(\App\Entity\Newletters::class);
 
             $infos = [];
 
@@ -71,6 +77,12 @@ class Newletters extends Controller {
                     if($total > $customersMinCommandFilter) {
                         $infos[] = ['email' => $customer->getEmail(), 'lastname' => $customer->getLastname(), 'firstname' => $customer->getFirstname()];
                     }
+                }
+            }
+
+            if($sendSubscribers) {
+                foreach ($newlettersRepository->findAll() as $item) {
+                    $infos[] = ['email' => $item->getEmail(), 'lastname' => '', 'firstname' => ''];
                 }
             }
 
