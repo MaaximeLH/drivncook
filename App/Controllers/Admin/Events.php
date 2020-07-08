@@ -289,7 +289,6 @@ class Events extends Controller
         $subject = "DrivNCook vous invite à un évènement";
 
         $mail = new PHPMailer();
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;
         $mail->isSMTP();
         $mail->CharSet = 'UTF-8';
         //Recipients
