@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - <?= \Core\Language::get('franchise_space') ?></title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/panel"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><?= \Core\Language::get('promotions') ?></li>
+                            <li class="breadcrumb-item active"><?= \Core\Language::get('edit') ?></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Editer une promotion</h3>
+                            </div>
+
+                            <form role="form" method="POST">
+                                <div class="card-body">
+
+                                    <div class="form-group">
+                                        <label for="name">Nom de la promotion</label>
+                                        <input type="text" name="name" id="name" class="form-control <?= (isset($fields['name'])) ? (!$fields['name']) ? 'is-invalid' : 'is-valid' : ''; ?>" value="<?= htmlspecialchars(trim($promotion->getName())); ?>" placeholder="Nom">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="start_at">Début de la promotion</label>
+                                            <input type="datetime-local" name="start_at" id="start_at" value="<?= $promotion->getStartAt()->format('Y-m-d\TH:i'); ?>" class="form-control <?= (isset($fields['start_at'])) ? (!$fields['start_at']) ? 'is-invalid' : 'is-valid' : ''; ?>">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="end_at">Fin de la promotion</label>
+                                            <input type="datetime-local" name="end_at" value="<?= $promotion->getEndAt()->format('Y-m-d\TH:i'); ?>" id="end_at" class="form-control <?= (isset($fields['end_at'])) ? (!$fields['end_at']) ? 'is-invalid' : 'is-valid' : ''; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="price_min">Prix minimum requis pour appliquer la promotion (sur la commande complète)</label>
+                                            <input type="number" step="0.01" name="price_min" value="<?= doubleval(htmlspecialchars(trim($promotion->getMinPrice()))); ?>" id="price_min" class="form-control <?= (isset($fields['price_min'])) ? (!$fields['price_min']) ? 'is-invalid' : 'is-valid' : ''; ?>">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="price_max">Prix maximum requis pour appliquer la promotion (sur la commande complète)</label>
+                                            <input type="number" step="0.01" name="price_max" value="<?= doubleval(htmlspecialchars(trim($promotion->getMaxPrice()))); ?>" id="price_max" class="form-control <?= (isset($fields['price_max'])) ? (!$fields['price_max']) ? 'is-invalid' : 'is-valid' : ''; ?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="reduc_percentage">Pourcentage de réduction à appliquer sur la commande (en %)</label>
+                                        <input type="number" step="0.01" name="reduc_percentage" value="<?= doubleval(htmlspecialchars(trim($promotion->getReducPercentage()))); ?>" id="reduc_percentage" class="form-control <?= (isset($fields['reduc_percentage'])) ? (!$fields['reduc_percentage']) ? 'is-invalid' : 'is-valid' : ''; ?>">
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <?= \Core\CSRF::fields(); ?>
+                                    <button type="submit" class="btn btn-warning">Enregistrer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+</body>
+</html>

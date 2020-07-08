@@ -65,8 +65,8 @@
                                         <td><?= number_format($promotion->getMinPrice(), 2); ?>€ <=> <?= number_format($promotion->getMaxPrice(), 2); ?>€</td>
                                         <td><?= $promotion->getCreatedAt()->format('d/m/Y H:i'); ?></td>
                                         <td>
-                                            <a href="#" class="btn btn-sm btn-info">
-                                                TODO
+                                            <a href="/panel/promotion/edit/<?= $promotion->getId(); ?>" class="btn btn-sm btn-info">
+                                                <i class="fa fa-pencil-alt"></i> Editer
                                             </a>
                                         </td>
                                     </tr>
