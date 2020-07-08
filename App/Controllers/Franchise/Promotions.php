@@ -34,9 +34,15 @@ class Promotions extends Controller
     }
 
     public function indexAction() {
-        $promotions = $this->promotionRepository->findByUser($this->user);
+        $promotions = $this->promotionRepository->findBy(['user'=> $this->user, 'isArchived' => 0]);
 
         return View::render('Franchise/promotions', ['page' => 'promotions', 'user' => $this->user, 'promotions' => $promotions]);
+    }
+
+    public function archivesAction() {
+        $promotions = $this->promotionRepository->findBy(['user'=> $this->user, 'isArchived' => 1]);
+
+        return View::render('Franchise/promotionsArchived', ['page' => 'promotions_archives', 'user' => $this->user, 'promotions' => $promotions]);
     }
 
     public function addAction() {
@@ -77,6 +83,7 @@ class Promotions extends Controller
             $promotion->setMaxPrice($priceMax);
             $promotion->setReducPercentage($reducPercentage);
             $promotion->setUser($this->user);
+            $promotion->setIsArchived(0);
 
             $this->em->persist($promotion);
             $this->em->flush();
@@ -94,7 +101,11 @@ class Promotions extends Controller
             $this->redirectTo('/panel/promotions');
         }
 
-        CSRF::generate();
+        if($promotion->getIsArchived() == 1) {
+            $this->redirectTo('/panel/promotions');
+        }
+
+            CSRF::generate();
         if(Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
@@ -165,5 +176,27 @@ class Promotions extends Controller
         }
 
         return View::render('Franchise/editPromotions', ['page' => 'promotions', 'user' => $this->user, 'promotion' => $promotion]);
+    }
+
+    public function archiveAction() {
+        $promotion = $this->promotionRepository->find($this->getRouteParameter('id'));
+
+        if(is_null($promotion) || $promotion->getUser() != $this->user) {
+            $this->redirectTo('/panel/promotions');
+        }
+
+        if($promotion->getIsArchived() == 0) {
+            $promotion->setIsArchived(1);
+        } else {
+            $promotion->setIsArchived(0);
+        }
+
+        $this->em->flush();
+
+        if($promotion->getIsArchived()) {
+            $this->redirectTo('/panel/promotions/archives');
+        }
+
+        $this->redirectTo('/panel/promotions');
     }
 }
