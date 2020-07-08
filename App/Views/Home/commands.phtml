@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <div>
                                     <label for="datetime_input" style="<?= (isset($datetime_error) && !is_null($datetime_error)) ? 'color:red' : ''; ?>">Récupérer ma commande le :</label>
-                                    <input type="text" id="datetime_input" value="<?= (isset($datetime_error) && !is_null($datetime_error)) ? $params['datetime'] : ''; ?>" name="datetime" class="form-control is-invalid">
+                                    <input type="text" id="datetime_input" value="<?= date('Y-m-d H:i', strtotime('+ 2 hours')) ?>" name="datetime" class="form-control is-invalid">
                                 </div>
                                 <small class="form-text text-muted"><?= \Core\Language::get('La date doit être superieur a la date actuel et inférieure a 5 jours dans le future') ?></small>
                             </div>
