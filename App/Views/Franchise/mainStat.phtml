@@ -1,12 +1,44 @@
-<pre><?php var_dump($countOrderForUser, $cncommingMoneyFromOrdersByMonthForUser) ?></pre>
+<pre><?php var_dump($countOrderForUser, $incommingMoneyFromOrdersByMonthForUser) ?></pre>
 <div class="row">
     <div class="col-md-6 mb-5">
-        <canvas id="eventByNextMonth" width="400" height="400"></canvas>
+        <canvas id="countOrderForUser" width="400" height="400"></canvas>
     </div>
     <div class="col-md-6 mb-5">
-        <canvas id="newCustomerByDay" width="400" height="400"></canvas>
+        <canvas id="incommingMoneyFromOrdersByMonthForUser" width="400" height="400"></canvas>
     </div>
 </div>
 <script>
+    const countOrderForUser = document.getElementById('countOrderForUser').getContext('2d');
+    
+    const chartCountOrderForUser = new Chart(countOrderForUser, {
+        type: 'bar',
+        data: {
+            labels: [<?php foreach($countOrderForUser as $e) { echo '"' . $e['Month'].'",'; }?>],
+            datasets: [{
+                label: 'Event planned for the coming months',
+                backgroundColor: 'rgb(255, 99, 132, 0.2)',
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 1,
+                data: [<?php foreach($countOrderForUser as $e) {echo $e['count'].',';}?>],
+            }],
+        },
+        options:{scales:{yAxes:[{ticks:{beginAtZero:true}}]}},
+    });
 
+    const incommingMoneyFromOrdersByMonthForUser = document.getElementById('incommingMoneyFromOrdersByMonthForUser').getContext('2d');
+    
+    const chartIncommingMoneyFromOrdersByMonthForUser = new Chart(incommingMoneyFromOrdersByMonthForUser, {
+        type: 'bar',
+        data: {
+            labels: [<?php foreach($incommingMoneyFromOrdersByMonthForUser as $e) { echo '"' . $e['Month'].'",'; }?>],
+            datasets: [{
+                label: 'Event planned for the coming months',
+                backgroundColor: '#57184520',
+                borderColor: '#571845',
+                borderWidth: 1,
+                data: [<?php foreach($incommingMoneyFromOrdersByMonthForUser as $e) {echo $e['sum'].',';}?>],
+            }],
+        },
+        options:{scales:{yAxes:[{ticks:{beginAtZero:true}}]}},
+    });
 </script>

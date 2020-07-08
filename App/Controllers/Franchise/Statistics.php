@@ -32,7 +32,7 @@ class Statistics extends Controller
         $data['head'] = '<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>';
         $data['user'] = $this->user;
         $data['countOrderForUser'] = $this->statisticsModel->getCountOrderForUserByMonth($userId);
-        $data['cncommingMoneyFromOrdersByMonthForUser'] = $this->statisticsModel->getIncommingMoneyFromOrdersByMonthForUser($userId);
+        $data['incommingMoneyFromOrdersByMonthForUser'] = $this->statisticsModel->getIncommingMoneyFromOrdersByMonthForUser($userId);
         $data['breadcrumb'] = ['Statistics'];
         $data['page'] = 'Statistique';
         $this->load_view('Franchise/mainStat', $data);

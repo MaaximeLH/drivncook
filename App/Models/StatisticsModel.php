@@ -9,9 +9,13 @@ class StatisticsModel extends Model
 {
     public function getEventByNextMonth()
     {
-        $sql = "SELECT to_char(date_trunc('month', start_at), 'Month') as month, count(*) as nb_event FROM EVENT";
-        $sql .= " WHERE date_trunc('month', start_at) > (date_trunc('month', current_date - interval '1' month))";
-        $sql .= " GROUP BY month ORDER BY month ASC";
+        $sql = "SELECT 
+        to_char(date_trunc('month', start_at), 'MM') AS month,
+        count(*) as nb_event 
+        FROM EVENT
+        WHERE date_trunc('month', start_at) > (date_trunc('month', current_date - interval '1' month))
+        GROUP BY month
+        ORDER BY month ASC";
 
         $query = $this->database->prepare($sql);
         $query->execute();
@@ -70,7 +74,7 @@ class StatisticsModel extends Model
      */
     public function getCountOrderForUserByMonth($user_id)
     {
-        $sql = "SELECT to_char(date_trunc('month', created_at), 'Month') AS Month, count(*)
+        $sql = "SELECT to_char(date_trunc('month', created_at), 'Month') AS Month, count(*) as count
         FROM orders WHERE user_id = :user_id
         GROUP BY Month";
 
@@ -82,7 +86,7 @@ class StatisticsModel extends Model
     // chiffre d'affaire TTC
     public function getIncommingMoneyFromOrdersByMonthForUser($user_id)
     {
-        $sql = "SELECT to_char(orders.created_at, 'Month') AS Month, sum(order_line.price)
+        $sql = "SELECT to_char(orders.created_at, 'Month') AS Month, sum(order_line.price) AS sum
         FROM orders
         LEFT JOIN order_line ON orders.id = order_line.order_id
         WHERE orders.user_id = :user_id
