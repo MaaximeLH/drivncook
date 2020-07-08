@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <?php require "assets/head.phtml"; ?>
-<link rel="stylesheet" href="/dist/css/jquery.datetimepicker.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
-        crossorigin="anonymous"></script>
-<script defer src="/dist/js/jquery.datetimepicker.full.min.js"></script>
+
+<link rel="stylesheet" href="/dist/css/picker.min.css">
+<script defer src="/dist/js/picker.min.js"></script>
 <body>
 <div id="pagewrap" class="pagewrap">
     <div id="html-content" class="wrapper-content">
@@ -72,7 +70,7 @@
                             <div class="form-group">
                                 <div>
                                     <label for="datetime_input" style="<?= (isset($datetime_error) && !is_null($datetime_error)) ? 'color:red' : ''; ?>">Récupérer ma commande le :</label>
-                                    <input type="datetime-local" id="datetime_input" value="<?= (isset($datetime_error) && !is_null($datetime_error)) ? $params['datetime'] : ''; ?>" name="datetime" class="form-control is-invalid">
+                                    <input type="text" id="datetime_input" value="<?= (isset($datetime_error) && !is_null($datetime_error)) ? $params['datetime'] : ''; ?>" name="datetime" class="form-control is-invalid">
                                 </div>
                                 <small class="form-text text-muted"><?= \Core\Language::get('La date doit être superieur a la date actuel et inférieure a 5 jours dans le future') ?></small>
                             </div>
@@ -92,9 +90,9 @@
 <?php require "assets/footer.phtml"; ?>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        $('#datetime_input').datetimepicker({
-            format: 'Y-m-d H:m',
-            inline: true
+        const datetimepicker = document.getElementById('datetime_input');
+        var picker = new Picker(datetimepicker, {
+            format: 'DD-MM-YYYY HH:mm',
         });
     });
 </script>
