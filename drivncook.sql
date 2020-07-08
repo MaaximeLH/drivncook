@@ -307,6 +307,16 @@ create table if not exists contact
     created_at timestamp
 );
 
+create table if not exists newletters
+(
+  id serial not null
+    constraint newletters_pkey
+        primary key,
+    email varchar(255),
+    created_at timestamp
+);
+
+
 ALTER TABLE event
     ADD COLUMN title_Email_FR varchar(255) NULL,
     ADD COLUMN text_Email_FR TEXT NULL,
