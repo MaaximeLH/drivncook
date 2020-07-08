@@ -294,6 +294,8 @@ create table if not exists orders
         constraint orders_user_id_fkey
             references users,
     status integer default 1,
+    recuperation_date integer not null,
+    description varchar(255) default null,
     created_at  timestamp
 );
 create table if not exists order_line
@@ -319,6 +321,20 @@ create table if not exists event_customer
     code      varchar(255),
     created_at    timestamp
 );
+
+create table if not exists contact
+(
+  id serial not null
+    constraint contact_pkey
+        primary key,
+    name varchar(255),
+    phone varchar(50),
+    email varchar(75),
+    message varchar(255),
+    is_read integer default 0,
+    created_at timestamp
+);
+
 ALTER TABLE event
     ADD COLUMN title_Email_FR varchar(255) NULL,
     ADD COLUMN text_Email_FR TEXT NULL,
