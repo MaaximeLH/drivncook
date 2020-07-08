@@ -68,6 +68,8 @@
                                         <td>
                                             <?php if($promotion->getEndAt()->getTimestamp() < time()) { ?>
                                                 <span class="badge badge-danger">Promotion terminée</span>
+                                            <?php } else if($promotion->getStartAt()->getTimestamp() > time()) { ?>
+                                                <span class="badge badge-info">Promotion non commencée</span>
                                             <?php } else { ?>
                                                 <span class="badge badge-success">Promotion en cours</span>
                                             <?php } ?>

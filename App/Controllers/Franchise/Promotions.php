@@ -120,12 +120,8 @@ class Promotions extends Controller
             } else {
 
                 if($startAt != $promotion->getStartAt()) {
-                    if($startAt->getTimestamp() >= time()) {
-                        $promotion->setStartAt($startAt);
-                        $fields['start_at'] = true;
-                    } else {
-                        $fields['start_at'] = false;
-                    }
+                    $promotion->setStartAt($startAt);
+                    $fields['start_at'] = true;
                 }
 
                 if($endAt != $promotion->getEndAt()) {
