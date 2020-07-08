@@ -88,7 +88,12 @@
 
                                     <div class="form-group">
                                         <label for="reduc_percentage">Pourcentage de réduction à appliquer sur la commande (en %)</label>
-                                        <input type="number" step="0.01" name="reduc_percentage" value="<?= (isset($params['name'])) ? htmlspecialchars(trim($params['reduc_percentage'])) : ''; ?>" id="reduc_percentage" class="form-control">
+                                        <input type="number" step="0.01" name="reduc_percentage" value="<?= (isset($params['reduc_percentage'])) ? htmlspecialchars(trim($params['reduc_percentage'])) : ''; ?>" id="reduc_percentage" class="form-control">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="max_commands">Nombre total de commande pouvant bénéficier de cette promotion (0 ou vide = sans limite)</label>
+                                        <input type="number" step="1" name="max_commands" value="<?= (isset($params['max_commands'])) ? htmlspecialchars(trim($params['max_commands'])) : ''; ?>" id="max_commands" class="form-control">
                                     </div>
                                 </div>
                                 <div class="card-footer">

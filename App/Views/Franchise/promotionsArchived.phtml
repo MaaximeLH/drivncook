@@ -52,6 +52,7 @@
                                     <th>Date de début</th>
                                     <th>Date de fin</th>
                                     <th>Fourchette de prix</th>
+                                    <th>Quotas de commande</th>
                                     <th><?= \Core\Language::get('created_at') ?></th>
                                     <th><?= \Core\Language::get('action') ?></th>
                                 </tr>
@@ -63,6 +64,13 @@
                                         <td><?= $promotion->getStartAt()->format('d/m/Y H:i'); ?></td>
                                         <td><?= $promotion->getEndAt()->format('d/m/Y H:i'); ?></td>
                                         <td><?= number_format($promotion->getMinPrice(), 2); ?>€ <=> <?= number_format($promotion->getMaxPrice(), 2); ?>€</td>
+                                        <td>
+                                            <?php if(is_null($promotion->getMaxCommands()) || $promotion->getMaxCommands() == 0) { ?>
+                                                <?= $promotion->usage; ?> / <i class="fa fa-infinity"></i>
+                                            <?php } else { ?>
+                                                <?= $promotion->usage; ?> / <?= $promotion->getMaxCommands() ?>
+                                            <?php } ?>
+                                        </td>
                                         <td><?= $promotion->getCreatedAt()->format('d/m/Y H:i'); ?></td>
                                         <td>
                                             <a onclick="return confirm('Voulez-vous vraiment dé-archiver cette promotion ?')" href="/panel/promotion/archive/<?= $promotion->getId(); ?>" class="btn btn-sm btn-danger">
@@ -78,6 +86,7 @@
                                     <th>Date de début</th>
                                     <th>Date de fin</th>
                                     <th>Fourchette de prix</th>
+                                    <th>Quotas de commande</th>
                                     <th><?= \Core\Language::get('created_at') ?></th>
                                     <th><?= \Core\Language::get('action') ?></th>
                                 </tr>

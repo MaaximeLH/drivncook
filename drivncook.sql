@@ -234,6 +234,8 @@ create table if not exists promotion
     min_price double precision,
     max_price double precision,
     reduc_percentage double precision,
+    max_commands integer,
+    is_archived integer,
     created_at timestamp
 );
 

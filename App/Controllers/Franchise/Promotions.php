@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Franchise;
 
+use App\Entity\Orders;
 use App\Entity\Users;
 use App\Entity\Promotion;
 use Core\Controller;
@@ -35,12 +36,22 @@ class Promotions extends Controller
 
     public function indexAction() {
         $promotions = $this->promotionRepository->findBy(['user'=> $this->user, 'isArchived' => 0]);
+        $ordersRepository = $this->em->getRepository(Orders::class);
+
+        foreach ($promotions as $key => $promotion) {
+            $promotions[$key]->usage = $ordersRepository->count(['promotion' => $promotion]);
+        }
 
         return View::render('Franchise/promotions', ['page' => 'promotions', 'user' => $this->user, 'promotions' => $promotions]);
     }
 
     public function archivesAction() {
         $promotions = $this->promotionRepository->findBy(['user'=> $this->user, 'isArchived' => 1]);
+        $ordersRepository = $this->em->getRepository(Orders::class);
+
+        foreach ($promotions as $key => $promotion) {
+            $promotions[$key]->usage = $ordersRepository->count(['promotion' => $promotion]);
+        }
 
         return View::render('Franchise/promotionsArchived', ['page' => 'promotions_archives', 'user' => $this->user, 'promotions' => $promotions]);
     }
@@ -61,6 +72,12 @@ class Promotions extends Controller
                 || empty($params['reduc_percentage'])
             ) {
                 return View::render('Franchise/addPromotions', ['page' => 'promotion_add', 'user' => $this->user, 'error' => true, 'params' => $params]);
+            }
+
+            if(!empty($params['max_commands']) && $params['max_commands'] > 0) {
+                $maxCommands = intval(trim($params['max_commands']));
+            } else {
+                $maxCommands = null;
             }
 
             $startAt = new \DateTime($params['start_at']);
@@ -84,6 +101,7 @@ class Promotions extends Controller
             $promotion->setReducPercentage($reducPercentage);
             $promotion->setUser($this->user);
             $promotion->setIsArchived(0);
+            $promotion->setMaxCommands($maxCommands);
 
             $this->em->persist($promotion);
             $this->em->flush();
@@ -105,7 +123,11 @@ class Promotions extends Controller
             $this->redirectTo('/panel/promotions');
         }
 
-            CSRF::generate();
+        $ordersRepository = $this->em->getRepository(Orders::class);
+        $usage = $ordersRepository->count(['promotion' => $promotion]);
+        $promotion->usage = $usage;
+
+        CSRF::generate();
         if(Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
@@ -119,6 +141,21 @@ class Promotions extends Controller
                 } else {
                     $fields['name'] = false;
                 }
+            }
+
+            if(!empty($params['max_commands']) || $params['max_commands'] > 0) {
+                $maxCommands = intval(trim($params['max_commands']));
+                if($maxCommands > $promotion->getMaxCommands()) {
+                    if($maxCommands > $usage) {
+                        $promotion->setMaxCommands($maxCommands);
+                        $fields['max_commands'] = true;
+                    } else {
+                        $fields['max_commands'] = false;
+                    }
+                }
+            } else {
+                $promotion->setMaxCommands(0);
+                $fields['max_commands'] = true;
             }
 
             $startAt = new \DateTime($params['start_at']);
