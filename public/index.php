@@ -19,6 +19,10 @@ $router->add('', ['controller' => 'Home', 'action' => 'index', 'namespace' => 'H
 $router->add('about', ['controller' => 'Home', 'action' => 'about', 'namespace' => 'Home']);
 $router->add('contact', ['controller' => 'Home', 'action' => 'contact', 'namespace' => 'Home']);
 $router->add('lang/pref/{lang:(?:[\w\-](?<!_))+}', ['controller' => 'Home', 'action' => 'lang', 'namespace' => 'Home']);
+
+// Newletters
+$router->add('newletters/register', ['controller' => 'Home', 'action' => 'newletters', 'namespace' => 'Home']);
+
 // Events
 $router->add('events', ['controller' => 'Events', 'action' => 'index', 'namespace' => 'Home']);
 $router->add('events/detail/{id:\d+}', ['controller' => 'Events', 'action' => 'detail', 'namespace' => 'Home']);

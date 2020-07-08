@@ -5,13 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Warehouse
+ * Newletters
  *
- * @ORM\Table(name="warehouse")
+ * @ORM\Table(name="newletters")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Warehouse
+class Newletters
 {
     /**
      * @var int
@@ -19,23 +19,16 @@ class Warehouse
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="warehouse_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="newletters_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="location", type="string", length=255, nullable=true)
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
      */
-    private $location;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
-     */
-    private $name;
+    private $email;
 
     /**
      * @var \DateTime|null
@@ -55,33 +48,17 @@ class Warehouse
     /**
      * @return string|null
      */
-    public function getLocation()
+    public function getEmail()
     {
-        return $this->location;
+        return $this->email;
     }
 
     /**
-     * @param string|null $location
+     * @param string|null $email
      */
-    public function setLocation($location)
+    public function setEmail($email)
     {
-        $this->location = $location;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string|null $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+        $this->email = $email;
     }
 
     /**

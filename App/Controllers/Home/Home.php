@@ -4,6 +4,7 @@ namespace App\Controllers\Home;
 
 use App\Entity\Contact;
 use App\Entity\Event;
+use App\Entity\Newletters;
 use Core\Controller;
 use Core\CSRF;
 use Core\Request;
@@ -77,5 +78,28 @@ class Home extends Controller {
         $this->setLanguage($lang);
 
         $this->redirectTo($referer);
+    }
+
+    public function newlettersAction() {
+        Request::assertPostOnly();
+        $params = Request::getAllParams();
+
+        if(!isset($params['email']) || empty($params['email']) || !Validator::isValidEmail(htmlspecialchars(trim($params['email'])))) {
+            return $this->redirectTo($_SERVER['HTTP_REFERER']);
+        }
+
+        $em = Entity::getEntityManager();
+        $newlettersRepository = $em->getRepository(Newletters::class);
+
+        if(!is_null($newlettersRepository->findOneByEmail(htmlspecialchars(trim($params['email']))))) {
+            return $this->redirectTo($_SERVER['HTTP_REFERER']);
+        }
+
+        $newletters = new Newletters();
+        $newletters->setEmail(htmlspecialchars(trim($params['email'])));
+        $em->persist($newletters);
+        $em->flush();
+
+        return $this->redirectTo($_SERVER['HTTP_REFERER']);
     }
 }

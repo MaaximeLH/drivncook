@@ -8,9 +8,9 @@
                             <h3 class="title"><?= \Core\Language::get('subscribe_to_the_newsletter') ?></h3>
                             <div class="des"><?= \Core\Language::get('Soyez tenu au courant de nos dernières promotions') ?></div>
                         </div>
-                        <form method="POST" class="widget-newsletter">
+                        <form method="POST" action="/newletters/register" name="newletters" class="widget-newsletter">
                             <input placeholder="Email" name="email" class="form-control">
-                            <span class="submit">
+                            <span style="cursor:pointer;" onclick="document.forms['newletters'].submit()" class="submit">
                                 <i class="fa fa-paper-plane"></i>
                             </span>
                         </form>
