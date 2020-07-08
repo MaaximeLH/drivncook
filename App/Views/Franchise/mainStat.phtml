@@ -1,4 +1,3 @@
-<pre><?php var_dump($countOrderForUser, $incommingMoneyFromOrdersByMonthForUser) ?></pre>
 <div class="row">
     <div class="col-md-6 mb-5">
         <canvas id="countOrderForUser" width="400" height="400"></canvas>
@@ -13,7 +12,7 @@
     const chartCountOrderForUser = new Chart(countOrderForUser, {
         type: 'bar',
         data: {
-            labels: [<?php foreach($countOrderForUser as $e) { echo '"' . $e['Month'].'",'; }?>],
+            labels: [<?php foreach($countOrderForUser as $e) { echo '"' . $e['month'].'",'; }?>],
             datasets: [{
                 label: 'Event planned for the coming months',
                 backgroundColor: 'rgb(255, 99, 132, 0.2)',
@@ -30,7 +29,7 @@
     const chartIncommingMoneyFromOrdersByMonthForUser = new Chart(incommingMoneyFromOrdersByMonthForUser, {
         type: 'bar',
         data: {
-            labels: [<?php foreach($incommingMoneyFromOrdersByMonthForUser as $e) { echo '"' . $e['Month'].'",'; }?>],
+            labels: [<?php foreach($incommingMoneyFromOrdersByMonthForUser as $e) { echo '"' . $e['month'].'",'; }?>],
             datasets: [{
                 label: 'Event planned for the coming months',
                 backgroundColor: '#57184520',
