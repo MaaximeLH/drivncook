@@ -42,13 +42,13 @@ class Newletters extends Controller {
             $usersFilter = (isset($params['send_all_users']));
             $customersFilter = (isset($params['send_all_customers']));
 
-            if($usersFilter == false && $customersFilter == false) {
-                return View::render('Admin/newletters', ['admin' => $this->admin, 'page' => 'newletters', 'error' => true, 'params' => $params]);
-            }
-
             $sendSubscribers = false;
             if(!empty($params['send_subscribers']) && $params['send_subscribers'] == 1) {
                 $sendSubscribers = true;
+            }
+
+            if(!$sendSubscribers && ($usersFilter == false && $customersFilter == false)) {
+                return View::render('Admin/newletters', ['admin' => $this->admin, 'page' => 'newletters', 'error' => true, 'params' => $params]);
             }
 
             $usersMinCommandFilter = (isset($params['users_min_commands'])) ? trim(intval($params['users_min_commands'])) : 0;
