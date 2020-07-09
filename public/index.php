@@ -36,6 +36,7 @@ $router->add('trucks/menu/{id:\d+}/commands/{card:\d+}', ['controller' => 'Truck
 
 // API
 $router->add('api/login', ['controller' => 'Customers', 'action' => 'login', 'namespace' => 'Api']);
+$router->add('api/promotions', ['controller' => 'Promotions', 'action' => 'index', 'namespace' => 'Api']);
 
 
 /**
