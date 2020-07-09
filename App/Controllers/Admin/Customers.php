@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Entity\Admin;
 use App\Entity\Customer;
+use App\Entity\FidelityCard;
 use Core\Controller;
 use Core\CSRF;
 use Core\Entity;
@@ -41,6 +42,19 @@ class Customers extends Controller
         CSRF::generate();
 
         $customers = $this->customerRepository->findAll();
+        $fidelityRepository = $this->em->getRepository(FidelityCard::class);
+        foreach ($customers as $key => $customer) {
+            $fidelity = $fidelityRepository->findOneByCustomer($customer);
+            if(is_null($fidelity)) {
+                $fidelity = new FidelityCard();
+                $fidelity->setNbPoint(0);
+                $fidelity->setCustomer($customer);
+
+                $this->em->persist($fidelity);
+                $this->em->flush();
+            }
+            $customers[$key]->fidelity = $fidelity->getNbPoint();
+        }
 
         $data['admin'] = $this->admin;
         $data['customers'] = $customers;

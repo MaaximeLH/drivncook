@@ -16,6 +16,7 @@
                                 <th><?= \Core\Language::get('firstname') ?></th>
                                 <th><?= \Core\Language::get('name') ?></th>
                                 <th><?= \Core\Language::get('email') ?></th>
+                                <th>Fidélité</th>
                                 <th><?= \Core\Language::get('created_at') ?></th>
                                 <th><?= \Core\Language::get('action') ?></th>
                             </tr>
@@ -27,6 +28,7 @@
                                     <td><?= $customer->getFirstname(); ?></td>
                                     <td><?= $customer->getLastname(); ?></td>
                                     <td><?= $customer->getEmail(); ?></td>
+                                    <td><?= $customer->fidelity; ?></td>
                                     <td><?= $customer->getCreatedAt()->format('d/m/Y H:i:s'); ?></td>
                                     <td>
                                         <a class="btn btn-info btn-sm" href="/administration/customer/edit/<?= $customer->getId(); ?>"><i class="fas fa-pencil-alt"></i> <?= \Core\Language::get('edit') ?></a>
@@ -44,6 +46,7 @@
                                 <th><?= \Core\Language::get('firstname') ?></th>
                                 <th><?= \Core\Language::get('name') ?></th>
                                 <th><?= \Core\Language::get('email') ?></th>
+                                <th>Fidélité</th>
                                 <th><?= \Core\Language::get('created_at') ?></th>
                                 <th><?= \Core\Language::get('action') ?></th>
                             </tr>
