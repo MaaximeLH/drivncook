@@ -14,8 +14,12 @@ class Promotions extends Controller {
         $allPromotions = $promotionsRepository->findAll();
 
         $promotions = [];
-
         foreach ($allPromotions as $promotion) {
+
+            if(is_null($promotion->getUser()->getTruck())) {
+                continue;
+            }
+
             if(time() >= $promotion->getStartAt()->getTimestamp() && time() <= $promotion->getEndAt()->getTimestamp()) {
                 $str = number_format($promotion->getReducPercentage(), 2) . "% de réduction chez ";
                 $str .= htmlspecialchars(trim($promotion->getUser()->getSocietyName()));
@@ -26,7 +30,8 @@ class Promotions extends Controller {
 
                 $promotions[] = [
                     'text' => $str,
-                    'id' => $promotion->getId()
+                    'id' => $promotion->getUser()->getTruck()->getId(),
+                    'name' => $promotion->getName()
                 ];
             }
         }
