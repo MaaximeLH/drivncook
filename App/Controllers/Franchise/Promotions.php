@@ -36,7 +36,7 @@ class Promotions extends Controller
 
     public function indexAction() {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -52,7 +52,7 @@ class Promotions extends Controller
 
     public function archivesAction() {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -68,7 +68,7 @@ class Promotions extends Controller
 
     public function addAction() {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -129,7 +129,7 @@ class Promotions extends Controller
 
     public function editAction(){
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -237,7 +237,7 @@ class Promotions extends Controller
 
     public function archiveAction() {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 

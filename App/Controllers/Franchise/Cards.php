@@ -43,7 +43,7 @@ class Cards extends Controller
     public function indexAction()
     {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -55,7 +55,7 @@ class Cards extends Controller
 
     public function addAction()
     {
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -83,7 +83,7 @@ class Cards extends Controller
     public function editAction()
     {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -128,7 +128,7 @@ class Cards extends Controller
     public function deleteCategoryAction()
     {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -150,7 +150,7 @@ class Cards extends Controller
     public function deleteItemAction()
     {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 

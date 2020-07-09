@@ -29,7 +29,7 @@ class Trucks extends Controller {
         $user = $em->find(Users::class, $userId);
 
         $truck = $user->getTruck();
-        if(is_null($truck)) {
+        if(is_null($truck) || !$user->getIsActive()) {
             return $this->noTruckPage();
         }
 
@@ -51,7 +51,7 @@ class Trucks extends Controller {
         $user = $em->find(Users::class, $userId);
 
         $truck = $user->getTruck();
-        if(is_null($truck)) {
+        if(is_null($truck) || !$user->getIsActive()) {
             return $this->noTruckPage();
         }
 
@@ -78,7 +78,7 @@ class Trucks extends Controller {
         $em = Entity::getEntityManager();
         $user = $em->find(Users::class, $userId);
         $truck = $user->getTruck();
-        if(is_null($truck)) {
+        if(is_null($truck) || !$user->getIsActive()) {
             return $this->noTruckPage();
         }
         $warehouseRepository = $em->getRepository(Warehouse::class);
@@ -131,7 +131,7 @@ class Trucks extends Controller {
         $em = Entity::getEntityManager();
         $user = $em->find(Users::class, $userId);
         $truck = $user->getTruck();
-        if(is_null($truck)) {
+        if(is_null($truck) || !$user->getIsActive()) {
             return $this->noTruckPage();
         }
         $params = Request::getAllParams();
@@ -173,7 +173,7 @@ class Trucks extends Controller {
         $em = Entity::getEntityManager();
         $user = $em->find(Users::class, $userId);
         $truck = $user->getTruck();
-        if(is_null($truck)) {
+        if(is_null($truck) || !$user->getIsActive()) {
             return $this->noTruckPage();
         }
         $params = Request::getAllParams();

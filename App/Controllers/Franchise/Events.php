@@ -40,7 +40,7 @@ class Events extends Controller
 
     public function indexAction()
     {
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -57,7 +57,7 @@ class Events extends Controller
 
     public function subscribe()
     {
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 

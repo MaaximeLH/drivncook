@@ -30,7 +30,7 @@ class Commands extends Controller {
 
     public function indexAction() {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
@@ -56,7 +56,7 @@ class Commands extends Controller {
 
     public function updateAction() {
 
-        if(is_null($this->user->getTruck())) {
+        if(is_null($this->user->getTruck()) || !$this->user->getIsActive()) {
             return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
