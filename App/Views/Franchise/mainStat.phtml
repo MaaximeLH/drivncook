@@ -14,7 +14,7 @@
         data: {
             labels: [<?php foreach($countOrderForUser as $e) { echo '"' . $e['month'].'",'; }?>],
             datasets: [{
-                label: 'Event planned for the coming months',
+                label: 'Nombre de commande',
                 backgroundColor: 'rgb(255, 99, 132, 0.2)',
                 borderColor: 'rgb(255, 99, 132)',
                 borderWidth: 1,
@@ -31,7 +31,7 @@
         data: {
             labels: [<?php foreach($incommingMoneyFromOrdersByMonthForUser as $e) { echo '"' . $e['month'].'",'; }?>],
             datasets: [{
-                label: 'Event planned for the coming months',
+                label: 'chiffre d\'affaire par mois',
                 backgroundColor: '#57184520',
                 borderColor: '#571845',
                 borderWidth: 1,
