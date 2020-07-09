@@ -278,15 +278,17 @@ class Trucks extends Controller {
             $this->em->persist($invoice);
             $this->em->flush();
 
-            $invoiceLine = new InvoiceLine();
-            $invoiceLine->setInvoice($invoice);
-            $invoiceLine->setText($item['card_item_name']);
-            $invoiceLine->setQuantity(1);
-            $invoiceLine->setPrice($item['card_item_price'] * $delta);
-            $invoiceLine->setTva(20.00);
+            foreach ($items as $item) {
+                $invoiceLine = new InvoiceLine();
+                $invoiceLine->setInvoice($invoice);
+                $invoiceLine->setText($item['card_item_name']);
+                $invoiceLine->setQuantity(1);
+                $invoiceLine->setPrice($item['card_item_price'] * $delta);
+                $invoiceLine->setTva(20.00);
 
-            $this->em->persist($invoiceLine);
-            $this->em->flush();
+                $this->em->persist($invoiceLine);
+                $this->em->flush();
+            }
 
             return $this->redirectTo("/customers/commands");
         }
