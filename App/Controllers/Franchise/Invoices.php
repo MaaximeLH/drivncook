@@ -38,7 +38,7 @@ class Invoices extends Controller
         $em = Entity::getEntityManager();
 
         $invoicesRepository = $em->getRepository(Invoice::class);
-        $invoices = $invoicesRepository->findBy(['user' => $this->user, 'user' => null]);
+        $invoices = $invoicesRepository->findBy(['user' => $this->user, 'owner' => 'drivncook']);
 
         return View::render('Franchise/invoicesReceived', ['user' => $this->user, 'page' => 'invoices_received', 'invoices' => $invoices]);
     }

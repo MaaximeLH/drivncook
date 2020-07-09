@@ -221,7 +221,7 @@ return [
 
     "adjust_invoice" => "Régler une facture",
     "back_to_invoice" => "Retour à la facture",
-    "payed_the_amount" => "Régler le montent",
+    "payed_the_amount" => "Régler le montant",
     "rest_to_adjust" => "Reste à payer",
     "adjust_invoice_id" => "Régler la facture DVN-%s",
 

@@ -43,7 +43,7 @@
                     <div class="col-md-12">
                         <div class="card card-default">
                             <div class="card-header">
-                                <h3 class="card-title"><?= \Core\Language::get('adjust_invoice_id', $invoice->getId()) ?></h3>
+                                <h3 class="card-title"><?= \Core\Language::get('adjust_invoice_id', [$invoice->getId()]) ?></h3>
                                 <div class="card-tools">
                                     <a href="/panel/invoices/<?= $invoice->getId(); ?>" class="btn btn-sm btn-info"><?= \Core\Language::get('back_to_invoice') ?></a>
                                 </div>
