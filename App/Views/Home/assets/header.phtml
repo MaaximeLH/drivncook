@@ -24,6 +24,22 @@
                     <div class="item">
                         <div class="wg-social"><i class="fa fa-user"></i><a href="/customers"><span><?= \Core\Language::get('my_customer_account') ?></span></a></div>
                     </div>
+                    <div class="item">
+                        <?php if (!empty($_COOKIE['language']) && $_COOKIE['language'] == "fr_FR") { ?>
+                            <div class="wg-social">
+                                <i class="fa fa-language"></i>
+                                <a href="/lang/pref/en">
+                                    <span>English</span>
+                                </a>
+                            </div>                        <?php } else { ?>
+                            <div class="wg-social">
+                                <i class="fa fa-language"></i>
+                                <a href="/lang/pref/fr">
+                                    <span>Français</span>
+                                </a>
+                            </div>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
         </div>
