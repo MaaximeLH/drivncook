@@ -92,7 +92,9 @@
                                                 </td>
                                                 <td>
                                                     <!-- Redirige vers la page d'informations du camion -->
-                                                    <a class="btn btn-info btn-sm" href="/administration/trucks/<?= $truck->getId(); ?>/informations"><i class="fas fa-info-circle"></i> <?= \Core\Language::get('informations') ?></a>
+                                                    <a class="btn btn-success btn-sm" href="/administration/trucks/<?= $truck->getId(); ?>/informations"><i class="fas fa-info-circle"></i> <?= \Core\Language::get('informations') ?></a>
+
+                                                    <a href="/administration/trucks/<?= $truck->getId(); ?>/edit" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i> <?= \Core\Language::get('edit') ?></a>
 
                                                     <!-- Si coordonnées invalides -->
                                                     <?php if(is_float($truck->getLatitude()) && is_float($truck->getLongitude())){ ?>

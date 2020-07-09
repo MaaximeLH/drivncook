@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Driv'n'Cook - <?= \Core\Language::get('administration') ?></title>
+    <link rel="icon" type="image/png" href="/dist/img/drivncook.png" />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+    <?php require "assets/sidebar.phtml"; ?>
+
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Driv'n'Cook</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/administration"><?= \Core\Language::get('home') ?></a></li>
+                            <li class="breadcrumb-item"><?= \Core\Language::get('trucks') ?></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Editer un camion</h3>
+                            </div>
+                            <form role="form" method="POST">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="matriculationInput"><?= \Core\Language::get('immatriculation') ?></label>
+                                        <input type="text" value="<?= $truck->getMatriculation(); ?>" class="form-control <?= (isset($fields['matriculation'])) ? (!$fields['matriculation']) ? 'is-invalid' : 'is-valid' : ''; ?>" id="matriculationInput" placeholder="<?= \Core\Language::get('immatriculation') ?>" name="matriculation">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="longitudeInput"><?= \Core\Language::get('longitude') ?></label>
+                                        <input type="text" value="<?= $truck->getLongitude(); ?>" class="form-control <?= (isset($fields['longitude'])) ? (!$fields['longitude']) ? 'is-invalid' : 'is-valid' : ''; ?>" id="longitudeInput" placeholder="<?= \Core\Language::get('longitude') ?>" name="longitude">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="latitudeInput"><?= \Core\Language::get('latitude') ?></label>
+                                        <input type="text" value="<?= $truck->getLatitude(); ?>" class="form-control <?= (isset($fields['latitude'])) ? (!$fields['latitude']) ? 'is-invalid' : 'is-valid' : ''; ?>" id="latitudeInput" placeholder="<?= \Core\Language::get('latitude') ?>" name="latitude">
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <?= \Core\CSRF::fields(); ?>
+                                    <button type="submit" class="btn btn-warning"><?= \Core\Language::get('save') ?></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <strong>Copyright &copy; 2020 Driv'n'Cook.</strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            Projet annuel ESGI <b>2A2</b>
+        </div>
+    </footer>
+</div>
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/plugins/select2/js/select2.full.min.js"></script>
+<script src="/dist/js/adminlte.min.js"></script>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        })
+
+    })
+</script>
+</body>
+</html>

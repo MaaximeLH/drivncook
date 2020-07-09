@@ -56,6 +56,48 @@ class Trucks extends Controller
         return View::render('Admin/trucks', ['admin' => $this->admin, 'page' => 'trucks', 'trucks' => $trucks, 'availableFranchise' => $availableFranchise]);
     }
 
+    public function editAction() {
+        CSRF::generate();
+
+        $em = Entity::getEntityManager();
+
+        $trucksRepository = $em->getRepository(Truck::class);
+
+        if (is_null($truck = $trucksRepository->find($this->getRouteParameter('id')))) {
+            return $this->redirectTo('/administration/trucks');
+        }
+
+        if(Request::isPost()) {
+            $params = Request::getAllParams();
+            $fields = [];
+
+            if ($truck->getMatriculation() != $params['matriculation']) {
+                if (Validator::isValidLicensePlate($params['matriculation'])) {
+                    $truck->setMatriculation(htmlspecialchars(trim($params['matriculation'])));
+                    $fields['matriculation'] = true;
+                } else {
+                    $fields['matriculation'] = false;
+                }
+            }
+
+            if ($truck->getLongitude() != $params['longitude']) {
+                $truck->setLongitude(htmlspecialchars(trim($params['longitude'])));
+                $fields['longitude'] = true;
+            }
+
+            if ($truck->getLatitude() != $params['latitude']) {
+                $truck->setLatitude(htmlspecialchars(trim($params['latitude'])));
+                $fields['latitude'] = true;
+            }
+
+            $em->flush();
+
+            return View::render('Admin/editTrucks', ['truck' => $truck, 'page' => 'trucks', 'admin' => $this->admin, 'fields' => $fields]);
+        }
+
+        return View::render('Admin/editTrucks', ['truck' => $truck, 'page' => 'trucks', 'admin' => $this->admin]);
+    }
+
     public function informationsAction()
     {
         CSRF::generate();

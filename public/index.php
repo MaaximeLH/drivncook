@@ -73,6 +73,7 @@ $router->add("administration/administrators/{id:\d+}/delete", ['controller' => '
 $router->add("administration/trucks", ['controller' => 'Trucks', 'action' => 'trucks', 'namespace' => 'Admin']);
 $router->add("administration/trucks/add", ['controller' => 'Trucks', 'action' => 'addTrucks', 'namespace' => 'Admin']);
 $router->add("administration/trucks/assign/{id:\d+}", ['controller' => 'Trucks', 'action' => 'assign', 'namespace' => 'Admin']);
+$router->add("administration/trucks/{id:\d+}/edit", ['controller' => 'Trucks', 'action' => 'edit', 'namespace' => 'Admin']);
 $router->add("administration/trucks/{id:\d+}/informations", ['controller' => 'Trucks', 'action' => 'informations', 'namespace' => 'Admin']);
 $router->add("administration/trucks/{id:\d+}/maintenance", ['controller' => 'Trucks', 'action' => 'setMaintenance', 'namespace' => 'Admin']);
 $router->add("administration/trucks/{id:\d+}/maintenance/{mid:\d+}", ['controller' => 'Trucks', 'action' => 'maintenanceDetails', 'namespace' => 'Admin']);
@@ -152,7 +153,7 @@ $router->add("panel/truck", ['controller' => 'Trucks', 'action' => 'index', 'nam
 $router->add("panel/truck/maintenance/{id:\d+}", ['controller' => 'Trucks', 'action' => 'maintenance', 'namespace' => 'Franchise']);
 $router->add("panel/truck/supply", ['controller' => 'Trucks', 'action' => 'supply', 'namespace' => 'Franchise']);
 $router->add("panel/truck/supply/warehouse/{id:\d+}", ['controller' => 'Trucks', 'action' => 'supplyStepTwo', 'namespace' => 'Franchise']);
-$router->add("panel/truck/supply/warehouse/{id:\d+}/step/3", ['controller' => 'Trucks', 'action' => 'supplyStepThree', 'namespace' => 'Franchise']);
+$router->add("panel/truck/supply/warehouste/{id:\d+}/step/3", ['controller' => 'Trucks', 'action' => 'supplyStepThree', 'namespace' => 'Franchise']);
 $router->add("panel/truck/supply/warehouse/{id:\d+}/step/4", ['controller' => 'Trucks', 'action' => 'supplyStepFour', 'namespace' => 'Franchise']);
 // Factures
 $router->add("panel/invoices/received", ['controller' => 'Invoices', 'action' => 'received', 'namespace' => 'Franchise']);
