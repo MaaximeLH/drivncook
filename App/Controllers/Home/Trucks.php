@@ -5,6 +5,7 @@ namespace App\Controllers\Home;
 use App\Entity\Customer;
 use App\Entity\Invoice;
 use App\Entity\InvoiceLine;
+use App\Entity\Openings;
 use App\Entity\OrderLine;
 use App\Entity\Orders;
 use App\Entity\Promotion;
@@ -36,21 +37,39 @@ class Trucks extends Controller {
     public function indexAction() {
         $trucks = $this->truckRepository->findAll();
         $usersRepository = $this->em->getRepository(Users::class);
+        $openingsRepository = $this->em->getRepository(Openings::class);
 
         $trucksLocates = [];
         foreach ($trucks as $key => $truck) {
-            $trucks[$key]->user = $usersRepository->findOneByTruck($truck);
-            if($trucks[$key]->user === null) {
+            $user = $usersRepository->findOneByTruck($truck);
+            if(is_null($user) || !$user->getIsActive()) {
                 unset($trucks[$key]);
                 continue;
             }
+
+            $trucks[$key]->user = $user;
+
+            $openings = $openingsRepository->findOneByUser($user);
+            if(is_null($openings)) {
+                $this->_createOpeningsUsers($user);
+                $openings = $openingsRepository->findOneByUser($user);
+            }
+
+            if($openings->getGlobalOpen() == 0) {
+                unset($trucks[$key]);
+                continue;
+            }
+
+            $trucks[$key]->openings = $openings;
+
+            $trucks[$key]->isOpen = $this->_isOpen($openings);
 
             if (!empty($truck->getLongitude()) && !empty($truck->getLatitude())) {
                 $trucksLocates[] = ['lon' => $truck->getLongitude(), 'lat' => $truck->getLatitude()];
             }
         }
 
-        return View::render('Home/trucks', ['page' => 'trucks', 'trucks' => $trucks, 'trucksLocates' => json_encode($trucksLocates)]);
+        return View::render('Home/trucks', ['page' => 'trucks', 'trucks' => $trucks, 'trucksLocates' => json_encode($trucksLocates), 'functions' => $this->_guettersForDays()]);
     }
 
     public function commandsAction() {
@@ -73,6 +92,16 @@ class Trucks extends Controller {
         }
 
         $truck->user = $user;
+
+        if(!$user->getIsActive()) {
+            return $this->redirectTo('/trucks');
+        }
+
+        $openingsRepository = $this->em->getRepository(Openings::class);
+        $openings = $openingsRepository->findOneByUser($user);
+        if(!$this->_isOpen($openings)) {
+            return $this->redirectTo('/trucks');
+        }
 
         $customer = Session::get('customer_id');
         $customerRepository = $this->em->getRepository(Customer::class);
@@ -219,6 +248,17 @@ class Trucks extends Controller {
         if(is_null($user = $usersRepository->findOneByTruck($truck))) {
             return $this->redirectTo('/trucks');
         }
+
+        if(!$user->getIsActive()) {
+            return $this->redirectTo('/trucks');
+        }
+
+        $openingsRepository = $this->em->getRepository(Openings::class);
+        $openings = $openingsRepository->findOneByUser($user);
+        if(!$this->_isOpen($openings)) {
+            return $this->redirectTo('/trucks');
+        }
+
         $cardRepository = $this->em->getRepository(Card::class);
         $cardCategoryRepository = $this->em->getRepository(CardCategory::class);
         $cards = $cardRepository->findByUser($user);
@@ -333,5 +373,86 @@ class Trucks extends Controller {
         }
 
         return View::render('Home/find', ['page' => 'trucks', 'truck' => $truck, 'user' => $user, 'customer' => $customer, 'items' => $items]);
+    }
+
+    private function _createOpeningsUsers($user) {
+        $date = new \DateTime();
+        $open = $date->setTime(0, 0);
+        $date = new \DateTime();
+        $close = $date->setTime(23, 59);
+
+        $opening = new Openings();
+        $opening->setUser($user);
+
+        $opening->setMondayOpen($open);
+        $opening->setTuesdayOpen($open);
+        $opening->setWedOpen($open);
+        $opening->setThursdayOpen($open);
+        $opening->setFridayOpen($open);
+        $opening->setSatOpen($open);
+        $opening->setSunOpen($open);
+
+        $opening->setMondayClose($close);
+        $opening->setTuesdayClose($close);
+        $opening->setWedClose($close);
+        $opening->setThursdayClose($close);
+        $opening->setFridayClose($close);
+        $opening->setSatClose($close);
+        $opening->setSunClose($close);
+
+        $opening->setGlobalOpen(1);
+
+        $this->em->persist($opening);
+        $this->em->flush();
+    }
+
+    private function _isOpen($openings) {
+
+        $days = $this->_guettersForDays();
+
+        $open = call_user_func([$openings, $days[date('N')]['open']]);
+        $close = call_user_func([$openings, $days[date('N')]['close']]);
+
+        $now = new \DateTime();
+        $now->setDate(1970, 01, 01);
+
+        if($now > $open && $now < $close) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function _guettersForDays() {
+        return [
+            1 => [
+                'open' => 'getMondayOpen',
+                'close' => 'getMondayClose'
+            ],
+            2 => [
+                'open' => 'getTuesdayOpen',
+                'close' => 'getTuesdayClose'
+            ],
+            3 => [
+                'open' => 'getWedOpen',
+                'close' => 'getWedClose'
+            ],
+            4 => [
+                'open' => 'getThursdayOpen',
+                'close' => 'getThursdayClose'
+            ],
+            5 => [
+                'open' => 'getFridayOpen',
+                'close' => 'getFridayClose'
+            ],
+            6 => [
+                'open' => 'getSatOpen',
+                'close' => 'getSatClose'
+            ],
+            7 => [
+                'open' => 'getSunOpen',
+                'close' => 'getSunClose'
+            ],
+        ];
     }
 }
