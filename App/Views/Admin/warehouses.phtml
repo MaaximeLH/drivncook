@@ -81,7 +81,7 @@
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title"><?= \Core\Language::get('edit_warehouse_name') ?></h5>
+                                                            <h5 class="modal-title"><?= \Core\Language::get('edit_warehouse_name', [$warehouse->getName()]) ?></h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="<?= \Core\Language::get('close') ?>">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
