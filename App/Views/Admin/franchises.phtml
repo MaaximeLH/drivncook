@@ -90,10 +90,6 @@
                                                 <?= \Core\CSRF::fields(); ?>
                                                 <button class="btn btn-sm btn-warning"><i class="fa fa-ban"></i> <?= ($user->getIsActive()) ? \Core\Language::get("block") : \Core\Language::get("unblock"); ?></button>
                                             </form>
-                                            <form onclick="return remove()" method="POST" style="display: inline" action="/administration/franchises/<?= $user->getId(); ?>/delete">
-                                                <?= \Core\CSRF::fields(); ?>
-                                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> <?= \Core\Language::get("delete") ?></button>
-                                            </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

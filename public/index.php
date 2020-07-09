@@ -87,7 +87,6 @@ $router->add("administration/franchises/shellInsert", ['controller' => 'Franchis
 $router->add("administration/franchises/shellCheck", ['controller' => 'Franchises', 'action' => 'shellCheck', 'namespace' => 'Admin']);
 $router->add("administration/franchises/{id:\d+}/edit", ['controller' => 'Franchises', 'action' => 'edit', 'namespace' => 'Admin']);
 $router->add("administration/franchises/{id:\d+}/block", ['controller' => 'Franchises', 'action' => 'block', 'namespace' => 'Admin']);
-$router->add("administration/franchises/{id:\d+}/delete", ['controller' => 'Franchises', 'action' => 'delete', 'namespace' => 'Admin']);
 // Entrepôts
 $router->add("administration/warehouses", ['controller' => 'Warehouses', 'action' => 'warehouses', 'namespace' => 'Admin']);
 $router->add("administration/warehouses/add", ['controller' => 'Warehouses', 'action' => 'addWarehouses', 'namespace' => 'Admin']);

@@ -275,19 +275,4 @@ class Franchises extends Controller
             throw new Error("Error Processing Request");
         }
     }
-
-    public function deleteAction()
-    {
-        Request::assertPostOnly();
-        CSRF::validate();
-
-        $em = Entity::getEntityManager();
-        $usersRepository = $em->getRepository(Users::class);
-
-        if (is_null($user = $usersRepository->find($this->getRouteParameter('id')))) {
-            return $this->redirectTo('/administration/franchises');
-        }
-
-        die('TODO, A FAIRE QUAND TOUT SERA TERMINEE');
-    }
 }
