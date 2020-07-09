@@ -31,7 +31,7 @@ class Commands extends Controller {
     public function indexAction() {
 
         if(is_null($this->user->getTruck())) {
-            return $this->noTruckPage();
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
         }
 
         $em = Entity::getEntityManager();
