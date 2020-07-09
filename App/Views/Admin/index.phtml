@@ -45,7 +45,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">Food Trucks</span>
                 <span class="info-box-number">
-                  240
+                  <?= $stats['trucksCount']; ?>
                 </span>
               </div>
 
@@ -59,7 +59,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text"> <?= \Core\Language::get('franchises'); ?></span>
-                <span class="info-box-number">180</span>
+                <span class="info-box-number"><?= $stats['usersCount']; ?></span>
               </div>
             </div>
           </div>
@@ -71,18 +71,18 @@
               <span class="info-box-icon bg-success elevation-1"><i class="fas fa-warehouse"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text"> <?= \Core\Language::get('warehouses'); ?></span>
-                <span class="info-box-number">8</span>
+                <span class="info-box-text"><?= \Core\Language::get('warehouses'); ?></span>
+                <span class="info-box-number"><?= $stats['warehousesCount']; ?></span>
               </div>
             </div>
           </div>
           <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">
-              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-shopping-basket"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text"> <?= \Core\Language::get('turnover_in', [date('Y')]); ?></span>
-                <span class="info-box-number">54 587,15€</span>
+                <span class="info-box-text"><?= \Core\Language::get('commands'); ?></span>
+                <span class="info-box-number"><?= $stats['ordersCount']; ?></span>
               </div>
             </div>
           </div>

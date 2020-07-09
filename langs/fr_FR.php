@@ -352,6 +352,7 @@ return [
     "DRIV'N'COOK SAS, Société par Actions Simplifiés enregistrée à la chambre de commerce de Paris dont le siège social se trouve au 242 rue du Faubourg Saint Antoine, 75012, Paris." => "DRIV'N'COOK SAS, Société par Actions Simplifiés enregistrée à la chambre de commerce de Paris dont le siège social se trouve au 242 rue du Faubourg Saint Antoine, 75012, Paris.",
     'SIRET_number' => "Numéro de siret",
     '242 rue du Faubourg Saint Antoine, 75012, Paris' => '242 rue du Faubourg Saint Antoine, 75012, Paris',
+    "commands" => "Commandes",
 
     /* ABOUT page */
     'about' => 'A propos',

@@ -3,7 +3,9 @@
 namespace App\Controllers\Admin;
 
 use App\Entity\Admin;
+use App\Entity\Orders;
 use App\Entity\Truck;
+use App\Entity\Users;
 use App\Entity\Warehouse;
 use Core\Controller;
 use Core\CSRF;
@@ -47,7 +49,16 @@ class Home extends Controller
             }
         }
 
-        return View::render('Admin/index', ['admin' => $admin, 'page' => 'index', 'trucksLocates' => json_encode($trucksLocates), 'warehousesLocates' => json_encode($warehousesLocates)]);
+        $usersRepository = $em->getRepository(Users::class);
+        $ordersRepository = $em->getRepository(Orders::class);
+        
+        $stats = [];
+        $stats['trucksCount']       = count($trucks);
+        $stats['warehousesCount']   = count($warehouses);
+        $stats['usersCount']        = $usersRepository->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $stats['ordersCount']       = $ordersRepository->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+
+        return View::render('Admin/index', ['admin' => $admin, 'page' => 'index', 'trucksLocates' => json_encode($trucksLocates), 'warehousesLocates' => json_encode($warehousesLocates), 'stats' => $stats]);
     }
 
     public function loginAction()
