@@ -37,60 +37,107 @@
 
         <section class="content">
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box">
-                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">STATS</span>
-                                <span class="info-box-number">
-                  0
-                  <small>%</small>
-                </span>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">STATS</span>
-                                <span class="info-box-number">0</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="clearfix hidden-md-up"></div>
-
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">STATS</span>
-                                <span class="info-box-number">0</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <div class="info-box mb-3">
-                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">STATS</span>
-                                <span class="info-box-number">0</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="col-md-12">
                     <div id="map" style="height: 450px"></div>
+                </div>
+
+                <div class="col-12 pt-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Mes horaires</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="monday_open">Horaire d'ouverture le lundi: </label>
+                                        <input type="time" name="monday_open" id="monday_open" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="monday_close">Horaire de fermeture le lundi: </label>
+                                        <input type="time" name="monday_close" id="monday_close" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="tuesday_open">Horaire d'ouverture le mardi: </label>
+                                        <input type="time" name="tuesday_open" id="tuesday_open" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="tuesday_open">Horaire de fermeture le mardi: </label>
+                                        <input type="time" name="tuesday_open" id="tuesday_open" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="wed_open">Horaire d'ouverture le mercredi: </label>
+                                        <input type="time" name="wed_open" id="wed_open" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="wed_close">Horaire de fermeture le mercredi: </label>
+                                        <input type="time" name="wed_close" id="wed_close" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="thursday_open">Horaire d'ouverture le jeudi: </label>
+                                        <input type="time" name="thursday_open" id="thursday_open" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="thursday_close">Horaire de fermeture le jeudi: </label>
+                                        <input type="time" name="thursday_close" id="thursday_close" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="friday_open">Horaire d'ouverture le vendredi: </label>
+                                        <input type="time" name="friday_open" id="friday_open" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="friday_close">Horaire de fermeture le vendredi: </label>
+                                        <input type="time" name="friday_close" id="friday_close" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="sat_open">Horaire d'ouverture le samedi: </label>
+                                        <input type="time" name="sat_open" id="sat_open" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="sat_close">Horaire de fermeture le samedi: </label>
+                                        <input type="time" name="sat_close" id="sat_close" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="sun_open">Horaire d'ouverture le dimanche: </label>
+                                        <input type="time" name="sun_open" id="sun_open" class="form-control">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="sun_close">Horaire de fermeture le dimanche: </label>
+                                        <input type="time" name="sun_close" id="sun_close" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-check">
+                                    <input type="checkbox" value="1" name="global_open" class="form-check-input" id="global_open">
+                                    <label class="form-check-label" for="global_open">Fermer le camion</label>
+                                </div>
+
+                                <br>
+
+                                <div class="form-group">
+                                    <button class="btn btn-block btn-primary">Sauvegarder mes horaires</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
             </div>
