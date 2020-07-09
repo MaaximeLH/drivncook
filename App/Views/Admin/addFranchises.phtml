@@ -119,9 +119,8 @@
                 data: {
                     filename: filename
                 },
-                success: output => {
-                    const pre = document.querySelector('#text-output');
-                    pre.innerText = output;
+                success: {
+                    window.location = "/administration/franchises/add"
                 }
             });
         });

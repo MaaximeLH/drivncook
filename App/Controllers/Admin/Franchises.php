@@ -273,7 +273,6 @@ class Franchises extends Controller
 
             $cmd = "/srv/bdd_save/a.out /var/www/drivncook/public/dist/qrcode/_$filename.txt";
             shell_exec($cmd);
-            return $this->redirectTo('/administration/franchises');
         } else {
             throw new Error("Error Processing Request");
         }
