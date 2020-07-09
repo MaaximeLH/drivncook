@@ -31,13 +31,16 @@ class View
     }
 
     /**
-	 * Set Select
-	 *
-	 * Enables pull-down lists to be set to the value the user
-	 * selected in the event of an error
-	 * @return	string
-	 */
-	public static function set_select(string $field = '', string $value = '', bool $default = FALSE)
+     * Set Select
+     *
+     * Enables pull-down lists to be set to the value the user
+     * selected in the event of an error
+     * @param string|null $field
+     * @param string|null $value
+     * @param bool|null $default
+     * @return    string
+     */
+	public static function set_select(?string $field = '', ?string $value = '', ?bool $default = false)
 	{
 		if (!isset($_POST[$field])) {
 			return ($default === TRUE && count($_POST) === 0) ? ' selected="selected"' : '';

@@ -51,7 +51,7 @@ class Home extends Controller
 
         $usersRepository = $em->getRepository(Users::class);
         $ordersRepository = $em->getRepository(Orders::class);
-        
+
         $stats = [];
         $stats['trucksCount']       = count($trucks);
         $stats['warehousesCount']   = count($warehouses);
