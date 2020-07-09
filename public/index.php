@@ -157,6 +157,8 @@ $router->add("panel/truck/supply/warehouse/{id:\d+}/step/3", ['controller' => 'T
 $router->add("panel/truck/supply/warehouse/{id:\d+}/step/4", ['controller' => 'Trucks', 'action' => 'supplyStepFour', 'namespace' => 'Franchise']);
 // Factures
 $router->add("panel/invoices/received", ['controller' => 'Invoices', 'action' => 'received', 'namespace' => 'Franchise']);
+$router->add("panel/invoices/issued", ['controller' => 'Invoices', 'action' => 'issued', 'namespace' => 'Franchise']);
+$router->add("panel/invoices/payed/{id:\d+}", ['controller' => 'Invoices', 'action' => 'payed', 'namespace' => 'Franchise']);
 $router->add("panel/invoices/{id:\d+}", ['controller' => 'Invoices', 'action' => 'see', 'namespace' => 'Franchise']);
 $router->add("panel/invoices/pay/{id:\d+}", ['controller' => 'Invoices', 'action' => 'payInvoice', 'namespace' => 'Franchise']);
 

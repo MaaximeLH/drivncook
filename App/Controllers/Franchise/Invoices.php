@@ -38,9 +38,18 @@ class Invoices extends Controller
         $em = Entity::getEntityManager();
 
         $invoicesRepository = $em->getRepository(Invoice::class);
-        $invoices = $invoicesRepository->findByUser($this->user);
+        $invoices = $invoicesRepository->findBy(['user' => $this->user, 'user' => null]);
 
         return View::render('Franchise/invoicesReceived', ['user' => $this->user, 'page' => 'invoices_received', 'invoices' => $invoices]);
+    }
+
+    public function issuedAction() {
+        $em = Entity::getEntityManager();
+
+        $invoicesRepository = $em->getRepository(Invoice::class);
+        $invoices = $invoicesRepository->findBy(['user' => $this->user, 'warehouse' => null]);
+
+        return View::render('Franchise/invoicesIssued', ['user' => $this->user, 'page' => 'invoices_issued', 'invoices' => $invoices]);
     }
 
     public function seeAction() {
@@ -105,6 +114,24 @@ class Invoices extends Controller
         }
 
         return View::render('Franchise/payInvoice', ['user' => $this->user, 'page' => 'invoices_received', 'invoice' => $invoice, 'total' => $total]);
+    }
+
+    public function payedAction() {
+        $em = Entity::getEntityManager();
+        $invoiceEntity = $em->getRepository(Invoice::class);
+
+        if (is_null($invoice = $invoiceEntity->find($this->getRouteParameter('id')))) {
+            return $this->redirectTo('/panel');
+        }
+
+        $invoice->setStatus(true);
+        $em->flush();
+
+        if ($invoice->getUser()->getId() !== $this->user->getId()) {
+            return $this->redirectTo('/panel/invoices/issued');
+        }
+
+        return $this->redirectTo('/panel/invoices/issued');
     }
 
     private function countTotalInvoice($invoice) {

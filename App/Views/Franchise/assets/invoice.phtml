@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <?php if(!$invoice->getStatus()) { ?>
+                <?php if(!$invoice->getStatus() && ($user == $invoice->getUser())) { ?>
                     <div class="alert alert-info alert-dismissible no-print">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h5><i class="icon fas fa-info"></i> Rappel</h5>
@@ -22,23 +22,21 @@
                     <div class="row invoice-info">
                         <div class="col-sm-4 invoice-col">
                             De
-                            <address>
-                                <strong>Driv'n'Cook</strong><br>
-                                242 rue du Faubourg Saint Antoine<br>
-                                Paris, 75012<br>
-                                +33 1 56 06 90 41<br>
-                                sananes@esgi.fr
-                            </address>
+                            <?php if($invoice->getOwner() == $user->getSocietyName()) { ?>
+                                <address>
+                                    <strong><?= $user->getSocietyName(); ?></strong><br>
+                                    <?= $user->getAddressLine(); ?><br>
+                                    <?= $user->getAddressCity(); ?>, <?= $user->getPostalCode(); ?><br>
+                                    <?= $user->getCountry(); ?>, <?= $user->getAddressState(); ?>
+                                </address>
+                            <?php } ?>
                         </div>
                         <!-- /.col -->
                         <div class="col-sm-4 invoice-col">
                             A
-                            <?php if($invoice->getOwner() == "drivncook") { ?>
+                            <?php if($invoice->getOwner() == $user->getSocietyName()) { ?>
                                 <address>
-                                    <strong><?= $invoice->getUser()->getSocietyName(); ?></strong><br>
-                                    <?= $invoice->getUser()->getAddressLine(); ?><br>
-                                    <?= $invoice->getUser()->getAddressCity(); ?>, <?= $invoice->getUser()->getPostalCode(); ?><br>
-                                    <?= $invoice->getUser()->getCountry(); ?>, <?= $invoice->getUser()->getAddressState(); ?>
+                                    <strong><?= $invoice->getCustomer()->getLastName() . ' ' . $invoice->getCustomer()->getFirstName(); ?></strong>
                                 </address>
                             <?php } ?>
                         </div>
