@@ -316,6 +316,30 @@ create table if not exists newletters
     created_at timestamp
 );
 
+create table if not exists openings
+(
+  id serial not null
+    constraint openings_pkey
+        primary key,
+    monday_open time,
+    monday_close time,
+    tuesday_open time,
+    tuesday_close time,
+    wed_open time,
+    wed_close time,
+    thursday_open time,
+    thursday_close time,
+    friday_open time,
+    friday_close time,
+    sat_open time,
+    sat_close time,
+    sun_open time,
+    sun_close time,
+    global_open integer,
+    user_id     integer
+        constraint openings_user_id_fkey
+            references users
+);
 
 ALTER TABLE event
     ADD COLUMN title_Email_FR varchar(255) NULL,
