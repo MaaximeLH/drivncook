@@ -302,6 +302,5 @@ class Events extends Controller
         $mail->AltBody = 'Plain text content test';
 
         $mail->send();
-        die();
     }
 }
