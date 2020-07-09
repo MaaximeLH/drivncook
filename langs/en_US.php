@@ -73,7 +73,7 @@ return [
     "Riz en barquette, sauce champignons du soir" => "Rice in trays with mushroom sauce",
     "Riz en barquette, sauce champignons" => "Rice in trays with mushroom sauce",
     "Car ça ne coûte pas bien plus cher de bien manger" => "Cause it doesn't cost much more to eat right...",
-    "Car ça ne coûte toujours pas bien plus cher de bien manger" => "Car ça ne coûte toujours pas bien plus cher de bien manger",
+    "Car ça ne coûte toujours pas bien plus cher de bien manger" => "Because it still doesn't cost much more to eat well",
     "Glace au coulis de chocolatw au napage de chocolat sur un lit de chocolat à la base de chocolat au chocolat" => "Ice cream with chocolate sauce with chocolate napage on a base of chocolate",
     "Car même si ça ne coûte pas bien plus cher de bien manger, il faut savoir se faire plaisir" => "Because even if it doesn't cost much more to eat well, you have to know how to treat yourself...",
     "Un classique qu'on ne peut oublier" => "A classic that can't be forgotten",
