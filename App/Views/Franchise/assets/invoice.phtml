@@ -29,6 +29,14 @@
                                     <?= $user->getAddressCity(); ?>, <?= $user->getPostalCode(); ?><br>
                                     <?= $user->getCountry(); ?>, <?= $user->getAddressState(); ?>
                                 </address>
+                            <?php } else { ?>
+                                <address>
+                                    <strong>Driv'n'Cook</strong><br>
+                                    242 rue du Faubourg Saint Antoine<br>
+                                    Paris, 75012<br>
+                                    +33 1 56 06 90 41<br>
+                                    sananes@esgi.fr
+                                </address>
                             <?php } ?>
                         </div>
                         <!-- /.col -->
@@ -37,6 +45,13 @@
                             <?php if($invoice->getOwner() == $user->getSocietyName()) { ?>
                                 <address>
                                     <strong><?= $invoice->getCustomer()->getLastName() . ' ' . $invoice->getCustomer()->getFirstName(); ?></strong>
+                                </address>
+                            <?php } else { ?>
+                                <address>
+                                    <strong><?= $user->getSocietyName(); ?></strong><br>
+                                    <?= $user->getAddressLine(); ?><br>
+                                    <?= $user->getAddressCity(); ?>, <?= $user->getPostalCode(); ?><br>
+                                    <?= $user->getCountry(); ?>, <?= $user->getAddressState(); ?>
                                 </address>
                             <?php } ?>
                         </div>
