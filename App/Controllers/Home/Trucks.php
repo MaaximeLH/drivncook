@@ -39,11 +39,12 @@ class Trucks extends Controller {
         $trucks = $this->truckRepository->findAll();
         $usersRepository = $this->em->getRepository(Users::class);
         $openingsRepository = $this->em->getRepository(Openings::class);
+        $cardRepository = $this->em->getRepository(Card::class);
 
         $trucksLocates = [];
         foreach ($trucks as $key => $truck) {
             $user = $usersRepository->findOneByTruck($truck);
-            if(is_null($user) || !$user->getIsActive()) {
+            if(is_null($user) || !$user->getIsActive() || is_null($cardRepository->findOneByUser($user))) {
                 unset($trucks[$key]);
                 continue;
             }
