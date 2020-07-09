@@ -317,7 +317,7 @@ class Trucks extends Controller {
             $datetime = new \DateTime($params['datetime']);
             $recuperation_date = $datetime;
             $datetime = $datetime->getTimestamp();
-            
+
             $date = new \DateTime();
             $diff = $date->diff(new \DateTime(date('Y-m-d H:i:s', $datetime)));
 

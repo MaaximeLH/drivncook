@@ -42,15 +42,15 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4" id="files">
                             <!-- Listes des fichiers -->
                             <?php
                             if ($handle = opendir('./dist/qrcode')) {
-                                echo '<ul id="list-images">';
+                                echo '<ul id="list-images" class="list-group">';
 
                                 while (false !== ($entry = readdir($handle))) {
                                     if ($entry != "." && $entry != ".." && substr($entry, -3) == 'png') {
-                                        echo "<li>$entry</li>";
+                                        echo "<li class='list-group-item'>$entry</li>";
                                     }
                                 }
 
@@ -136,6 +136,12 @@
         listItems.forEach(item => {
             item.addEventListener('click', loadImage);
         });
+
+        $("#files li").on("click", function() {
+            $("#files li").removeClass("active");
+            $(this).addClass("active");
+        });
+
     </script>
 </body>
 
