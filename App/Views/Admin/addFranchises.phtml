@@ -121,8 +121,10 @@
                 },
                 success: output => {
                     const pre = document.querySelector('#text-output');
-                    pre.innerText = output;
-                    window.location = "/administration/franchises/add"
+                    pre.innerText = "Insertion en base : OK";
+                    setTimeout(function () {
+                        window.location = "/administration/franchises/add"
+                    }, 3000);
                 }
             });
         });
