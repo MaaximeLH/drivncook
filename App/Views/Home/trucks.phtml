@@ -31,7 +31,7 @@
                                         <div class="blog-item swin-transition">
                                             <div class="blog-content" style="padding: 10px 20px 0; margin-bottom: 20px">
                                                 <h3 class="blog-title">
-                                                    <a href="<?= (!$truck->isOpen) ? '#' : '/trucks/menu/' . $truck->getId(); ?>" class="swin-transition">
+                                                    <a href="/trucks/menu/<?= $truck->getId(); ?>" class="swin-transition">
                                                         <?= $truck->user->getSocietyName(); ?>
                                                     </a>
                                                 </h3>
@@ -74,11 +74,9 @@
                                                 <!-- Si coordonnées valides -->
                                                 <?php if(is_float($truck->getLatitude()) && is_float($truck->getLongitude())){ ?>
                                                     <!-- Lien vers l'API Google Map -->
-                                                    <div class="blog-readmore <?= ($truck->isOpen) ? 'pull-left' : ''; ?>"><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=<?= $truck->getLatitude(); ?>,<?= $truck->getLongitude(); ?>" class="swin-transition">Localiser <i class="fa fa-location-arrow"></i></a></div>
+                                                    <div class="blog-readmore pull-left"><a target="_blank" href="https://www.google.com/maps/search/?api=1&query=<?= $truck->getLatitude(); ?>,<?= $truck->getLongitude(); ?>" class="swin-transition">Localiser <i class="fa fa-location-arrow"></i></a></div>
                                                 <?php } ?>
-                                                <?php if($truck->isOpen) { ?>
-                                                    <div class="blog-readmore"><a href="/trucks/menu/<?= $truck->getId(); ?>" class="swin-transition">Voir le menu <i class="fa fa-shopping-basket"></i></a></div>
-                                                <?php } ?>
+                                                <div class="blog-readmore"><a href="/trucks/menu/<?= $truck->getId(); ?>" class="swin-transition">Voir le menu <i class="fa fa-shopping-basket"></i></a></div>
                                             </div>
                                         </div>
                                     </div>

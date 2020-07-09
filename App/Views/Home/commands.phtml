@@ -26,6 +26,48 @@
                             <h1 class="title"><span>Passer commande chez <b><?= htmlspecialchars(trim($truck->user->getSocietyName())); ?></b></span></h1>
                         </div>
 
+                        <?php if(!$isOpen) { ?>
+                            <div class="alert alert-warning">
+                                <strong><?= $user->getSocietyName(); ?></strong> est actuellement fermé, vous pouvez tout de même passer commande et réceptionner votre commande quand le camion sera de nouveau ouvert.
+                            </div>
+                        <?php } ?>
+
+                        <h4>Horaires d'ouvertures</h4>
+                        <ul class="list-group">
+                            <?php foreach ($functions as $key => $day): ?>
+                                <li class="list-group-item" style="<?= ($key == date('N')) ? 'font-weight:bold;' : ''; ?>">
+                                    <?php switch ($key) {
+                                        case 1:
+                                            echo 'Lundi';
+                                            break;
+                                        case 2:
+                                            echo 'Mardi';
+                                            break;
+                                        case 3:
+                                            echo 'Mercredi';
+                                            break;
+                                        case 4:
+                                            echo 'Jeudi';
+                                            break;
+                                        case 5:
+                                            echo 'Vendredi';
+                                            break;
+                                        case 6:
+                                            echo 'Samedi';
+                                            break;
+                                        default:
+                                            echo 'Dimanche';
+                                            break;
+                                    } ?>
+                                    : <?= call_user_func([$openings, $day['open']])->format('H:i'); ?>
+                                    - <?= call_user_func([$openings, $day['close']])->format('H:i'); ?>
+                                    <?php if(!$isOpen && $key == date('N')) { ?>
+                                        (fermé)
+                                    <?php } ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -98,7 +140,7 @@
                                     <label for="datetime_input" style="<?= (isset($datetime_error) && !is_null($datetime_error)) ? 'color:red' : ''; ?>">Récupérer ma commande le :</label>
                                     <input type="text" id="datetime_input" value="<?= date('Y-m-d H:i', strtotime('+ 2 hours')) ?>" name="datetime" class="form-control is-invalid">
                                 </div>
-                                <small class="form-text text-muted"><?= \Core\Language::get('La date doit être superieur a la date actuel et inférieure a 5 jours dans le future') ?></small>
+                                <small style="<?= (isset($datetime_error) && !is_null($datetime_error)) ? 'color:red' : ''; ?>" class="form-text text-muted"><?= \Core\Language::get("La date doit être superieur à la date actuelle et inférieur à 5 jours dans le futur, veuillez notez les horaires d'ouverture du food truck.") ?></small>
                             </div>
                             <div class="form-group">
                                 <textarea name="description" placeholder="Ajouter une description pour votre commande (allergies, préférence, changement dans le menu)" class="form-control" cols="30" rows="10"><?= (isset($datetime_error) && !is_null($datetime_error)) ? htmlspecialchars(trim($params['description'])) : ''; ?></textarea>

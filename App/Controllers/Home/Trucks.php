@@ -99,9 +99,7 @@ class Trucks extends Controller {
 
         $openingsRepository = $this->em->getRepository(Openings::class);
         $openings = $openingsRepository->findOneByUser($user);
-        if(!$this->_isOpen($openings)) {
-            return $this->redirectTo('/trucks');
-        }
+        $isOpen = $this->_isOpen($openings);
 
         $customer = Session::get('customer_id');
         $customerRepository = $this->em->getRepository(Customer::class);
@@ -148,6 +146,7 @@ class Trucks extends Controller {
 
             $datetime = $params['datetime'];
             $datetime = new \DateTime($datetime);
+            $recuperation_date = $datetime;
             $datetime = $datetime->getTimestamp();
 
             $date = new \DateTime();
@@ -160,13 +159,13 @@ class Trucks extends Controller {
                 $promotion = null;
             }
 
-            if($datetime <= time() || $diff->days > 5) {
-                return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'datetime_error' => true, 'params' => $params, 'promotions' => $promotions]);
+            if($datetime <= time() || $diff->days > 5 || !$this->_isOpeningDays($openings, $recuperation_date)) {
+                return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'datetime_error' => true, 'params' => $params, 'promotions' => $promotions, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays(), 'user' => $user, 'openings' => $openings]);
             }
 
             if(isset($params['promotions']) && $params['promotions'] > 0) {
                 if(is_null($params['promotions']) || !in_array($params['promotions'], $promotionsCheck)) {
-                    return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'promotion_error' => true, 'params' => $params, 'promotions' => $promotions]);
+                    return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'promotion_error' => true, 'params' => $params, 'promotions' => $promotions, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays(), 'user' => $user, 'openings' => $openings]);
                 }
             }
 
@@ -229,7 +228,7 @@ class Trucks extends Controller {
             return $this->redirectTo("/customers/commands");
         }
 
-        return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'promotions' => $promotions]);
+        return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'user' => $user, 'card' => $card, 'items' => $items, 'promotions' => $promotions, 'openings' => $openings, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays()]);
 
     }
     public function menuAction()
@@ -255,9 +254,6 @@ class Trucks extends Controller {
 
         $openingsRepository = $this->em->getRepository(Openings::class);
         $openings = $openingsRepository->findOneByUser($user);
-        if(!$this->_isOpen($openings)) {
-            return $this->redirectTo('/trucks');
-        }
 
         $cardRepository = $this->em->getRepository(Card::class);
         $cardCategoryRepository = $this->em->getRepository(CardCategory::class);
@@ -275,6 +271,9 @@ class Trucks extends Controller {
         $data['cardItems'] = $cardItems;
         $data['user'] = $user;
         $data['customer'] = $customer;
+        $data['openings'] = $openings;
+        $data['isOpen'] = $this->_isOpen($openings);
+        $data['functions'] = $this->_guettersForDays();
         return View::render('Home/menu', $data);
 
     }
@@ -306,18 +305,24 @@ class Trucks extends Controller {
         $cardItemRepository = $this->em->getRepository(CardItem::class);
         $items = $cardRepository->getAllItemsOfUser($user->getId());
 
+        $openingsRepository = $this->em->getRepository(Openings::class);
+        $openings = $openingsRepository->findOneByUser($user);
+
+        $isOpen = $this->_isOpen($openings);
+
         if(Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
 
             $datetime = new \DateTime($params['datetime']);
+            $recuperation_date = $datetime;
             $datetime = $datetime->getTimestamp();
-
+            
             $date = new \DateTime();
             $diff = $date->diff(new \DateTime(date('Y-m-d H:i:s', $datetime)));
 
-            if($datetime <= time() || $diff->days > 5) {
-                return View::render('Home/find', ['page' => 'trucks', 'truck' => $truck, 'user' => $user, 'customer' => $customer, 'items' => $items, 'datetime_error' => true, 'params' => $params]);
+            if($datetime <= time() || $diff->days > 5  || !$this->_isOpeningDays($openings, $recuperation_date)) {
+                return View::render('Home/find', ['page' => 'trucks', 'truck' => $truck, 'user' => $user, 'customer' => $customer, 'items' => $items, 'datetime_error' => true, 'params' => $params, 'functions' => $this->_guettersForDays(), 'isOpen' => $isOpen, 'openings' => $openings]);
             }
 
             $items = [];
@@ -372,7 +377,7 @@ class Trucks extends Controller {
             return $this->redirectTo("/customers/commands");
         }
 
-        return View::render('Home/find', ['page' => 'trucks', 'truck' => $truck, 'user' => $user, 'customer' => $customer, 'items' => $items]);
+        return View::render('Home/find', ['page' => 'trucks', 'truck' => $truck, 'user' => $user, 'customer' => $customer, 'items' => $items, 'functions' => $this->_guettersForDays(), 'isOpen' => $isOpen, 'openings' => $openings]);
     }
 
     private function _createOpeningsUsers($user) {
@@ -454,5 +459,22 @@ class Trucks extends Controller {
                 'close' => 'getSunClose'
             ],
         ];
+    }
+
+    private function _isOpeningDays($openings, $datetime) {
+        $days = $this->_guettersForDays();
+        $opening = $days[$datetime->format('N')];
+        $open = call_user_func([$openings, $opening['open']]);
+        $close = call_user_func([$openings, $opening['close']]);
+
+        $compare = new \DateTime();
+        $compare->setDate(1970, 01, 01);
+        $compare->setTime($datetime->format('H'), $datetime->format('i'), $datetime->format('s'));
+
+        if($compare > $open && $compare < $close) {
+            return true;
+        }
+
+        return false;
     }
 }

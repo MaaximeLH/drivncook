@@ -441,5 +441,5 @@ return [
     'our_food_truck' => 'Nos Food Trucks',
 
     "inscription_success" => "Inscription réussie",
-    "La date doit être superieur a la date actuel et inférieure a 5 jours dans le future" => "La date doit être superieur a la date actuel et inférieure a 5 jours dans le future",
+    "La date doit être superieur à la date actuelle et inférieur à 5 jours dans le futur, veuillez notez les horaires d'ouverture du food truck." => "La date doit être superieur à la date actuelle et inférieur à 5 jours dans le futur, veuillez notez les horaires d'ouverture du food truck.",
 ];

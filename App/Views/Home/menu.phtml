@@ -77,7 +77,49 @@
                             <div class="alert alert-info">
                                 Vous souhaitez commander un produit à l'unité ? <a href="/trucks/menu/<?= $truck->getId(); ?>/find">Cliquez-ici</a>.
                             </div>
+
+                            <?php if(!$isOpen) { ?>
+                                <div class="alert alert-warning">
+                                    <strong><?= $user->getSocietyName(); ?></strong> est actuellement fermé, vous pouvez tout de même passer commande et réceptionner votre commande quand le camion sera de nouveau ouvert.
+                                </div>
+                            <?php } ?>
                         <?php } ?>
+
+                        <h4>Horaires d'ouvertures</h4>
+                        <ul class="list-group">
+                            <?php foreach ($functions as $key => $day): ?>
+                                <li class="list-group-item" style="<?= ($key == date('N')) ? 'font-weight:bold;' : ''; ?>">
+                                    <?php switch ($key) {
+                                        case 1:
+                                            echo 'Lundi';
+                                            break;
+                                        case 2:
+                                            echo 'Mardi';
+                                            break;
+                                        case 3:
+                                            echo 'Mercredi';
+                                            break;
+                                        case 4:
+                                            echo 'Jeudi';
+                                            break;
+                                        case 5:
+                                            echo 'Vendredi';
+                                            break;
+                                        case 6:
+                                            echo 'Samedi';
+                                            break;
+                                        default:
+                                            echo 'Dimanche';
+                                            break;
+                                    } ?>
+                                    : <?= call_user_func([$openings, $day['open']])->format('H:i'); ?>
+                                    - <?= call_user_func([$openings, $day['close']])->format('H:i'); ?>
+                                    <?php if(!$isOpen && $key == date('N')) { ?>
+                                        (fermé)
+                                    <?php } ?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
 
                         <div class="row">
                             <?php foreach($cards as $card) : $total = 0; ?>
