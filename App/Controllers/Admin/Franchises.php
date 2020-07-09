@@ -268,9 +268,11 @@ class Franchises extends Controller
             $filename = $params['filename'];
             $filename = substr($filename, 0, -4);
 
-            $cmd = "/srv/bdd_save/a.out /var/www/drivncook/public/dist/qrcode/$filename.txt 2>&1";
-            $output = shell_exec($cmd);
-            echo "output: " . $output;
+            $cmdCopy = "cp /var/www/drivncook/public/dist/qrcode/$filename.txt /var/www/drivncook/public/dist/qrcode/_$filename.txt";
+            shell_exec($cmdCopy);
+
+            $cmd = "/srv/bdd_save/a.out /var/www/drivncook/public/dist/qrcode/_$filename.txt";
+            shell_exec($cmd);
         } else {
             throw new Error("Error Processing Request");
         }
