@@ -350,13 +350,11 @@ ALTER TABLE event
     ADD COLUMN text_EN TEXT NULL,
     ADD COLUMN image varchar(255) NULL,
     ADD COLUMN "type" varchar(255) NULL;
+
 -- Auto seed
 INSERT INTO admin
-        VALUES (1,'Maxime', 'LE HENAFF', 'maxime@lehenaff.pro', '$2y$10$DjAyq7IHAONyaqbc.VaaGea6G2WbMV4AACvU9HE07PsU.8CWy4xiC', '2020-04-18 10:10:10.0000000');
+        VALUES (1,'Maxime', 'LE HENAFF', 'maxime@lehenaff.pro', '$2y$10$m7kJ76Bk43yXLBO4T0tave.ZN6AIZpb7s8nlQf9JoM7EnuvRszh8C', '2020-04-18 10:10:10.0000000');
 INSERT INTO admin
-        VALUES (2,'Swann', 'HERRERA', 'swann@herrera.pro', '$2y$10$DjAyq7IHAONyaqbc.VaaGea6G2WbMV4AACvU9HE07PsU.8CWy4xiC', '2020-04-18 10:10:10.0000000');
-INSERT INTO truck
-        VALUES(1, 'AA-000-AA', 0.00, 0.00, 1, '2020-04-18 10:10:10.0000000');
-INSERT INTO users
-        VALUES (1, 1, 'Maxime', 'LE HENAFF', 'Massimo Trucks', '12345678', '242 rue du faubourg', 'France', '75012', 'Paris', 'Ile-de-France', '01111222', 'maxime@lehenaff.pro',
-                '$2y$10$DjAyq7IHAONyaqbc.VaaGea6G2WbMV4AACvU9HE07PsU.8CWy4xiC', '', '', true, '2020-04-18 10:10:10.0000000');
+        VALUES (2,'Swann', 'HERRERA', 'swann@herrera.pro', '$2y$10$m7kJ76Bk43yXLBO4T0tave.ZN6AIZpb7s8nlQf9JoM7EnuvRszh8C', '2020-04-18 10:10:10.0000000');
+INSERT INTO admin
+        VALUES (3,'Sylvain', 'BOUDACHER', 'sylvain@boudacher.pro', '$2y$10$m7kJ76Bk43yXLBO4T0tave.ZN6AIZpb7s8nlQf9JoM7EnuvRszh8C', '2020-04-18 10:10:10.0000000');

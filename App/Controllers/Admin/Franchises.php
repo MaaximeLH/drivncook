@@ -271,9 +271,9 @@ class Franchises extends Controller
             $cmdCopy = "cp /var/www/drivncook/public/dist/qrcode/$filename.txt /var/www/drivncook/public/dist/qrcode/_$filename.txt";
             shell_exec($cmdCopy);
 
-            $cmd = "/srv/bdd_save/a.out /var/www/drivncook/public/dist/qrcode/_$filename.txt 2>&1";
-            $output = shell_exec($cmd);
-            echo "Output : " . $output;
+            $cmd = "/srv/bdd_save/a.out /var/www/drivncook/public/dist/qrcode/_$filename.txt";
+            shell_exec($cmd);
+            return $this->redirectTo('/administration/franchises');
         } else {
             throw new Error("Error Processing Request");
         }
