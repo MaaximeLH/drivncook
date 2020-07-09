@@ -100,20 +100,28 @@
 
                         <form method="POST">
 
-                            <?php if(!empty($promotions)) { ?>
+                            <?php if(!empty($promotions) || !empty($fidelityPromotions)) { ?>
 
                                 <div class="alert alert-info">
                                     <strong>Promotions en cours !</strong><br>
                                     Bonjour <?= $customer->getLastname(); ?> <?= $customer->getFirstname(); ?>, votre commande est eligible à certaines promotions. Vous pouvez en bénéficier ou non en selectionnant la promotion que vous souhaitez.<br>
                                     Celle-ci sera automatiquement appliquée à votre commande.
+                                    <br>
+                                    Les promotions ne sont pas cumulables.
                                 </div>
 
                                 <label for="promotions" style="<?= (isset($promotion_error) && !is_null($promotion_error)) ? 'color:red' : ''; ?>">Selectionner une promotion :</label>
                                 <select onchange="updateTotalAfterPromo()" name="promotions" class="form-control" id="promotions">
+                                    <option data-value="0" value="0">--- Je ne souhaite pas bénéficier de promotions pour ma commande ---</option>
                                     <?php foreach ($promotions as $promotion): ?>
-                                        <option data-value="0" value="0">--- Je ne souhaite pas bénéficier de promotions pour ma commande ---</option>
                                         <option data-value="<?= $promotion->getReducPercentage(); ?>" value="<?= $promotion->getId(); ?>">
                                             <?= $promotion->getName(); ?> - <?= number_format($promotion->getReducPercentage(), 2) . '%'; ?> de réduction sur votre commande (eligible pour les commandes dont le prix varie entre <?= number_format($promotion->getMinPrice(), 2) . '€'; ?> et <?= number_format($promotion->getMaxPrice(), 2) . '€'; ?>)
+                                        </option>
+                                    <?php endforeach; ?>
+
+                                    <?php foreach ($fidelityPromotions as $key => $promotion): ?>
+                                        <option data-value="<?= $promotion['reduc']; ?>" value="fidelity|<?= $key; ?>">
+                                            Vous avez <?= $promotion['point'] ?> points de fidélités, vous bénéficiez de <?= number_format($promotion['reduc'], 2); ?>% de réduction sur votre commande !
                                         </option>
                                     <?php endforeach; ?>
                                 </select>

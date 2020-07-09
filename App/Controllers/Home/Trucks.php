@@ -3,6 +3,7 @@
 namespace App\Controllers\Home;
 
 use App\Entity\Customer;
+use App\Entity\FidelityCard;
 use App\Entity\Invoice;
 use App\Entity\InvoiceLine;
 use App\Entity\Openings;
@@ -121,6 +122,7 @@ class Trucks extends Controller {
         $promotions = [];
         $promotionsCheck = [];
 
+
         foreach ($allPromotions as $promotion) {
 
             $usage = $ordersRepository->count(['promotion' => $promotion]);
@@ -140,6 +142,38 @@ class Trucks extends Controller {
             }
         }
 
+        $fidelityCardRepository = $this->em->getRepository(FidelityCard::class);
+        $fidelity = $fidelityCardRepository->findOneByCustomer($customer);
+        if(is_null($fidelity)) {
+            $fidelity = new FidelityCard();
+            $fidelity->setNbPoint(0);
+            $fidelity->setCustomer($customer);
+
+            $this->em->persist($fidelity);
+            $this->em->flush();
+
+            $fidelity = $fidelityCardRepository->findOneByCustomer($customer);
+        }
+
+        $fidelityPromotions = [];
+        /**
+         * Fidélité maximale
+         * 50 points  = 10%
+         * 100 points = 20%
+         * 150 points = 30%
+         * 200 points = 40%
+         * 250 points = 50%
+         */
+        $points = 50; $reduc = 10;
+        for($i = 0; $i <= 4; $i++) {
+            if(($points) <= $fidelity->getNbPoint()) {
+                $fidelityPromotions[$i] = ['point' => $points, 'reduc' => $reduc];
+            }
+
+            $points += 50;
+            $reduc += 10;
+        }
+
         if(Request::isPost()) {
             CSRF::validate();
             $params = Request::getAllParams();
@@ -152,27 +186,42 @@ class Trucks extends Controller {
             $date = new \DateTime();
             $diff = $date->diff(new \DateTime(date('Y-m-d H:i:s', $datetime)));
 
-            if(isset($params['promotions']) && $params['promotions'] > 0) {
-                $promotion = intval($params['promotions']);
-                $promotion = $promotionRepository->find($promotion);
+            $isFidelityPromotion = false;
+            if(isset($params['promotions'])) {
+
+                $fidelityPatterns = explode('|', $params['promotions']);
+                if($fidelityPatterns[0] != "fidelity" && $params['promotions'] > 0) {
+                    $promotion = intval($params['promotions']);
+                    $promotion = $promotionRepository->find($promotion);
+                } else {
+                    if(isset($fidelityPatterns[1]) && in_array($fidelityPatterns[1], [0,1,2,3,4])) {
+                        $isFidelityPromotion = $fidelityPromotions[$fidelityPatterns[1]];
+                    } else {
+                        $promotion = null;
+                    }
+                }
             } else {
                 $promotion = null;
             }
 
             if($datetime <= time() || $diff->days > 5 || !$this->_isOpeningDays($openings, $recuperation_date)) {
-                return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'datetime_error' => true, 'params' => $params, 'promotions' => $promotions, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays(), 'user' => $user, 'openings' => $openings]);
+                return View::render('Home/commands', ['page' => 'trucks', 'fidelityPromotions' => $fidelityPromotions, 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'datetime_error' => true, 'params' => $params, 'promotions' => $promotions, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays(), 'user' => $user, 'openings' => $openings]);
             }
 
-            if(isset($params['promotions']) && $params['promotions'] > 0) {
+            if(isset($params['promotions']) && $params['promotions'] > 0 && !$isFidelityPromotion) {
                 if(is_null($params['promotions']) || !in_array($params['promotions'], $promotionsCheck)) {
-                    return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'promotion_error' => true, 'params' => $params, 'promotions' => $promotions, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays(), 'user' => $user, 'openings' => $openings]);
+                    return View::render('Home/commands', ['page' => 'trucks', 'fidelityPromotions' => $fidelityPromotions, 'truck' => $truck, 'customer' => $customer, 'card' => $card, 'items' => $items, 'promotion_error' => true, 'params' => $params, 'promotions' => $promotions, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays(), 'user' => $user, 'openings' => $openings]);
                 }
             }
 
-            if(is_null($promotion)) {
+            $toRemoveFidelity = false;
+            if(is_null($promotion) && !$isFidelityPromotion) {
                 $delta = 1;
-            } else {
+            } else if(!is_null($promotion) && !$isFidelityPromotion) {
                 $delta = 1 - ($promotion->getReducPercentage() / 100);
+            } else {
+                $delta = 1 - ($isFidelityPromotion['reduc'] / 100);
+                $toRemoveFidelity = $isFidelityPromotion['point'];
             }
 
             $order = new Orders();
@@ -191,6 +240,7 @@ class Trucks extends Controller {
             $this->em->persist($order);
             $this->em->flush();
 
+            $total = 0;
             foreach ($items as $item) {
                 $orderLine = new OrderLine();
                 $orderLine->setOrder($order);
@@ -199,6 +249,18 @@ class Trucks extends Controller {
                 $orderLine->setPrice($item['card_item_price'] * $delta);
 
                 $this->em->persist($orderLine);
+                $this->em->flush();
+
+                $total += $item['card_item_price'];
+            }
+
+            if(is_null($promotion) && !$isFidelityPromotion) {
+                $fidelity->setNbPoint($fidelity->getNbPoint() + $total);
+                $this->em->flush();
+            }
+
+            if(is_array($isFidelityPromotion)) {
+                $fidelity->setNbPoint($fidelity->getNbPoint() - $toRemoveFidelity);
                 $this->em->flush();
             }
 
@@ -228,7 +290,7 @@ class Trucks extends Controller {
             return $this->redirectTo("/customers/commands");
         }
 
-        return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'user' => $user, 'card' => $card, 'items' => $items, 'promotions' => $promotions, 'openings' => $openings, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays()]);
+        return View::render('Home/commands', ['page' => 'trucks', 'truck' => $truck, 'customer' => $customer, 'fidelityPromotions' => $fidelityPromotions, 'user' => $user, 'card' => $card, 'items' => $items, 'promotions' => $promotions, 'openings' => $openings, 'isOpen' => $isOpen, 'functions' => $this->_guettersForDays()]);
 
     }
     public function menuAction()

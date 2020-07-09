@@ -3,6 +3,7 @@
 namespace App\Controllers\Customer;
 
 use App\Entity\Customer;
+use App\Entity\FidelityCard;
 use App\Entity\OrderLine;
 use App\Entity\Orders;
 use Core\Entity;
@@ -34,7 +35,10 @@ class Commands extends \Core\Controller {
     public function indexAction() {
         $ordersRepository = $this->em->getRepository(Orders::class);
         $orderLineRepository = $this->em->getRepository(OrderLine::class);
+        $fidelityCardLineRepository = $this->em->getRepository(FidelityCard::class);
         $orders = $ordersRepository->findByCustomer($this->customer);
+
+        $fidelity = $fidelityCardLineRepository->findOneByCustomer($this->customer);
 
         foreach ($orders as $key => $order) {
             $orders[$key]->lines = $orderLineRepository->findByOrder($order);
@@ -47,7 +51,7 @@ class Commands extends \Core\Controller {
             $orders[$key]->priceTotal = $total;
         }
 
-        return View::render('Customers/commands', ['customer' => $this->customer, 'orders' => $orders, 'page' => 'commands']);
+        return View::render('Customers/commands', ['customer' => $this->customer, 'orders' => $orders, 'page' => 'commands', 'fidelity' => $fidelity]);
     }
 
 }
