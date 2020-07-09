@@ -35,10 +35,20 @@ class Commands extends \Core\Controller {
     public function indexAction() {
         $ordersRepository = $this->em->getRepository(Orders::class);
         $orderLineRepository = $this->em->getRepository(OrderLine::class);
-        $fidelityCardLineRepository = $this->em->getRepository(FidelityCard::class);
+        $fidelityCardRepository = $this->em->getRepository(FidelityCard::class);
         $orders = $ordersRepository->findByCustomer($this->customer);
 
-        $fidelity = $fidelityCardLineRepository->findOneByCustomer($this->customer);
+        $fidelity = $fidelityCardRepository->findOneByCustomer($this->customer);
+        if(is_null($fidelity)) {
+            $fidelity = new FidelityCard();
+            $fidelity->setNbPoint(0);
+            $fidelity->setCustomer($this->customer);
+
+            $this->em->persist($fidelity);
+            $this->em->flush();
+
+            $fidelity = $fidelityCardRepository->findOneByCustomer($this->customer);
+        }
 
         foreach ($orders as $key => $order) {
             $orders[$key]->lines = $orderLineRepository->findByOrder($order);
