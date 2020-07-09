@@ -11,6 +11,7 @@ use Core\Entity;
 use Core\Request;
 use Core\Session;
 use Core\Validator;
+use Core\View;
 
 class Events extends Controller
 {
@@ -39,6 +40,10 @@ class Events extends Controller
 
     public function indexAction()
     {
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $events_inscrit = $this->eventRepository->getEventSubscribed($this->user->getId());
         $events = $this->eventRepository->findAll();
         CSRF::generate();
@@ -52,6 +57,10 @@ class Events extends Controller
 
     public function subscribe()
     {
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $usersRepository = $this->em->getRepository(Users::class);
         $EventUserRepository = $this->em->getRepository(EventUser::class);
 

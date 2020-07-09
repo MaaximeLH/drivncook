@@ -35,6 +35,11 @@ class Promotions extends Controller
     }
 
     public function indexAction() {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $promotions = $this->promotionRepository->findBy(['user'=> $this->user, 'isArchived' => 0]);
         $ordersRepository = $this->em->getRepository(Orders::class);
 
@@ -46,6 +51,11 @@ class Promotions extends Controller
     }
 
     public function archivesAction() {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $promotions = $this->promotionRepository->findBy(['user'=> $this->user, 'isArchived' => 1]);
         $ordersRepository = $this->em->getRepository(Orders::class);
 
@@ -57,6 +67,11 @@ class Promotions extends Controller
     }
 
     public function addAction() {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         CSRF::generate();
 
         if(Request::isPost()) {
@@ -113,6 +128,11 @@ class Promotions extends Controller
     }
 
     public function editAction(){
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $promotion = $this->promotionRepository->find($this->getRouteParameter('id'));
 
         if(is_null($promotion) || $promotion->getUser() != $this->user) {
@@ -216,6 +236,11 @@ class Promotions extends Controller
     }
 
     public function archiveAction() {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $promotion = $this->promotionRepository->find($this->getRouteParameter('id'));
 
         if(is_null($promotion) || $promotion->getUser() != $this->user) {

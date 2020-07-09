@@ -29,6 +29,11 @@ class Commands extends Controller {
     }
 
     public function indexAction() {
+
+        if(is_null($this->user->getTruck())) {
+            return $this->noTruckPage();
+        }
+
         $em = Entity::getEntityManager();
         $ordersRepository = $em->getRepository(Orders::class);
         $orderLineRepository = $em->getRepository(OrderLine::class);
@@ -50,6 +55,11 @@ class Commands extends Controller {
     }
 
     public function updateAction() {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $em = Entity::getEntityManager();
         $ordersRepository = $em->getRepository(Orders::class);
 

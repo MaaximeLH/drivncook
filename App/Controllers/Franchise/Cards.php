@@ -42,15 +42,23 @@ class Cards extends Controller
 
     public function indexAction()
     {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $cards = $this->cardsRepository->findBy(['user' => $this->user]);
         CSRF::generate();
-
 
         return View::render('Franchise/card_listing', ['user' => $this->user, 'page' => 'card', 'cards' => $cards]);
     }
 
     public function addAction()
     {
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $userRepository = $this->em->getRepository(Users::class);
         $user = $userRepository->find($this->user->getId());
         CSRF::generate();
@@ -74,6 +82,11 @@ class Cards extends Controller
 
     public function editAction()
     {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         $cardItems = $this->cardsRepository->getCardWithCategoryAndItem($this->getRouteParameter('id'));
         $card = $this->cardsRepository->find($this->getRouteParameter('id'));
 
@@ -114,6 +127,11 @@ class Cards extends Controller
 
     public function deleteCategoryAction()
     {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         if (is_null($cardCategory = $this->cardCategoryRepository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo("/panel/card");
         }
@@ -131,6 +149,11 @@ class Cards extends Controller
 
     public function deleteItemAction()
     {
+
+        if(is_null($this->user->getTruck())) {
+            return View::render('Franchise/noTruck', ['user' => $this->user]);
+        }
+
         if (is_null($cardItem = $this->cardItemRepository->find($this->getRouteParameter('id')))) {
             return $this->redirectTo("/panel/card");
         }
