@@ -154,7 +154,7 @@ $router->add("panel/truck/edit", ['controller' => 'Trucks', 'action' => 'edit', 
 $router->add("panel/truck/maintenance/{id:\d+}", ['controller' => 'Trucks', 'action' => 'maintenance', 'namespace' => 'Franchise']);
 $router->add("panel/truck/supply", ['controller' => 'Trucks', 'action' => 'supply', 'namespace' => 'Franchise']);
 $router->add("panel/truck/supply/warehouse/{id:\d+}", ['controller' => 'Trucks', 'action' => 'supplyStepTwo', 'namespace' => 'Franchise']);
-$router->add("panel/truck/supply/warehouste/{id:\d+}/step/3", ['controller' => 'Trucks', 'action' => 'supplyStepThree', 'namespace' => 'Franchise']);
+$router->add("panel/truck/supply/warehouse/{id:\d+}/step/3", ['controller' => 'Trucks', 'action' => 'supplyStepThree', 'namespace' => 'Franchise']);
 $router->add("panel/truck/supply/warehouse/{id:\d+}/step/4", ['controller' => 'Trucks', 'action' => 'supplyStepFour', 'namespace' => 'Franchise']);
 // Factures
 $router->add("panel/invoices/received", ['controller' => 'Invoices', 'action' => 'received', 'namespace' => 'Franchise']);
