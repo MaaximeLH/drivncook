@@ -50,7 +50,7 @@
 
                                 while (false !== ($entry = readdir($handle))) {
                                     if ($entry != "." && $entry != ".." && substr($entry, -3) == 'png') {
-                                        echo "<li class='list-group-item'>$entry</li>";
+                                        echo '<li style="cursor:pointer" class="list-group-item">'. $entry .'</li>';
                                     }
                                 }
 
