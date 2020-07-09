@@ -15,6 +15,7 @@ use Core\CSRF;
 use Core\Entity;
 use Core\Request;
 use Core\Session;
+use Core\Validator;
 use Core\View;
 
 class Trucks extends Controller {
@@ -39,6 +40,50 @@ class Trucks extends Controller {
         $activeMaintenance = $maintenanceRepository->findOneBy(['truck' => $truck, 'status' => ['processing', 'waiting']]);
 
         return View::render('Franchise/truck', ['user' => $user, 'page' => 'truck', 'truck' => $truck, 'maintenances' => $maintenances, 'activeMaintenance' => $activeMaintenance]);
+    }
+
+    public function editAction() {
+        $userId = $this->logged();
+        if(!$userId) {
+            return $this->redirectTo('/panel/login');
+        }
+
+        $em = Entity::getEntityManager();
+        $user = $em->find(Users::class, $userId);
+
+        $truck = $user->getTruck();
+        if(is_null($truck) || !$user->getIsActive()) {
+            return $this->noTruckPage();
+        }
+
+        if(Request::isPost()) {
+            $params = Request::getAllParams();
+            $fields = [];
+
+            if ($truck->getMatriculation() != $params['matriculation']) {
+                if (Validator::isValidLicensePlate($params['matriculation'])) {
+                    $truck->setMatriculation(htmlspecialchars(trim($params['matriculation'])));
+                    $fields['matriculation'] = true;
+                } else {
+                    $fields['matriculation'] = false;
+                }
+            }
+
+            if ($truck->getLongitude() != $params['longitude']) {
+                $truck->setLongitude(htmlspecialchars(trim($params['longitude'])));
+                $fields['longitude'] = true;
+            }
+
+            if ($truck->getLatitude() != $params['latitude']) {
+                $truck->setLatitude(htmlspecialchars(trim($params['latitude'])));
+                $fields['latitude'] = true;
+            }
+
+            $em->flush();
+            return View::render('Franchise/editTruck', ['user' => $user, 'page' => 'truck', 'truck' => $truck, 'fields' => $fields]);
+        }
+
+        return View::render('Franchise/editTruck', ['user' => $user, 'page' => 'truck', 'truck' => $truck]);
     }
 
     public function maintenanceAction() {

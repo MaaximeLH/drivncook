@@ -150,6 +150,7 @@ $router->add("panel/commands", ['controller' => 'Commands', 'action' => 'index',
 $router->add("panel/commands/{id:\d+}/update/{status:\d+}", ['controller' => 'Commands', 'action' => 'update', 'namespace' => 'Franchise']);
 // Camion
 $router->add("panel/truck", ['controller' => 'Trucks', 'action' => 'index', 'namespace' => 'Franchise']);
+$router->add("panel/truck/edit", ['controller' => 'Trucks', 'action' => 'edit', 'namespace' => 'Franchise']);
 $router->add("panel/truck/maintenance/{id:\d+}", ['controller' => 'Trucks', 'action' => 'maintenance', 'namespace' => 'Franchise']);
 $router->add("panel/truck/supply", ['controller' => 'Trucks', 'action' => 'supply', 'namespace' => 'Franchise']);
 $router->add("panel/truck/supply/warehouse/{id:\d+}", ['controller' => 'Trucks', 'action' => 'supplyStepTwo', 'namespace' => 'Franchise']);
