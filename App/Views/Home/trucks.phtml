@@ -121,10 +121,11 @@
             }
         });
 
+        var mapPopup = new google.maps.InfoWindow();
         var trucksLocates = '<?= $trucksLocates; ?>'
         trucksLocates = JSON.parse(trucksLocates);
         for(let i = 0; i < trucksLocates.length; i++) {
-            new google.maps.Marker({
+            marker = new google.maps.Marker({
                 position:
                 {
                     lat: trucksLocates[i]['lat'], lng: trucksLocates[i]['lon']
@@ -134,6 +135,16 @@
                 },
                 map: map
             });
+
+            google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                return function () {
+                    let content = trucksLocates[i]['name'] +
+                                    '<br><br><a href="/trucks/menu/'+ trucksLocates[i]['id'] +'">Voir le menu</a>';
+
+                    mapPopup.setContent(content);
+                    mapPopup.open(map, marker);
+                }
+            })(marker, i));
         }
     }
     markerClicked = () => {console.log('Clicked')}

@@ -67,7 +67,7 @@ class Trucks extends Controller {
             $trucks[$key]->isOpen = $this->_isOpen($openings);
 
             if (!empty($truck->getLongitude()) && !empty($truck->getLatitude())) {
-                $trucksLocates[] = ['lon' => $truck->getLongitude(), 'lat' => $truck->getLatitude()];
+                $trucksLocates[] = ['lon' => $truck->getLongitude(), 'lat' => $truck->getLatitude(), 'name' => $user->getSocietyName(), 'id' => $truck->getId()];
             }
         }
 
