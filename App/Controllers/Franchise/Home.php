@@ -34,7 +34,7 @@ class Home extends Controller
         $warehousesLocates = [];
         foreach ($warehouses as $warehouse) {
             if(!empty($warehouse->getLocation())) {
-                $warehousesLocates[] = ['location' => str_replace("'", " ", $warehouse->getLocation())];
+                $warehousesLocates[] = ['location' => str_replace("'", " ", $warehouse->getLocation()), 'name' => $warehouse->getName(), 'id' => $warehouse->getId()];
             }
         }
 

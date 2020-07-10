@@ -167,6 +167,7 @@
 
     var map = null;
     var geocoder;
+    var mapPopup = null;
     function initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
             zoom: 11,
@@ -206,14 +207,16 @@
             });
         <?php } ?>
 
+        mapPopup = new google.maps.InfoWindow();
+
         var warehousesLocates = '<?= $warehousesLocates; ?>'
         warehousesLocates = JSON.parse(warehousesLocates);
         for(let i = 0; i < warehousesLocates.length; i++) {
-            codeAddress(warehousesLocates[i]['location'], geocoder, map);
+            codeAddress(warehousesLocates[i]['location'], geocoder, map, warehousesLocates[i]['name'], warehousesLocates[i]['id']);
         }
     }
 
-    function codeAddress(address, geocoder, map) {
+    function codeAddress(address, geocoder, map, name, id) {
         geocoder.geocode({'address': address}, function(results, status) {
             if (status === 'OK') {
                 map.setCenter(results[0].geometry.location);
@@ -224,6 +227,16 @@
                         url: 'https://img.icons8.com/color/48/000000/warehouse.png'
                     },
                 });
+
+                google.maps.event.addListener(marker, 'click', (function (marker) {
+                    return function () {
+                        let content = name + "<br><br>";
+                            content += '<a href="/panel/truck/supply/warehouse/'+ id +'">Approvisionner</a>';
+
+                        mapPopup.setContent(content);
+                        mapPopup.open(map, marker);
+                    }
+                })(marker));
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
