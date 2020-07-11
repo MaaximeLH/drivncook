@@ -30,7 +30,8 @@ chmod u+x setup.sh
 
 ## Others github repositories
 
-Une application mobile a été développée en Java, ci-dessous le lien du repository GitHub du projet.
+
+A mobile application has been developed in Java, below the link to the project's GitHub repository.
 - [Driv'N'Cook - Mobile application](https://github.com/MaaximeLH/drivncook_mobile)
 
 ## License
