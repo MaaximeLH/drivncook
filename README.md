@@ -1,9 +1,40 @@
-# Driv'N'Cook - Site Web
+# Driv'N'Cook - WEB infrastructure
 
-Application WEB Driv'N'Cook
+Driv'N'Cook is a fictitious company created in the context of the second year annual project within the ESGI.
 
-Si drop database ; alors executer les commandes suivantes :
+This project involves designing the entire infrastructure of the company.
 
-vendor/bin/doctrine orm:clear-cache:metadata && vendor/bin/doctrine orm:clear-cache:query && vendor/bin/doctrine orm:clear-cache:result
+## Requirements
 
-Cela indiquera à Doctrine de tout reset
+- Apache2
+- PHP7.0 +
+- Composer
+- Git
+
+## Installation
+
+```
+apt install libapache2-mod-xsendfile
+a2enmod xsendfile
+git clone https://github.com/maaximelh/drivncook
+cd drivncook
+chmod u+x setup.sh
+./setup.sh
+```
+
+## Contributing
+
+- [Sylvain BOUDACHER](https://github.com/sylvainBoudacher)
+- [Swann HERRERA](https://github.com/swannHerrera)
+
+
+## Others github repositories
+
+Une application mobile a été développée en Java, ci-dessous le lien du repository GitHub du projet.
+- [Driv'N'Cook - Mobile application](https://github.com/MaaximeLH/drivncook_mobile)
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+- **[MIT license](http://opensource.org/licenses/mit-license.php)**
