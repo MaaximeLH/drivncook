@@ -6,15 +6,15 @@ class Config
 {
     const DB_DRIVER = 'pgsql';
     const ORM_DRIVER = 'pdo_pgsql';
-    const DB_HOST = '51.255.173.90';
-    const DB_NAME = 'drivncook';
-    const DB_USER = 'drivncook';
-    const DB_PASSWORD = 'drivncook';
+    const DB_HOST = 'YOUR_IP';
+    const DB_NAME = 'YOUR_DB_NAME';
+    const DB_USER = 'YOUR_DB_USER';
+    const DB_PASSWORD = 'YOUR_DB_PASSWORD';
     const DB_CHARSET = 'UTF-8';
-    const SHOW_ERRORS = true;
-    const STRIPE_PUB_KEY = 'pk_test_gdlpAM5By6xB9dlhN2T2ztEB00okYDUNYT';
-    const STRIPE_PRIV_KEY = 'sk_test_g4MdZMZM22Z9RH3lD6LLXfG900k3UT7S9c';
-    const GOOGLE_API_KEY = "AIzaSyDYACOXaDpmyuenuiNTX6J44yEzObcHyZI";
+    const SHOW_ERRORS = false;
+    const STRIPE_PUB_KEY = '';
+    const STRIPE_PRIV_KEY = '';
+    const GOOGLE_API_KEY = "";
     const DEFAULT_LANGUAGE = 'fr_FR';
     const LANGUAGES = ['fr_FR', 'en_US'];
 }
