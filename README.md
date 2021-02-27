@@ -4,6 +4,10 @@ Driv'N'Cook is a fictitious company created in the context of the second year an
 
 This project involves designing the entire infrastructure of the company.
 
+## [See the website](https://drivncook.store)
+
+[lien admin](https://drivncook.store/administration)
+
 ## Requirements
 
 - Apache2
@@ -26,6 +30,7 @@ chmod u+x setup.sh
 
 - [Sylvain BOUDACHER](https://github.com/sylvainBoudacher)
 - [Swann HERRERA](https://github.com/swannHerrera)
+- [Maxime LeHenaff](https://github.com/MaaximeLH)
 
 
 ## Others github repositories
