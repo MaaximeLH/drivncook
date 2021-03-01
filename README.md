@@ -4,9 +4,10 @@ Driv'N'Cook is a fictitious company created in the context of the second year an
 
 This project involves designing the entire infrastructure of the company.
 
-## [See the website](https://drivncook.store)
+## [Website Link](https://drivncook.store)
 
-[lien admin](https://drivncook.store/administration)
+[Admins Link](https://drivncook.store/administration)
+[Customers Link](https://drivncook.store/panel)
 
 ## Requirements
 
